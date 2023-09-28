@@ -4,7 +4,7 @@ import 'package:study_buddy/src/data_structures/linked_list.dart';
 void main() {
   group("Lista enlazada", () {
     test("La lista debe poder añadir elementos al principio", () {
-      LinkedList linkedList = LinkedList();
+      LinkedList linkedList = LinkedList<int>();
       linkedList.pushFront(1);
       linkedList.pushFront(2);
       linkedList.pushFront(3);
@@ -17,7 +17,7 @@ void main() {
     });
 
     test("La lista debe poder añadir elementos al final", () {
-      LinkedList linkedList = LinkedList();
+      LinkedList linkedList = LinkedList<int>();
       linkedList.pushBack(1);
       linkedList.pushBack(2);
       linkedList.pushBack(3);
@@ -30,7 +30,7 @@ void main() {
     });
 
     test("La lista no debería dejar sacar elementos cuando está vacía", () {
-      LinkedList linkedList = LinkedList();
+      LinkedList linkedList = LinkedList<int>();
       expect(() => linkedList.popBack(), throwsException);
       expect(() => linkedList.popFront(), throwsException);
     });

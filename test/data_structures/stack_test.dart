@@ -8,7 +8,12 @@ void main() {
       expect(() => stack.pop(), throwsException);
     });
 
-    test("La pila apila, entreve y desapila en el orden esperado.", () {
+    test("La pila no deja entrever elementos si está vacía", () {
+      Stack stack = Stack<int>(10);
+      expect(() => stack.peek(), throwsException);
+    });
+
+    test("La pila apila, entreve y desapila en el orden esperado (LIFO).", () {
       Stack stack = Stack<int>(10);
       stack.push(1);
       stack.push(2);
