@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:test/test.dart';
 import 'package:study_buddy/src/data_structures/linked_list.dart';
 
