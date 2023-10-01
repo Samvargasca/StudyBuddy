@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
-
 import 'src/app.dart';
+import 'src/settings/settings_controller.dart';
+import 'src/settings/settings_service.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(
+    const MaterialApp(
+      title:"Hola Mundo";
+      home: SafeArea(
+        child:StudyBudddy()
+      ),
+    )
+  );
 }
+
+class StudyBuddy extends StatelessWidget{
+  const StudyBuddy ({super.key})
+
+  @override
+  Widget build (BuildContext context){
+    return  Material (
+      child: Center() ,
+    );
+  }
+}
+
