@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/colors/colors.dart';
+import 'package:study_buddy/src/pages/traduccion_page.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
