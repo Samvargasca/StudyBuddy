@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/colors/colors.dart';
+import 'package:flutter_svg/svg.dart';
 
 class TraduccionPage extends StatefulWidget {
   const TraduccionPage({Key? key}) : super(key: key);
@@ -112,10 +113,10 @@ class _TraduccionPageState extends State<TraduccionPage> {
               borderRadius: BorderRadius.circular(20),
               color: azulClaro,
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(
+                const SizedBox(
                   child: IconButton(
                     onPressed: null,
                     icon: Icon(
@@ -127,36 +128,48 @@ class _TraduccionPageState extends State<TraduccionPage> {
                 SizedBox(
                   child: IconButton(
                     onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
+                    icon: SvgPicture.asset(
+                      "assets/images/cards.svg",
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   child: IconButton(
                     onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
+                    icon: SvgPicture.asset(
+                      "assets/images/trophy-fill.svg",
+                      colorFilter: const ColorFilter.mode(
+                        azulRey,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   child: IconButton(
                     onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
+                    icon: SvgPicture.asset(
+                      "assets/images/high-bars.svg",
+                      colorFilter: const ColorFilter.mode(
+                        azulRey,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   child: IconButton(
                     onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
+                    icon: SvgPicture.asset(
+                      "assets/images/account.svg",
+                      colorFilter: const ColorFilter.mode(
+                        azulRey,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),
