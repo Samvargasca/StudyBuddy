@@ -4,24 +4,5 @@ import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 
 void main() async {
-  runApp(
-    const MaterialApp(
-      title:"Hola Mundo";
-      home: SafeArea(
-        child:StudyBudddy()
-      ),
-    )
-  );
+  runApp(const MyApp());
 }
-
-class StudyBuddy extends StatelessWidget{
-  const StudyBuddy ({super.key})
-
-  @override
-  Widget build (BuildContext context){
-    return  Material (
-      child: Center() ,
-    );
-  }
-}
-
