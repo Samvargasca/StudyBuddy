@@ -6,3 +6,7 @@ import 'src/settings/settings_service.dart';
 void main() async {
   runApp(const MyApp());
 }
+
+//app.dart
+
+
