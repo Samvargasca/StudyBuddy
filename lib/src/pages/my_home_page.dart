@@ -20,11 +20,22 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         color: azulClaro,
-        child: const Column(
+        child: Column(
           children: [
-            Expanded(
+            const Expanded(
               child: Text("Palabra"),
             ),
+            ElevatedButton(
+              onPressed: () {
+                // Navegar a la segunda página cuando se presiona el botón
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TraduccionPage(),
+                  ),
+                );
+              },
+              child: Text("Traducción"),
+            )
           ],
         ),
       ),
