@@ -9,8 +9,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Stufy Buddy",
+    return const MaterialApp(
+      title: "Study Buddy",
       debugShowCheckedModeBanner: false,
       home: MyHomePage(title: "Home"),
     );

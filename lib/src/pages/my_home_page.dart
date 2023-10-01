@@ -31,11 +31,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Navegar a la segunda página cuando se presiona el botón
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => TraduccionPage(),
+                    builder: (context) => const TraduccionPage(),
                   ),
                 );
               },
-              child: Text("Traducción"),
+              child: const Text("Traducción"),
             )
           ],
         ),
