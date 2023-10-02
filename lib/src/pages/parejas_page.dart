@@ -14,7 +14,7 @@ class _ParejasPage extends State<ParejasPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Palabras asi bien satanicas, ay que miedo, ay que miedo",
+          "StudyBuddy",
           style: TextStyle(
             fontFamily: "Chewy",
             fontSize: 32,
@@ -27,43 +27,11 @@ class _ParejasPage extends State<ParejasPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                height: 36,
-                width: 93,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: azulOscuro,
-                ),
-                child: const Center(
-                  child: Text(
-                    "Traducir",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: "Arimo",
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(
-                  Icons.cancel,
-                  color: rojo,
-                  size: 37,
-                ),
-              )
-            ],
           ),
           const Text(
-            "¡Practiquemos!",
+            "¿Estas listo?",
             style: TextStyle(fontFamily: "Chewy", fontSize: 48),
           ),
           Image.asset(
@@ -105,64 +73,6 @@ class _ParejasPage extends State<ParejasPage> {
               ),
             ),
           ),
-          Container(
-            width: 302,
-            height: 42,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: azulClaro,
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
         ],
       ),
     );
