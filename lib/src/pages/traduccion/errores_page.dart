@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/colors/colors.dart';
+import 'package:study_buddy/src/pages/traduccion/palabra_page.dart';
 
 class ErroresPage extends StatefulWidget {
   const ErroresPage({Key? key}) : super(key: key);
@@ -93,9 +94,6 @@ class _ErroresPageState extends State<ErroresPage> {
               ),
             ),
             const BarraInferior(),
-            const SizedBox(
-              height: 24,
-            )
           ],
         ),
       ),
@@ -115,7 +113,15 @@ class ErrorCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: ElevatedButton(
-        onPressed: () => print("Hola"),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PalabraPage(
+                palabra: palabra,
+              ),
+            ),
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           shadowColor: gris,
