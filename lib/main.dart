@@ -7,6 +7,4 @@ void main() async {
   runApp(const MyApp());
 }
 
-//app.dart
-
 
