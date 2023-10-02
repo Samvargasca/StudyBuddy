@@ -111,7 +111,7 @@ class _TraduccionPageState extends State<TraduccionPage> {
               ),
             ),
           ),
-          BarraInferior(),
+          const BarraInferior(),
         ],
       ),
     );
