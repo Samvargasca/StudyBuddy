@@ -22,16 +22,22 @@ class _ParejasPage extends State<ParejasPage> {
         ),
         automaticallyImplyLeading: false,
         backgroundColor: azulClaro,
-        shadowColor: Colors.transparent,
+        shadowColor: Color.fromARGB(82, 0, 0, 0),
       ),
       body: Column(
+
+
+        //Se encarga de centrar los elementos verticalmente
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
           ),
+
+          //Texto de pagina
           const Text(
-            "¿Estas listo?",
+            "¡Practiquemos!",
+
             style: TextStyle(fontFamily: "Chewy", fontSize: 48),
           ),
           Image.asset(
@@ -41,7 +47,7 @@ class _ParejasPage extends State<ParejasPage> {
           const SizedBox(
             width: 185,
             child: Text(
-              "Escribe y completa frases satanicas",
+              "¿Listo para formar parejas?",
               style: TextStyle(
                 fontFamily: "Aribo",
                 fontWeight: FontWeight.bold,
@@ -51,12 +57,19 @@ class _ParejasPage extends State<ParejasPage> {
               textAlign: TextAlign.center,
             ),
           ),
+
+
+          //Boton de inicio
           Container(
             width: 147,
             height: 57,
             child: ElevatedButton(
               onPressed: () {
-                print("hola");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ParejasPage(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -64,6 +77,7 @@ class _ParejasPage extends State<ParejasPage> {
                 ),
                 backgroundColor: azulRey,
               ),
+
               child: const Text(
                 "Iniciar",
                 style: TextStyle(
@@ -71,6 +85,8 @@ class _ParejasPage extends State<ParejasPage> {
                     fontWeight: FontWeight.bold,
                     fontSize: 32),
               ),
+
+
             ),
           ),
         ],
