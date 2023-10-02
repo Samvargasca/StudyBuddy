@@ -39,10 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
               },
-<<<<<<< HEAD
-              child: const Text("Traducción"),
-            )
-=======
               child: Text("Traducción"),
             ),
 
@@ -61,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
 
->>>>>>> Parejas
           ],
         ),
       ),
