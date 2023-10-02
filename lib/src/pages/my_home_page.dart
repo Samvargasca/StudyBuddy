@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/colors/colors.dart';
-<<<<<<< HEAD
-import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
-=======
 import 'package:study_buddy/src/pages/parejas_page.dart';
-import 'package:study_buddy/src/pages/traduccion_page.dart';
->>>>>>> Parejas
+import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
