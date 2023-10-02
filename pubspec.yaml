@@ -10,6 +10,8 @@ environment:
   sdk: '>=3.0.6 <4.0.0'
 
 dependencies:
+  auto_size_text: ^3.0.0
+  flip_card: ^0.7.0
   flutter:
     sdk: flutter
   flutter_localizations:
