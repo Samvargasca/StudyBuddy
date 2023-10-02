@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/colors/colors.dart';
-import 'package:study_buddy/src/pages/parejas_game.dart';
 
-class ParejasPage extends StatefulWidget {
-  const ParejasPage({Key? key}) : super(key: key);
+class ParejasGame extends StatefulWidget {
+  const ParejasGame({Key? key}) : super(key: key);
 
   @override
-  _ParejasPage createState() => _ParejasPage();
+  _ParejasGame createState() => _ParejasGame();
 }
 
-class _ParejasPage extends State<ParejasPage> {
+class _ParejasGame extends State<ParejasGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +36,7 @@ class _ParejasPage extends State<ParejasPage> {
 
           //Texto de pagina
           const Text(
-            "¡Practiquemos!",
+            "ESTE ES EL JUEGOOO!",
 
             style: TextStyle(fontFamily: "Chewy", fontSize: 48),
           ),
@@ -66,13 +65,7 @@ class _ParejasPage extends State<ParejasPage> {
             height: 57,
             child: ElevatedButton(
               onPressed: () {
-
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ParejasGame(),
-                  ),
-
-                );
+                
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
