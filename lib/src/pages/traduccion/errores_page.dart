@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/colors/colors.dart';
 
@@ -29,19 +30,38 @@ class _ErroresPageState extends State<ErroresPage> {
       body: Container(
         color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Row(
-              children: [
-                IconButton(
-                  onPressed: null,
-                  icon: Icon(Icons.home),
-                ),
-                IconButton(
-                  onPressed: null,
-                  icon: Icon(Icons.home),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(23),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Transform.rotate(
+                    angle: -90 * 3.141592 / 180,
+                    child: IconButton(
+                      onPressed: null,
+                      icon: SvgPicture.asset(
+                        "assets/images/up-arrow.svg",
+                        colorFilter: const ColorFilter.mode(
+                          verde,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.cancel,
+                      color: rojo,
+                      size: 37,
+                    ),
+                  ),
+                ],
+              ),
             ),
             Container(
               width: 270,
@@ -90,7 +110,7 @@ class ErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 40),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),

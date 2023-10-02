@@ -63,7 +63,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                   color: rojo,
                   size: 37,
                 ),
-              )
+              ),
             ],
           ),
           const Flashcard(),
