@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/colors/colors.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:study_buddy/src/widgets/barra_inferior.dart';
+import 'package:study_buddy/src/pages/traduccion/traduccion_ejercicio_page.dart';
 
 class TraduccionPage extends StatefulWidget {
   const TraduccionPage({Key? key}) : super(key: key);
@@ -89,7 +90,11 @@ class _TraduccionPageState extends State<TraduccionPage> {
             height: 57,
             child: ElevatedButton(
               onPressed: () {
-                print("hola");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const TraduccionEjercicioPage(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -106,76 +111,7 @@ class _TraduccionPageState extends State<TraduccionPage> {
               ),
             ),
           ),
-          Container(
-            width: 302,
-            height: 42,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: azulClaro,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.home,
-                      color: azulRey,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: SvgPicture.asset(
-                      "assets/images/cards.svg",
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: SvgPicture.asset(
-                      "assets/images/trophy-fill.svg",
-                      colorFilter: const ColorFilter.mode(
-                        azulRey,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: SvgPicture.asset(
-                      "assets/images/high-bars.svg",
-                      colorFilter: const ColorFilter.mode(
-                        azulRey,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  child: IconButton(
-                    onPressed: null,
-                    icon: SvgPicture.asset(
-                      "assets/images/account.svg",
-                      colorFilter: const ColorFilter.mode(
-                        azulRey,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
+          BarraInferior(),
         ],
       ),
     );
