@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:study_buddy/src/colors/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/flashcard.dart';
+import 'package:study_buddy/src/pages/traduccion/errores_page.dart';
 
 class TraduccionEjercicioPage extends StatefulWidget {
   const TraduccionEjercicioPage({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
               )
             ],
           ),
-          Flashcard(),
+          const Flashcard(),
           const SizedBox(
             width: 350,
             child: Text(
@@ -86,7 +87,11 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              print("Hola");
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ErroresPage(),
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: amarillo,
