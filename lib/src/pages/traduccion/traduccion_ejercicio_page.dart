@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/colors/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
+import 'package:study_buddy/src/widgets/flashcard.dart';
 
 class TraduccionEjercicioPage extends StatefulWidget {
   const TraduccionEjercicioPage({Key? key}) : super(key: key);
@@ -64,29 +65,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
               )
             ],
           ),
-          Container(
-            width: 219,
-            height: 179,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: azulOscuro,
-                width: 4,
-              ),
-            ),
-            child: const Center(
-              child: Text(
-                "Hola",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontFamily: "Arimo",
-                  fontWeight: FontWeight.bold,
-                  color: azulOscuro,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
+          Flashcard(),
           const SizedBox(
             width: 350,
             child: Text(
