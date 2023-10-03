@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:study_buddy/src/colors/colors.dart';
+import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/pages/parejas_page.dart';
 import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';

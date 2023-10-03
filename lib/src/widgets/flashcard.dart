@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:study_buddy/src/colors/colors.dart';
+import 'package:study_buddy/src/constants/colors.dart';
 
 class Flashcard extends StatefulWidget {
   const Flashcard(

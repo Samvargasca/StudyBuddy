@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/src/colors/colors.dart';
+import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/pages/parejas_game.dart';
 
 class ParejasPage extends StatefulWidget {
@@ -26,8 +26,6 @@ class _ParejasPage extends State<ParejasPage> {
         shadowColor: Color.fromARGB(82, 0, 0, 0),
       ),
       body: Column(
-
-
         //Se encarga de centrar los elementos verticalmente
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -38,7 +36,6 @@ class _ParejasPage extends State<ParejasPage> {
           //Texto de pagina
           const Text(
             "¡Practiquemos!",
-
             style: TextStyle(fontFamily: "Chewy", fontSize: 48),
           ),
           Image.asset(
@@ -59,19 +56,16 @@ class _ParejasPage extends State<ParejasPage> {
             ),
           ),
 
-
           //Boton de inicio
           Container(
             width: 147,
             height: 57,
             child: ElevatedButton(
               onPressed: () {
-
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ParejasGame(),
                   ),
-
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -80,7 +74,6 @@ class _ParejasPage extends State<ParejasPage> {
                 ),
                 backgroundColor: azulRey,
               ),
-
               child: const Text(
                 "Iniciar",
                 style: TextStyle(
@@ -88,8 +81,6 @@ class _ParejasPage extends State<ParejasPage> {
                     fontWeight: FontWeight.bold,
                     fontSize: 32),
               ),
-
-
             ),
           ),
         ],

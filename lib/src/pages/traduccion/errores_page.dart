@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
-import 'package:study_buddy/src/colors/colors.dart';
+import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/pages/traduccion/palabra_page.dart';
 
 class ErroresPage extends StatefulWidget {
