@@ -17,6 +17,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int numeroPalabra = 1;
+  int max = 99;
+
+  void aumentarPalabra() {
+    setState(() {
+      numeroPalabra = (numeroPalabra % max) + 1;
+    });
+  }
+
+  void disminuirPalabra() {
+    setState(() {
+      numeroPalabra = (numeroPalabra - 1) % max;
+      if (numeroPalabra < 1) {
+        numeroPalabra = max;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +59,18 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Flashcard(),
-                SizedBox(height: 20),
+                Flashcard(
+                  pregunta: "Pregunta $numeroPalabra",
+                  respuesta: "Respuesta $numeroPalabra",
+                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Transform.rotate(
                       angle: -90 * 3.141592 / 180,
                       child: IconButton(
-                        onPressed: null,
+                        onPressed: () => disminuirPalabra(),
                         icon: SvgPicture.asset(
                           width: 24,
                           "assets/images/up-arrow.svg",
@@ -68,8 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(40),
                       ),
                       alignment: Alignment.center,
-                      child: const Text(
-                        "1/99",
+                      child: Text(
+                        "$numeroPalabra/$max",
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -78,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Transform.rotate(
                       angle: 90 * 3.141592 / 180,
                       child: IconButton(
-                        onPressed: null,
+                        onPressed: () => aumentarPalabra(),
                         icon: SvgPicture.asset(
                           width: 24,
                           "assets/images/up-arrow.svg",
