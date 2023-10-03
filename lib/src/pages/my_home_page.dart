@@ -1,4 +1,7 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/colors/colors.dart';
 import 'package:study_buddy/src/pages/parejas_page.dart';
 import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
@@ -41,33 +44,86 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navegar a la segunda página cuando se presiona el botón
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const TraduccionPage(),
-                          ),
-                        );
-                      },
-                      child: const Text("Traducción"),
-                    ),
+                    const BotonInicio(),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => ParejasPage(),
+                            builder: (context) => const ParejasPage(),
                           ),
                         ); // Agrega aquí la acción para el botón "Parejas"
                         // Por ejemplo, puedes navegar a una página diferente
                       },
-                      child: Text("Parejas"),
+                      child: const Text("Parejas"),
                     ),
                   ],
                 ),
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class BotonInicio extends StatelessWidget {
+  const BotonInicio({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        // Navegar a la segunda página cuando se presiona el botón
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const TraduccionPage(),
+          ),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        fixedSize: const Size(267, 98),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SvgPicture.asset(
+            "assets/images/squares-2x2-solid.svg",
+            width: 65,
+          ),
+          const SizedBox(width: 10),
+          const Expanded(
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Parejas",
+                  style: TextStyle(
+                    fontFamily: "Chewy",
+                    fontSize: 24,
+                    color: azulOscuro,
+                  ),
+                ),
+                Text(
+                  "¡Aprende juntando las palabras con sus traducciones!",
+                  style: TextStyle(
+                    color: gris,
+                    fontSize: 12,
+                    fontFamily: "Arimo",
+                  ),
+                  softWrap: true,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
