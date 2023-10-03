@@ -64,25 +64,33 @@ class _PalabraPageState extends State<PalabraPage> {
                 ],
               ),
             ),
-            Container(
-              height: 36,
-              width: 93,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: azulOscuro,
-              ),
-              child: const Center(
-                child: Text(
-                  "Traducir",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 25),
+                  child: Container(
+                    height: 36,
+                    width: 93,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: azulOscuro,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Traducir",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             Text(
               "${widget.palabra} - ${widget.palabra}",
@@ -98,16 +106,46 @@ class _PalabraPageState extends State<PalabraPage> {
               indent: 35,
               endIndent: 35,
             ),
-            Text(
-              "Significado de ${widget.palabra}",
-              style: const TextStyle(
-                fontFamily: "Arimo",
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: azulOscuro,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 38, vertical: 5),
+                  child: Text(
+                    "Significado de ${widget.palabra}",
+                    style: const TextStyle(
+                      fontFamily: "Arimo",
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: azulOscuro,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 38,
+                      vertical: 5,
+                    ),
+                    child: Text(
+                      "Ejemplos de ${widget.palabra}",
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        fontFamily: "Arimo",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Text("Ejemplos de ${widget.palabra}"),
             const BarraInferior(),
           ],
         ),
