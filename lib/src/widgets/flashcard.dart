@@ -36,6 +36,7 @@ class _FlashcardState extends State<Flashcard> {
         width: widget.width,
         height: widget.height,
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: azulRey,

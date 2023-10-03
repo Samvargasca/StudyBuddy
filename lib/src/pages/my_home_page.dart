@@ -6,6 +6,7 @@ import 'package:study_buddy/src/colors/colors.dart';
 import 'package:study_buddy/src/pages/parejas_page.dart';
 import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
+import 'package:study_buddy/src/widgets/flashcard.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -20,7 +21,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("StudyBuddy"),
+        title: const Text(
+          "StudyBuddy",
+          style: TextStyle(
+            fontFamily: "Chewy",
+            fontSize: 32,
+          ),
+        ),
         backgroundColor: azulClaro,
         shadowColor: Colors.transparent,
       ),
@@ -29,8 +36,63 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment:
             MainAxisAlignment.center, // Centra los elementos verticalmente
         children: [
-          const Expanded(
-            child: Text("¿Palabra?"),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flashcard(),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Transform.rotate(
+                      angle: -90 * 3.141592 / 180,
+                      child: IconButton(
+                        onPressed: null,
+                        icon: SvgPicture.asset(
+                          width: 24,
+                          "assets/images/up-arrow.svg",
+                          colorFilter: const ColorFilter.mode(
+                            azulOscuro,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 60,
+                      height: 21,
+                      decoration: BoxDecoration(
+                        color: azulRey,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "1/99",
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Transform.rotate(
+                      angle: 90 * 3.141592 / 180,
+                      child: IconButton(
+                        onPressed: null,
+                        icon: SvgPicture.asset(
+                          width: 24,
+                          "assets/images/up-arrow.svg",
+                          colorFilter: const ColorFilter.mode(
+                            azulOscuro,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: FractionallySizedBox(
