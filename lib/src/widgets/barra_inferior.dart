@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:study_buddy/src/colors/colors.dart';
+import 'package:study_buddy/src/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BarraInferior extends StatelessWidget {
