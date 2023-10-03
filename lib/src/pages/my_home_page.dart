@@ -20,45 +20,55 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: azulClaro,
         shadowColor: Colors.transparent,
       ),
-      body: Container(
-        color: azulClaro,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Centra los elementos verticalmente
-          children: [
-            const Expanded(
-              child: Text("¿Palabra?"),
-            ),
-
-
-            ElevatedButton(
-              onPressed: () {
-                // Navegar a la segunda página cuando se presiona el botón
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const TraduccionPage(),
+      backgroundColor: azulClaro,
+      body: Column(
+        mainAxisAlignment:
+            MainAxisAlignment.center, // Centra los elementos verticalmente
+        children: [
+          const Expanded(
+            child: Text("¿Palabra?"),
+          ),
+          Expanded(
+            child: FractionallySizedBox(
+              widthFactor: 1,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
-                );
-              },
-              child: Text("Traducción"),
+                ),
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Navegar a la segunda página cuando se presiona el botón
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const TraduccionPage(),
+                          ),
+                        );
+                      },
+                      child: const Text("Traducción"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ParejasPage(),
+                          ),
+                        ); // Agrega aquí la acción para el botón "Parejas"
+                        // Por ejemplo, puedes navegar a una página diferente
+                      },
+                      child: Text("Parejas"),
+                    ),
+                  ],
+                ),
+              ),
             ),
-
-
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ParejasPage(),
-                  ),
-                );// Agrega aquí la acción para el botón "Parejas"
-                // Por ejemplo, puedes navegar a una página diferente
-              },
-              child: Text("Parejas"),
-            ),
-
-
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
