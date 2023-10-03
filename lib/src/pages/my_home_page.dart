@@ -89,6 +89,17 @@ class BotonInicio extends StatelessWidget {
   final String descripcion;
   final Widget? icono;
 
+  dynamic nextPage() {
+    switch (titulo) {
+      case "Parejas":
+        return const ParejasPage();
+      case "Traducir":
+        return const TraduccionPage();
+      default:
+        return const TraduccionPage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -96,7 +107,7 @@ class BotonInicio extends StatelessWidget {
         // Navegar a la segunda página cuando se presiona el botón
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const TraduccionPage(),
+            builder: (context) => nextPage(),
           ),
         );
       },
