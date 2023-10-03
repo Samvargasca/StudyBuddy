@@ -46,29 +46,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BotonInicio(
-                      "Parejas",
-                      "¡Aprende juntando las palabras con sus traducciones!",
-                      SvgPicture.asset(
-                        "assets/images/squares-2x2-solid.svg",
-                        width: 65,
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          BotonInicio(
+                            "Parejas",
+                            "¡Aprende juntando las palabras con sus traducciones!",
+                            SvgPicture.asset(
+                              "assets/images/squares-2x2-solid.svg",
+                              width: 65,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          BotonInicio(
+                            "Traducir",
+                            "¡Practica completando las traducciones de las palabras!",
+                            Image.asset(
+                              "assets/images/traducir.png",
+                              width: 65,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    BotonInicio(
-                      "Traducir",
-                      "¡Practica completando las traducciones de las palabras!",
-                      Image.asset(
-                        "assets/images/traducir.png",
-                        width: 65,
-                      ),
-                    ),
-                    // Expanded(
-                    //   child: Container(
-                    //     alignment: Alignment.bottomCenter,
-                    //     child: const BarraInferior(),
-                    //   ),
-                    // ),
+                    const BarraInferior(),
                   ],
                 ),
               ),
@@ -103,6 +105,7 @@ class BotonInicio extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: azulRey, width: 2),
         ),
         fixedSize: const Size(267, 98),
       ),
