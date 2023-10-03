@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/colors/colors.dart';
 import 'package:study_buddy/src/pages/parejas_page.dart';
 import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
+import 'package:study_buddy/src/widgets/barra_inferior.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -43,19 +44,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const BotonInicio(),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const ParejasPage(),
-                          ),
-                        ); // Agrega aquí la acción para el botón "Parejas"
-                        // Por ejemplo, puedes navegar a una página diferente
-                      },
-                      child: const Text("Parejas"),
+                    BotonInicio(
+                      "Parejas",
+                      "¡Aprende juntando las palabras con sus traducciones!",
+                      SvgPicture.asset(
+                        "assets/images/squares-2x2-solid.svg",
+                        width: 65,
+                      ),
                     ),
+                    const SizedBox(height: 20),
+                    BotonInicio(
+                      "Traducir",
+                      "¡Practica completando las traducciones de las palabras!",
+                      Image.asset(
+                        "assets/images/traducir.png",
+                        width: 65,
+                      ),
+                    ),
+                    // Expanded(
+                    //   child: Container(
+                    //     alignment: Alignment.bottomCenter,
+                    //     child: const BarraInferior(),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -68,9 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class BotonInicio extends StatelessWidget {
-  const BotonInicio({
-    super.key,
-  });
+  const BotonInicio(this.titulo, this.descripcion, this.icono, {super.key});
+
+  final String titulo;
+  final String descripcion;
+  final Widget? icono;
 
   @override
   Widget build(BuildContext context) {
@@ -94,27 +109,24 @@ class BotonInicio extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SvgPicture.asset(
-            "assets/images/squares-2x2-solid.svg",
-            width: 65,
-          ),
-          const SizedBox(width: 10),
-          const Expanded(
-            child: const Column(
+          icono == null ? Container() : icono!,
+          SizedBox(width: icono == null ? 0 : 20),
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Parejas",
-                  style: TextStyle(
+                  titulo,
+                  style: const TextStyle(
                     fontFamily: "Chewy",
                     fontSize: 24,
                     color: azulOscuro,
                   ),
                 ),
                 Text(
-                  "¡Aprende juntando las palabras con sus traducciones!",
-                  style: TextStyle(
+                  descripcion,
+                  style: const TextStyle(
                     color: gris,
                     fontSize: 12,
                     fontFamily: "Arimo",
