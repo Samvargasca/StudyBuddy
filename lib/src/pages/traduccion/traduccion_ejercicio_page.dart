@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/flashcard.dart';
-import 'package:study_buddy/src/pages/traduccion/errores_page.dart';
 
 class TraduccionEjercicioPage extends StatefulWidget {
   const TraduccionEjercicioPage({Key? key}) : super(key: key);
@@ -55,9 +54,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+                onPressed: () =>
+                    Navigator.pop(context), // Volver a la página anterior
                 icon: const Icon(
                   Icons.cancel,
                   color: rojo,
@@ -86,13 +84,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
             width: 159,
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ErroresPage(),
-                ),
-              );
-            },
+            onPressed: () =>
+                Navigator.pushNamed(context, "/traduccion/errores"),
             style: ElevatedButton.styleFrom(
               backgroundColor: amarillo,
               shape: const RoundedRectangleBorder(
