@@ -50,113 +50,126 @@ class _MyHomePageState extends State<MyHomePage> {
         shadowColor: Colors.transparent,
       ),
       backgroundColor: azulClaro,
-      body: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center, // Centra los elementos verticalmente
+      body: Stack(
         children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Flashcard(
-                  pregunta: "Pregunta $numeroPalabra",
-                  respuesta: "Respuesta $numeroPalabra",
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Transform.rotate(
-                      angle: -90 * 3.141592 / 180,
-                      child: IconButton(
-                        onPressed: () => disminuirPalabra(),
-                        icon: SvgPicture.asset(
-                          width: 24,
-                          "assets/images/up-arrow.svg",
-                          colorFilter: const ColorFilter.mode(
-                            azulOscuro,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 60,
-                      height: 21,
-                      decoration: BoxDecoration(
-                        color: azulRey,
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "$numeroPalabra/$max",
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Transform.rotate(
-                      angle: 90 * 3.141592 / 180,
-                      child: IconButton(
-                        onPressed: () => aumentarPalabra(),
-                        icon: SvgPicture.asset(
-                          width: 24,
-                          "assets/images/up-arrow.svg",
-                          colorFilter: const ColorFilter.mode(
-                            azulOscuro,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: FractionallySizedBox(
-              widthFactor: 1,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                ),
+          Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Centra los elementos verticalmente
+            children: [
+              Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          BotonInicio(
-                            "Parejas",
-                            "¡Aprende juntando las palabras con sus traducciones!",
-                            SvgPicture.asset(
-                              "assets/images/squares-2x2-solid.svg",
-                              width: 65,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          BotonInicio(
-                            "Traducir",
-                            "¡Practica completando las traducciones de las palabras!",
-                            Image.asset(
-                              "assets/images/traducir.png",
-                              width: 65,
-                            ),
-                          ),
-                        ],
-                      ),
+                    Flashcard(
+                      pregunta: "Pregunta $numeroPalabra",
+                      respuesta: "Respuesta $numeroPalabra",
                     ),
-                    const BarraInferior(),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Transform.rotate(
+                          angle: -90 * 3.141592 / 180,
+                          child: IconButton(
+                            onPressed: () => disminuirPalabra(),
+                            icon: SvgPicture.asset(
+                              width: 24,
+                              "assets/images/up-arrow.svg",
+                              colorFilter: const ColorFilter.mode(
+                                azulOscuro,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 60,
+                          height: 21,
+                          decoration: BoxDecoration(
+                            color: azulRey,
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "$numeroPalabra/$max",
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Transform.rotate(
+                          angle: 90 * 3.141592 / 180,
+                          child: IconButton(
+                            onPressed: () => aumentarPalabra(),
+                            icon: SvgPicture.asset(
+                              width: 24,
+                              "assets/images/up-arrow.svg",
+                              colorFilter: const ColorFilter.mode(
+                                azulOscuro,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
+              Expanded(
+                child: FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              BotonInicio(
+                                "Parejas",
+                                "¡Aprende juntando las palabras con sus traducciones!",
+                                SvgPicture.asset(
+                                  "assets/images/squares-2x2-solid.svg",
+                                  width: 65,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              BotonInicio(
+                                "Traducir",
+                                "¡Practica completando las traducciones de las palabras!",
+                                Image.asset(
+                                  "assets/images/traducir.png",
+                                  width: 65,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const BarraInferior(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            top: 1,
+            bottom: 1,
+            right: -10,
+            child: Image.asset(
+              "assets/images/quokka-papeles.png",
+              width: 150,
             ),
           ),
         ],
