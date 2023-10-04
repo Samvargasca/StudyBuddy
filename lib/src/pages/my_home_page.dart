@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/constants/colors.dart';
-import 'package:study_buddy/src/pages/parejas_page.dart';
-import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/flashcard.dart';
 
@@ -185,28 +183,24 @@ class BotonInicio extends StatelessWidget {
   final String descripcion;
   final Widget? icono;
 
-  dynamic nextPage() {
+  // Obtener la siguiente ruta
+  String nextPage() {
     switch (titulo) {
       case "Parejas":
-        return const ParejasPage();
+        return "/parejas";
       case "Traducir":
-        return const TraduccionPage();
+        return "/traduccion";
       default:
-        return const TraduccionPage();
+        return "/";
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        // Navegar a la segunda página cuando se presiona el botón
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => nextPage(),
-          ),
-        );
-      },
+      onPressed:
+          () => // Navegar a la siguiente página cuándo se presiona el botón
+              Navigator.pushNamed(context, nextPage()),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
