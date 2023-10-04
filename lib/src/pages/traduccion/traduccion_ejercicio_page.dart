@@ -12,6 +12,10 @@ class TraduccionEjercicioPage extends StatefulWidget {
 }
 
 class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
+  String ingles = "hello";
+  String traduccion = "hola";
+  String significado = "Saludo Casual";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +68,10 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
               ),
             ],
           ),
-          const Flashcard(),
+          Flashcard(
+            pregunta: ingles,
+            respuesta: significado,
+          ),
           const SizedBox(
             width: 350,
             child: Text(
@@ -78,7 +85,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
               textAlign: TextAlign.left,
             ),
           ),
-          const FormExample(),
+          Formulario(traduccion),
           Image.asset(
             "assets/images/quokka-pregunta.png",
             width: 159,
@@ -111,15 +118,26 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   }
 }
 
-class FormExample extends StatefulWidget {
-  const FormExample({super.key});
+class Formulario extends StatefulWidget {
+  const Formulario(this.traduccion, {super.key});
+  final String traduccion;
 
   @override
-  State<FormExample> createState() => _FormExampleState();
+  State<Formulario> createState() => _FormularioState();
 }
 
-class _FormExampleState extends State<FormExample> {
+class _FormularioState extends State<Formulario> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final controladorTexto = TextEditingController();
+
+  bool editar = true;
+
+  @override
+  void dispose() {
+    controladorTexto.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +149,7 @@ class _FormExampleState extends State<FormExample> {
           SizedBox(
             width: 255,
             child: TextFormField(
+              controller: controladorTexto,
               decoration: const InputDecoration(
                 hintText: 'Escribe la traducción en español',
                 border: OutlineInputBorder(
@@ -149,6 +168,7 @@ class _FormExampleState extends State<FormExample> {
                 }
                 return null;
               },
+              enabled: editar,
             ),
           ),
           const SizedBox(
@@ -162,13 +182,35 @@ class _FormExampleState extends State<FormExample> {
               color: azulOscuro,
             ),
             child: IconButton(
-              onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
-                if (_formKey.currentState!.validate()) {
-                  // Process data.
-                }
-              },
+              onPressed: editar
+                  ? () {
+                      // Validate will return true if the form is valid, or false if
+                      // the form is invalid.
+                      if (_formKey.currentState!.validate()) {
+                        String mensaje;
+                        String palabraUsuario = controladorTexto.text;
+
+                        if (widget.traduccion.toLowerCase() ==
+                            palabraUsuario.toLowerCase()) {
+                          mensaje = "Correcto";
+                        } else {
+                          mensaje = "Incorrecto";
+                        }
+                        // Process data.
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(mensaje),
+                          ),
+                        );
+
+                        setState(
+                          () {
+                            editar = false;
+                          },
+                        );
+                      }
+                    }
+                  : null,
               icon: const Icon(
                 Icons.check,
                 color: Colors.white,
