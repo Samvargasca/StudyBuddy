@@ -28,8 +28,40 @@ class _ParejasGame extends State<ParejasGame> {
         //Se encarga de centrar los elementos verticalmente
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                height: 36,
+                width: 93,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: azulOscuro,
+                ),
+                child: const Center(
+                  child: Text(
+                    "Parejas",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: "Arimo",
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.cancel,
+                  color: rojo,
+                  size: 37,
+                ),
+              )
+            ],
           ),
 
           //Texto de pagina
