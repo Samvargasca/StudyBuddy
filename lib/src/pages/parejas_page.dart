@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
-import 'package:study_buddy/src/pages/parejas_game.dart';
 
 class ParejasPage extends StatefulWidget {
   const ParejasPage({Key? key}) : super(key: key);
@@ -29,8 +28,40 @@ class _ParejasPage extends State<ParejasPage> {
         //Se encarga de centrar los elementos verticalmente
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                height: 36,
+                width: 93,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: azulOscuro,
+                ),
+                child: const Center(
+                  child: Text(
+                    "Parejas",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: "Arimo",
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.cancel,
+                  color: rojo,
+                  size: 37,
+                ),
+              )
+            ],
           ),
 
           //Texto de pagina
@@ -61,13 +92,7 @@ class _ParejasPage extends State<ParejasPage> {
             width: 147,
             height: 57,
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ParejasGame(),
-                  ),
-                );
-              },
+              onPressed: () => Navigator.pushNamed(context, "/parejas/game"),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
