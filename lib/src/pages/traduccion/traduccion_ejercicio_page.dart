@@ -15,6 +15,13 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   String ingles = "hello";
   String traduccion = "hola";
   String significado = "Saludo Casual";
+  String imagenAsset = "assets/images/quokka-pregunta.png";
+
+  void cambiarImagen(String nuevaRuta) {
+    setState(() {
+      imagenAsset = nuevaRuta;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +92,9 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
               textAlign: TextAlign.left,
             ),
           ),
-          Formulario(traduccion),
+          Formulario(traduccion, cambiarImagen),
           Image.asset(
-            "assets/images/quokka-pregunta.png",
+            imagenAsset,
             width: 159,
           ),
           ElevatedButton(
@@ -119,8 +126,9 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 }
 
 class Formulario extends StatefulWidget {
-  const Formulario(this.traduccion, {super.key});
+  const Formulario(this.traduccion, this.cambiarImagen, {super.key});
   final String traduccion;
+  final Function(String) cambiarImagen;
 
   @override
   State<Formulario> createState() => _FormularioState();
@@ -193,6 +201,7 @@ class _FormularioState extends State<Formulario> {
                         if (widget.traduccion.toLowerCase() ==
                             palabraUsuario.toLowerCase()) {
                           mensaje = "Correcto";
+                          widget.cambiarImagen("assets/images/quokka-copa.png");
                         } else {
                           mensaje = "Incorrecto";
                         }
