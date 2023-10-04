@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/constants/colors.dart';
-import 'package:study_buddy/src/pages/traduccion/palabra_page.dart';
 
 class ErroresPage extends StatefulWidget {
   const ErroresPage({Key? key}) : super(key: key);
@@ -41,7 +40,7 @@ class _ErroresPageState extends State<ErroresPage> {
                   Transform.rotate(
                     angle: -90 * 3.141592 / 180,
                     child: IconButton(
-                      onPressed: null,
+                      onPressed: () => Navigator.pop(context),
                       icon: SvgPicture.asset(
                         "assets/images/up-arrow.svg",
                         colorFilter: const ColorFilter.mode(
@@ -52,9 +51,8 @@ class _ErroresPageState extends State<ErroresPage> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: () => Navigator.popUntil(
+                        context, ModalRoute.withName("/")), //Volver al inicio
                     icon: const Icon(
                       Icons.cancel,
                       color: rojo,
@@ -113,15 +111,11 @@ class ErrorCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => PalabraPage(
-                palabra: palabra,
-              ),
-            ),
-          );
-        },
+        onPressed: () => Navigator.pushNamed(
+          context,
+          "/traduccion/palabra",
+          arguments: {"palabra": palabra},
+        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           shadowColor: gris,

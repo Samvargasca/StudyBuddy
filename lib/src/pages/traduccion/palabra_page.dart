@@ -4,8 +4,7 @@ import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PalabraPage extends StatefulWidget {
-  const PalabraPage({Key? key, this.palabra = "Hola"}) : super(key: key);
-  final String palabra;
+  const PalabraPage({Key? key}) : super(key: key);
 
   @override
   _PalabraPageState createState() => _PalabraPageState();
@@ -16,6 +15,9 @@ class _PalabraPageState extends State<PalabraPage> {
 
   @override
   Widget build(BuildContext context) {
+    Map argumentos = ModalRoute.of(context)!.settings.arguments as Map;
+    String palabra = argumentos["palabra"];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -41,7 +43,7 @@ class _PalabraPageState extends State<PalabraPage> {
                   Transform.rotate(
                     angle: -90 * 3.141592 / 180,
                     child: IconButton(
-                      onPressed: null,
+                      onPressed: () => Navigator.pop(context),
                       icon: SvgPicture.asset(
                         "assets/images/up-arrow.svg",
                         colorFilter: const ColorFilter.mode(
@@ -52,9 +54,8 @@ class _PalabraPageState extends State<PalabraPage> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: () =>
+                        Navigator.popUntil(context, ModalRoute.withName("/")),
                     icon: const Icon(
                       Icons.cancel,
                       color: rojo,
@@ -85,7 +86,7 @@ class _PalabraPageState extends State<PalabraPage> {
               ),
             ),
             Text(
-              "${widget.palabra} - ${widget.palabra}",
+              "$palabra - $palabra",
               style: const TextStyle(
                 fontFamily: "Chewy",
                 fontSize: 48,
@@ -99,7 +100,7 @@ class _PalabraPageState extends State<PalabraPage> {
               endIndent: 35,
             ),
             Text(
-              "Significado de ${widget.palabra}",
+              "Significado de $palabra",
               style: const TextStyle(
                 fontFamily: "Arimo",
                 fontSize: 20,
@@ -107,7 +108,7 @@ class _PalabraPageState extends State<PalabraPage> {
                 color: azulOscuro,
               ),
             ),
-            Text("Ejemplos de ${widget.palabra}"),
+            Text("Ejemplos de $palabra"),
             const BarraInferior(),
           ],
         ),
