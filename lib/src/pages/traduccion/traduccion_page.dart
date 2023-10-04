@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
-import 'package:study_buddy/src/pages/traduccion/traduccion_ejercicio_page.dart';
 
 class TraduccionPage extends StatefulWidget {
   const TraduccionPage({Key? key}) : super(key: key);
@@ -54,7 +53,7 @@ class _TraduccionPageState extends State<TraduccionPage> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.pop(context);
                 },
                 icon: const Icon(
                   Icons.cancel,
@@ -89,13 +88,8 @@ class _TraduccionPageState extends State<TraduccionPage> {
             width: 147,
             height: 57,
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const TraduccionEjercicioPage(),
-                  ),
-                );
-              },
+              onPressed: () =>
+                  Navigator.pushNamed(context, "/traduccion/ejercicio"),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
