@@ -34,4 +34,12 @@ class Stack<T> {
     _stack[_top] = item;
     _top++;
   }
+
+  List<T> getAll() {
+    List<T> list = [];
+    while (!isEmpty()) {
+      list.add(pop());
+    }
+    return list;
+  }
 }
