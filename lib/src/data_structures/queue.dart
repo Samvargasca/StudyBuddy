@@ -42,6 +42,19 @@ class Queue<T> {
     return item;
   }
 
+  // Consulta de un dato
+  bool search(T item) {
+    bool found = false;
+    int i = _front;
+    while (i != _rear && !found) {
+      if (_queue[i] == item) {
+        found = true;
+      }
+      i = (i + 1) % _queue.length;
+    }
+    return found;
+  }
+
   // Consulta de todos los datos
   List<T> getAll() {
     List<T> list = [];
