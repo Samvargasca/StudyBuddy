@@ -41,4 +41,13 @@ class Queue<T> {
     T item = _queue[_front] as T;
     return item;
   }
+
+  // Consulta de todos los datos
+  List<T> getAll() {
+    List<T> list = [];
+    while (!isEmpty()) {
+      list.add(dequeue());
+    }
+    return list;
+  }
 }
