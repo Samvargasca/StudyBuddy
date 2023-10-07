@@ -9,6 +9,21 @@ class Palabra {
 
   Palabra(this.ingles, this.espanol, this.ejemplos, this.definicion);
 
+  @override
+  bool operator ==(Object other) =>
+      other is Palabra &&
+      other.ingles == ingles &&
+      other.espanol == espanol &&
+      other.ejemplos == ejemplos &&
+      other.definicion == definicion;
+
+  @override
+  int get hashCode =>
+      ingles.hashCode ^
+      espanol.hashCode ^
+      ejemplos.hashCode ^
+      definicion.hashCode;
+
   factory Palabra.fromJson(Map<String, dynamic> json) {
     return Palabra(
         json['ingles'] as String,
