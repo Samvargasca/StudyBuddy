@@ -8,6 +8,15 @@ class Palabra {
   String definicion;
 
   Palabra(this.ingles, this.espanol, this.ejemplos, this.definicion);
+
+  factory Palabra.fromJson(Map<String, dynamic> json) {
+    return Palabra(
+        json['ingles'] as String,
+        json['espanol'] as String,
+        (json['ejemplos'] as List<dynamic>)
+            .cast<String>(), // Ensure ejemplos is a List<String>
+        json['definicion'] as String);
+  }
 }
 
 Future<List<dynamic>> getDataFromJson(String filePath) async {
