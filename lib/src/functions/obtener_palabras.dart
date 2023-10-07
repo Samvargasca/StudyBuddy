@@ -7,14 +7,25 @@ class Palabra {
   List<String> ejemplos;
   String definicion;
 
-  Palabra(this.ingles, this.espanol, this.ejemplos, this.definicion);
+  Palabra(this.espanol, this.ingles, this.definicion, this.ejemplos);
+
+  // Función para comparar listas por contenido
+  bool listEquals(List a, List b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
 
   @override
   bool operator ==(Object other) =>
       other is Palabra &&
       other.ingles == ingles &&
       other.espanol == espanol &&
-      other.ejemplos == ejemplos &&
+      listEquals(other.ejemplos,
+          ejemplos) && // Utiliza una función de comparación de listas
       other.definicion == definicion;
 
   @override
@@ -26,11 +37,11 @@ class Palabra {
 
   factory Palabra.fromJson(Map<String, dynamic> json) {
     return Palabra(
-        json['ingles'] as String,
-        json['espanol'] as String,
-        (json['ejemplos'] as List<dynamic>)
-            .cast<String>(), // Ensure ejemplos is a List<String>
-        json['definicion'] as String);
+      json['espanol'] as String,
+      json['ingles'] as String,
+      json['definicion'] as String,
+      (json['ejemplos'] as List<dynamic>).cast<String>(),
+    ); // Ensure ejemplos is a List<String>
   }
 }
 
