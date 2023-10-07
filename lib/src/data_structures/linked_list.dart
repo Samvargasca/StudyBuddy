@@ -128,7 +128,7 @@ class LinkedList<T> {
   }
 
   // Búsqueda de un solo dato
-  bool contains(T data) {
+  bool search(T data) {
     Node<T>? current = head;
     while (current != null) {
       if (current.key == data) {

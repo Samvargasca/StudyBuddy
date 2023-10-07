@@ -44,5 +44,26 @@ void main() {
       expect(lista.popFront(), equals(3));
       expect(lista.popFront(), equals(2));
     });
+
+    test("Tiempo de inserción, búsqueda y elimninación de datos", () {
+      LinkedList<int> lista = LinkedList<int>();
+      Stopwatch stopwatch = Stopwatch();
+      stopwatch.start();
+      for (int i = 0; i < 100000; i++) {
+        lista.pushBack(i);
+      }
+      stopwatch.stop();
+      print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+      stopwatch.reset();
+      stopwatch.start();
+      lista.search(99999);
+      stopwatch.stop();
+      print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+      stopwatch.reset();
+      stopwatch.start();
+      lista.popFront();
+      stopwatch.stop();
+      print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
+    });
   });
 }
