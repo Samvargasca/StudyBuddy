@@ -1,83 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/widgets/barra_inferior.dart';
 
-class ParejasGame extends StatefulWidget {
-  const ParejasGame({Key? key}) : super(key: key);
+class ParejasPage extends StatefulWidget { //?Esta pagina podria ser StatelessWidget
+  const ParejasPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ParejasGame createState() => _ParejasGame();
+  State <ParejasPage> createState() => _ParejasPage();
 }
 
-class _ParejasGame extends State<ParejasGame> {
+class _ParejasPage extends State<ParejasPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //!Titulo de la pagina 
       appBar: AppBar(
-        title: const Text(
-          "StudyBuddy",
-          style: TextStyle(
-            fontFamily: "Chewy",
-            fontSize: 32,
-          ),
-        ),
+        title: const Text("StudyBuddy", style: TextStyle( fontFamily: "Chewy", fontSize: 32)),
         automaticallyImplyLeading: false,
-        backgroundColor: azulClaro,
-        shadowColor: const Color.fromARGB(82, 0, 0, 0),
+        backgroundColor: azulClaro
       ),
+
+      //!Cuerpo de la pagina
       body: Column(
-        //Se encarga de centrar los elementos verticalmente
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        
+        //!Titulo de la dinamica y boton de salida 
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            
             children: [
-              Container(
-                height: 36,
-                width: 93,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: azulOscuro,
-                ),
+              Container( height: 35, width: 100, decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: azulOscuro),
                 child: const Center(
-                  child: Text(
-                    "Parejas",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: "Arimo",
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: Text( "Parejas", textAlign: TextAlign.center, style: TextStyle( fontFamily: "Arimo", fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
                 ),
               ),
+
               IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(
-                  Icons.cancel,
-                  color: rojo,
-                  size: 37,
-                ),
+                icon: const Icon( Icons.cancel, color: rojo, size: 37 ),
               )
             ],
           ),
 
+        //!Cuerpo de la pagina, titulo imagen, parrafo y boton de inicio
           //Texto de pagina
-          const Text(
-            "ESTE ES EL JUEGOOO!",
-            style: TextStyle(fontFamily: "Chewy", fontSize: 48),
-          ),
-          Image.asset(
-            "assets/images/quokka-papeles.png",
-            width: 186,
-          ),
+          const Text( "¿Preparado?", style: TextStyle(fontFamily: "Chewy", fontSize: 48)),
+
+          Image.asset( "assets/images/quokka-papeles.png", width: 186),
+
           const SizedBox(
             width: 185,
             child: Text(
-              "¿Listo para formar parejas?",
+              "!Selecciona los terminos con sus definiciones!",
               style: TextStyle(
                 fontFamily: "Aribo",
                 fontWeight: FontWeight.bold,
@@ -93,7 +71,7 @@ class _ParejasGame extends State<ParejasGame> {
             width: 147,
             height: 57,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(context, "/parejas/game"),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -109,6 +87,7 @@ class _ParejasGame extends State<ParejasGame> {
               ),
             ),
           ),
+          const BarraInferior(),
         ],
       ),
     );
