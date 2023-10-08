@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:test/test.dart';
 import 'package:study_buddy/src/data_structures/queue.dart';
 import 'package:study_buddy/src/functions/obtener_palabras.dart';
@@ -76,6 +78,65 @@ void main() {
     test("Tiempo de inserción, búsqueda y elimninación de 100000 datos",
         () async => pruebaNDatosQueue(100000));
   });
+
+  group("Tiempo de inserción, búsqueda y eliminación para String", () {
+    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
+        () => pruebaNDatosQueueString(10000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
+        () => pruebaNDatosQueueString(20000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
+        () => pruebaNDatosQueueString(30000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
+        () => pruebaNDatosQueueString(40000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
+        () => pruebaNDatosQueueString(50000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
+        () => pruebaNDatosQueueString(60000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
+        () => pruebaNDatosQueueString(70000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
+        () => pruebaNDatosQueueString(80000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
+        () => pruebaNDatosQueueString(90000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
+        () => pruebaNDatosQueueString(100000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 200000 datos",
+        () => pruebaNDatosQueueString(200000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
+        () => pruebaNDatosQueueString(300000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 400000 datos",
+        () => pruebaNDatosQueueString(400000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 500000 datos",
+        () => pruebaNDatosQueueString(500000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 600000 datos",
+        () => pruebaNDatosQueueString(600000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 700000 datos",
+        () => pruebaNDatosQueueString(700000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
+        () => pruebaNDatosQueueString(800000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 900000 datos",
+        () => pruebaNDatosQueueString(900000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 1000000 datos",
+        () => pruebaNDatosQueueString(1000000));
+  });
 }
 
 pruebaNDatosQueue(int N) async {
@@ -151,6 +212,31 @@ pruebaNDatosQueue(int N) async {
   for (int i = 0; i < palabras.length; i++) {
     // ignore: unused_local_variable
     Palabra palabra = lista.dequeue();
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
+}
+
+pruebaNDatosQueueString(int N) {
+  print("Prueba con $N datos");
+  Queue lista = Queue<String>(N);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.enqueue("Palabra $i");
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  expect(lista.search("Palabra ${N ~/ 2}"), true);
+  expect(lista.search("Palabra ${N + 1}"), false);
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.dequeue();
   }
   stopwatch.stop();
   print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
