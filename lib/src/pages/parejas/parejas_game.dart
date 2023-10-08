@@ -5,7 +5,7 @@ import 'package:study_buddy/src/widgets/barra_inferior.dart';
 class ParejasGame extends StatefulWidget {
   const ParejasGame({Key? key}) : super(key: key);
   @override
-  State <ParejasGame> createState() => _ParejasGame();
+  State<ParejasGame> createState() => _ParejasGame();
 }
 
 class _ParejasGame extends State<ParejasGame> {
@@ -26,79 +26,78 @@ class _ParejasGame extends State<ParejasGame> {
         automaticallyImplyLeading: false,
         backgroundColor: azulClaro,
       ),
-
       body: const Column(
         children: [
-        Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-
-                CreaPalabras(palabra: 'hola'),
-                SizedBox(height: 20),
-                CreaPalabras(palabra: 'azul'),
-                SizedBox(height: 20),
-                CreaPalabras(palabra: 'azul'),
-                SizedBox(height: 20),
-                CreaPalabras(palabra: 'azul'),
-                SizedBox(height: 20),
-                CreaPalabras(palabra: 'azul'),
-
-              ],
-
-            ),
-
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-              CreaPalabras(palabra: 'hello'),
-              SizedBox(height: 20),
-              CreaPalabras(palabra: 'blue'),
-              SizedBox(height: 20),
-              CreaPalabras(palabra: 'blue'),
-              SizedBox(height: 20),
-              CreaPalabras(palabra: 'blue'),
-              SizedBox(height: 20),
-              CreaPalabras(palabra: 'blue'),                            
-
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CreaPalabras(palabra: 'hola'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'azul'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'Gato'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'Ave'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'negro'),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CreaPalabras(palabra: 'blue'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'hello'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'Bird'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'black'),
+                    SizedBox(height: 20),
+                    CreaPalabras(palabra: 'Cat'),
+                  ],
+                ),
               ],
             ),
-          ],
-        ), 
+          ),
+          BarraInferior(),
+        ],
       ),
-      const BarraInferior(),
-    ],
-  ),
-);
-
+    );
   }
 }
 
 class CreaPalabras extends StatelessWidget {
   final String palabra;
+  final int? clave;
 
   const CreaPalabras({
-    super.key, 
-    required this.palabra,
+    super.key,
+    required this.palabra, 
+    this.clave,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox( width: 140, height: 100, 
-    child: ElevatedButton(
-      onPressed: () {
-
-      },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: azulRey, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
+    return SizedBox(
+      width: 140,
+      height: 100,
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          side: const BorderSide(color: azulRey, width: 4),
+          //textStyle: TextStyle(color: Colors.black),
         ),
         child: Text(
           palabra,
           style: const TextStyle(
+              color: Color.fromARGB(255, 0, 0, 0),
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,
               fontSize: 32),
@@ -107,5 +106,3 @@ class CreaPalabras extends StatelessWidget {
     );
   }
 }
-
-
