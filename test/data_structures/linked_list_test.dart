@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:study_buddy/src/data_structures/linked_list.dart';
+import 'package:study_buddy/src/functions/obtener_palabras.dart';
 
 void main() {
   group("Lista enlazada", () {
@@ -45,25 +46,55 @@ void main() {
       expect(lista.popFront(), equals(2));
     });
 
-    test("Tiempo de inserción, búsqueda y elimninación de datos", () {
-      LinkedList<int> lista = LinkedList<int>();
-      Stopwatch stopwatch = Stopwatch();
-      stopwatch.start();
-      for (int i = 0; i < 100000; i++) {
-        lista.pushBack(i);
-      }
-      stopwatch.stop();
-      print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
-      stopwatch.reset();
-      stopwatch.start();
-      lista.search(99999);
-      stopwatch.stop();
-      print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
-      stopwatch.reset();
-      stopwatch.start();
-      lista.popFront();
-      stopwatch.stop();
-      print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
-    });
+    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+        () async => pruebaNDatosLInkedList(10000));
+
+    test("Tiempo de inserción, búsqueda y elimninación de 100000 datos",
+        () async => pruebaNDatosLInkedList(100000));
   });
+}
+
+pruebaNDatosLInkedList(int N) async {
+  String ruta;
+  switch (N) {
+    case 10000:
+      print("Prueba con 10000 datos");
+      ruta = 'assets/json/10000_datos.json';
+      break;
+    case 100000:
+      print("Prueba con 100000 datos");
+      ruta = 'assets/json/100000_datos.json';
+    default:
+      throw Exception("No se ha encontrado la ruta");
+  }
+
+  LinkedList<Palabra> lista = LinkedList<Palabra>();
+  List palabras = await getDataFromJson(ruta);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < palabras.length; i++) {
+    Map<String, dynamic> json = palabras[i] as Map<String, dynamic>;
+    Palabra palabra = Palabra.fromJson(json);
+    lista.pushBack(palabra);
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  expect(
+      lista.search(Palabra(
+          "casa", "house", "edificio para vivir", ["I live in a house"])),
+      true);
+  expect(
+      lista.search(Palabra("Dortmund", "Tottenham", "definición", ["Ejemplo"])),
+      false);
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  for (int i = 0; i < palabras.length; i++) {
+    Palabra palabra = lista.popBack();
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
 }
