@@ -41,4 +41,31 @@ class Queue<T> {
     T item = _queue[_front] as T;
     return item;
   }
+
+  // Consulta de un dato
+  bool search(T target) {
+    if (isEmpty()) {
+      return false;
+    }
+
+    int currentIndex = _front;
+
+    for (int i = 0; i < _count; i++) {
+      if (_queue[currentIndex] == target) {
+        return true;
+      }
+      currentIndex = (currentIndex + 1) % _queue.length;
+    }
+
+    return false;
+  }
+
+  // Consulta de todos los datos
+  List<T> getAll() {
+    List<T> list = [];
+    while (!isEmpty()) {
+      list.add(dequeue());
+    }
+    return list;
+  }
 }
