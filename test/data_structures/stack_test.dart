@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:test/test.dart';
 import 'package:study_buddy/src/data_structures/stack.dart';
 import 'package:study_buddy/src/functions/obtener_palabras.dart';
@@ -81,6 +83,65 @@ void main() {
     test("Tiempo de inserción, búsqueda y elimninación de 100000 datos",
         () async => pruebaNDatosStack(100000));
   });
+
+  group("Tiempo de inserción, búsqueda y eliminación para String", () {
+    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
+        () => pruebaNDatosStackString(10000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
+        () => pruebaNDatosStackString(20000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
+        () => pruebaNDatosStackString(30000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
+        () => pruebaNDatosStackString(40000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
+        () => pruebaNDatosStackString(50000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
+        () => pruebaNDatosStackString(60000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
+        () => pruebaNDatosStackString(70000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
+        () => pruebaNDatosStackString(80000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
+        () => pruebaNDatosStackString(90000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
+        () => pruebaNDatosStackString(100000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 200000 datos",
+        () => pruebaNDatosStackString(200000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
+        () => pruebaNDatosStackString(300000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 400000 datos",
+        () => pruebaNDatosStackString(400000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 500000 datos",
+        () => pruebaNDatosStackString(500000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 600000 datos",
+        () => pruebaNDatosStackString(600000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 700000 datos",
+        () => pruebaNDatosStackString(700000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
+        () => pruebaNDatosStackString(800000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 900000 datos",
+        () => pruebaNDatosStackString(900000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 1000000 datos",
+        () => pruebaNDatosStackString(1000000));
+  });
 }
 
 pruebaNDatosStack(int N) async {
@@ -156,6 +217,31 @@ pruebaNDatosStack(int N) async {
   for (int i = 0; i < palabras.length; i++) {
     // ignore: unused_local_variable
     Palabra palabra = lista.pop();
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
+}
+
+pruebaNDatosStackString(int N) {
+  print("Prueba con $N datos");
+  Stack lista = Stack<String>(N);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.push("Palabra $i");
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  expect(lista.search("Palabra ${N ~/ 2}"), true);
+  expect(lista.search("Palabra ${N + 1}"), false);
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.pop();
   }
   stopwatch.stop();
   print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
