@@ -48,35 +48,94 @@ void main() {
       expect(lista.popFront(), equals(2));
     });
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
         () async => pruebaNDatosLinkedList(10000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 20000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
         () async => pruebaNDatosLinkedList(20000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 30000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
         () async => pruebaNDatosLinkedList(30000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 40000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
         () async => pruebaNDatosLinkedList(40000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 50000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
         () async => pruebaNDatosLinkedList(50000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 60000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
         () async => pruebaNDatosLinkedList(60000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 70000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
         () async => pruebaNDatosLinkedList(70000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 80000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
         () async => pruebaNDatosLinkedList(80000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 90000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
         () async => pruebaNDatosLinkedList(90000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 100000 datos",
+    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
         () async => pruebaNDatosLinkedList(100000));
+  });
+
+  group("Tiempo de inserción, búsqueda y eliminación para String", () {
+    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
+        () => pruebaNDatosLinkedListString(10000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
+        () => pruebaNDatosLinkedListString(20000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
+        () => pruebaNDatosLinkedListString(30000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
+        () => pruebaNDatosLinkedListString(40000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
+        () => pruebaNDatosLinkedListString(50000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
+        () => pruebaNDatosLinkedListString(60000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
+        () => pruebaNDatosLinkedListString(70000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
+        () => pruebaNDatosLinkedListString(80000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
+        () => pruebaNDatosLinkedListString(90000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
+        () => pruebaNDatosLinkedListString(100000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 200000",
+        () => pruebaNDatosLinkedListString(200000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 300000",
+        () => pruebaNDatosLinkedListString(300000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 400000",
+        () => pruebaNDatosLinkedListString(400000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 500000",
+        () => pruebaNDatosLinkedListString(500000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 600000",
+        () => pruebaNDatosLinkedListString(600000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 700000",
+        () => pruebaNDatosLinkedListString(700000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 800000",
+        () => pruebaNDatosLinkedListString(800000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 900000",
+        () => pruebaNDatosLinkedListString(900000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 1000000",
+        () => pruebaNDatosLinkedListString(1000000));
   });
 }
 
@@ -153,6 +212,31 @@ pruebaNDatosLinkedList(int N) async {
   for (int i = 0; i < palabras.length; i++) {
     // ignore: unused_local_variable
     Palabra palabra = lista.popBack();
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
+}
+
+pruebaNDatosLinkedListString(int N) {
+  print("Prueba con $N datos");
+  LinkedList lista = LinkedList<String>();
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.pushBack("Palabra $i");
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  expect(lista.search("Palabra ${N ~/ 2}"), true);
+  expect(lista.search("Palabra ${N + 1}"), false);
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.popBack();
   }
   stopwatch.stop();
   print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
