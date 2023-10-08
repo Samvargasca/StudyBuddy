@@ -43,16 +43,21 @@ class Queue<T> {
   }
 
   // Consulta de un dato
-  bool search(T item) {
-    bool found = false;
-    int i = _front;
-    while (i != _rear && !found) {
-      if (_queue[i] == item) {
-        found = true;
-      }
-      i = (i + 1) % _queue.length;
+  bool search(T target) {
+    if (isEmpty()) {
+      return false;
     }
-    return found;
+
+    int currentIndex = _front;
+
+    for (int i = 0; i < _count; i++) {
+      if (_queue[currentIndex] == target) {
+        return true;
+      }
+      currentIndex = (currentIndex + 1) % _queue.length;
+    }
+
+    return false;
   }
 
   // Consulta de todos los datos
