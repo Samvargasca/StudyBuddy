@@ -49,28 +49,28 @@ void main() {
     test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
         () async => pruebaNDatosLInkedList(10000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 20000 datos",
         () async => pruebaNDatosLInkedList(20000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 30000 datos",
         () async => pruebaNDatosLInkedList(30000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 40000 datos",
         () async => pruebaNDatosLInkedList(40000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 50000 datos",
         () async => pruebaNDatosLInkedList(50000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 60000 datos",
         () async => pruebaNDatosLInkedList(60000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 70000 datos",
         () async => pruebaNDatosLInkedList(70000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 80000 datos",
         () async => pruebaNDatosLInkedList(80000));
 
-    test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
+    test("Tiempo de inserción, búsqueda y elimninación de 90000 datos",
         () async => pruebaNDatosLInkedList(90000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 100000 datos",
