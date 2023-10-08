@@ -85,6 +85,38 @@ pruebaNDatosLInkedList(int N) async {
       print("Prueba con 10000 datos");
       ruta = 'assets/json/10000_datos.json';
       break;
+    case 20000:
+      print("Prueba con 20000 datos");
+      ruta = 'assets/json/20000_datos.json';
+      break;
+    case 30000:
+      print("Prueba con 30000 datos");
+      ruta = 'assets/json/30000_datos.json';
+      break;
+    case 40000:
+      print("Prueba con 40000 datos");
+      ruta = 'assets/json/40000_datos.json';
+      break;
+    case 50000:
+      print("Prueba con 50000 datos");
+      ruta = 'assets/json/50000_datos.json';
+      break;
+    case 60000:
+      print("Prueba con 60000 datos");
+      ruta = 'assets/json/60000_datos.json';
+      break;
+    case 70000:
+      print("Prueba con 70000 datos");
+      ruta = 'assets/json/70000_datos.json';
+      break;
+    case 80000:
+      print("Prueba con 80000 datos");
+      ruta = 'assets/json/80000_datos.json';
+      break;
+    case 90000:
+      print("Prueba con 90000 datos");
+      ruta = 'assets/json/90000_datos.json';
+      break;
     case 100000:
       print("Prueba con 100000 datos");
       ruta = 'assets/json/100000_datos.json';
