@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:test/test.dart';
 import 'package:study_buddy/src/data_structures/linked_list.dart';
 import 'package:study_buddy/src/functions/obtener_palabras.dart';
@@ -47,38 +49,38 @@ void main() {
     });
 
     test("Tiempo de inserción, búsqueda y elimninación de 10000 datos",
-        () async => pruebaNDatosLInkedList(10000));
+        () async => pruebaNDatosLinkedList(10000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 20000 datos",
-        () async => pruebaNDatosLInkedList(20000));
+        () async => pruebaNDatosLinkedList(20000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 30000 datos",
-        () async => pruebaNDatosLInkedList(30000));
+        () async => pruebaNDatosLinkedList(30000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 40000 datos",
-        () async => pruebaNDatosLInkedList(40000));
+        () async => pruebaNDatosLinkedList(40000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 50000 datos",
-        () async => pruebaNDatosLInkedList(50000));
+        () async => pruebaNDatosLinkedList(50000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 60000 datos",
-        () async => pruebaNDatosLInkedList(60000));
+        () async => pruebaNDatosLinkedList(60000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 70000 datos",
-        () async => pruebaNDatosLInkedList(70000));
+        () async => pruebaNDatosLinkedList(70000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 80000 datos",
-        () async => pruebaNDatosLInkedList(80000));
+        () async => pruebaNDatosLinkedList(80000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 90000 datos",
-        () async => pruebaNDatosLInkedList(90000));
+        () async => pruebaNDatosLinkedList(90000));
 
     test("Tiempo de inserción, búsqueda y elimninación de 100000 datos",
-        () async => pruebaNDatosLInkedList(100000));
+        () async => pruebaNDatosLinkedList(100000));
   });
 }
 
-pruebaNDatosLInkedList(int N) async {
+pruebaNDatosLinkedList(int N) async {
   String ruta;
   switch (N) {
     case 10000:
