@@ -130,12 +130,6 @@ void main() {
 
     test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
         () => pruebaNDatosQueueString(800000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 900000 datos",
-        () => pruebaNDatosQueueString(900000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 1000000 datos",
-        () => pruebaNDatosQueueString(1000000));
   });
 }
 

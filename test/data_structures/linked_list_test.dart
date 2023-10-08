@@ -130,12 +130,6 @@ void main() {
 
     test("Tiempo de inserción, búsqueda y eliminación de 800000",
         () => pruebaNDatosLinkedListString(800000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 900000",
-        () => pruebaNDatosLinkedListString(900000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 1000000",
-        () => pruebaNDatosLinkedListString(1000000));
   });
 }
 

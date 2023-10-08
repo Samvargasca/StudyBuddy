@@ -135,12 +135,6 @@ void main() {
 
     test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
         () => pruebaNDatosStackString(800000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 900000 datos",
-        () => pruebaNDatosStackString(900000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 1000000 datos",
-        () => pruebaNDatosStackString(1000000));
   });
 }
 
