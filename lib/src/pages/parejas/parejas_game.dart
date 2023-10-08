@@ -10,11 +10,11 @@ class ParejasGame extends StatefulWidget {
 
 class _ParejasGame extends State<ParejasGame> {
   //!Variables
-  int clickcounter = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //!Barra superior 
       appBar: AppBar(
         title: const Text(
           "StudyBuddy",
@@ -26,12 +26,16 @@ class _ParejasGame extends State<ParejasGame> {
         automaticallyImplyLeading: false,
         backgroundColor: azulClaro,
       ),
+
+      //!Cuerpo
       body: const Column(
         children: [
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
               children: [
+                
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -46,6 +50,7 @@ class _ParejasGame extends State<ParejasGame> {
                     CreaPalabras(palabra: 'negro'),
                   ],
                 ),
+
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -60,6 +65,7 @@ class _ParejasGame extends State<ParejasGame> {
                     CreaPalabras(palabra: 'Cat'),
                   ],
                 ),
+
               ],
             ),
           ),
@@ -70,15 +76,16 @@ class _ParejasGame extends State<ParejasGame> {
   }
 }
 
+
 class CreaPalabras extends StatelessWidget {
   final String palabra;
   final int? clave;
 
   const CreaPalabras({
-    super.key,
+    super.key, 
     required this.palabra, 
-    this.clave,
-  });
+    this.clave
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -86,18 +93,20 @@ class CreaPalabras extends StatelessWidget {
       width: 140,
       height: 100,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          
+        },
+
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor:Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           side: const BorderSide(color: azulRey, width: 4),
-          //textStyle: TextStyle(color: Colors.black),
         ),
+        
         child: Text(
           palabra,
           style: const TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: Colors.black,
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,
               fontSize: 32),
