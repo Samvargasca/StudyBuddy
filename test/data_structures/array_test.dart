@@ -48,5 +48,23 @@ void main() {
       expect(array.search(3), false);
       expect(array.search(4), false);
     });
+
+    test("Se debe poder cambiar un elemento en un índice específico", () {
+      Array<int> array = Array<int>(4);
+      array.insert(1);
+      array.insert(2);
+      array.insert(3);
+      array.insert(4);
+
+      array[0] = 5;
+      array[1] = 6;
+      array[2] = 7;
+      array[3] = 8;
+
+      expect(array[0], 5);
+      expect(array[1], 6);
+      expect(array[2], 7);
+      expect(array[3], 8);
+    });
   });
 }
