@@ -149,6 +149,7 @@ pruebaNDatosLInkedList(int N) async {
   stopwatch.reset();
   stopwatch.start();
   for (int i = 0; i < palabras.length; i++) {
+    // ignore: unused_local_variable
     Palabra palabra = lista.popBack();
   }
   stopwatch.stop();
