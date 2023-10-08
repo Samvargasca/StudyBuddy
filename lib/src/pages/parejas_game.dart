@@ -5,6 +5,7 @@ class ParejasGame extends StatefulWidget {
   const ParejasGame({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ParejasGame createState() => _ParejasGame();
 }
 
@@ -22,7 +23,7 @@ class _ParejasGame extends State<ParejasGame> {
         ),
         automaticallyImplyLeading: false,
         backgroundColor: azulClaro,
-        shadowColor: Color.fromARGB(82, 0, 0, 0),
+        shadowColor: const Color.fromARGB(82, 0, 0, 0),
       ),
       body: Column(
         //Se encarga de centrar los elementos verticalmente
@@ -88,7 +89,7 @@ class _ParejasGame extends State<ParejasGame> {
           ),
 
           //Boton de inicio
-          Container(
+          SizedBox(
             width: 147,
             height: 57,
             child: ElevatedButton(
