@@ -21,6 +21,14 @@ class Array<T> {
     return false;
   }
 
+  // Devolver un elemento del arreglo por el final
+  T pop() {
+    if (_size == 0) {
+      throw Exception('El arreglo está vacío');
+    }
+    return _elements[--_size]!;
+  }
+
   // Eliminar un elemento del arreglo por valor
   void remove(T element) {
     int index = _findIndexOf(element);
@@ -37,14 +45,14 @@ class Array<T> {
   }
 
   void _removeAtIndex(int index) {
-    for (int i = index; i < _elements.length - 1; i++) {
+    for (int i = index; i < _size - 1; i++) {
       _elements[i] = _elements[i + 1];
     }
-    _elements.length--;
+    _size--;
   }
 
   // Obtener la longitud del arreglo
-  int get length => _elements.length;
+  int get length => _size;
 
   // Obtener un elemento en una posición específica
   T? operator [](int index) {
