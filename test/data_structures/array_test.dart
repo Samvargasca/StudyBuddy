@@ -100,6 +100,59 @@ void main() {
     test("Tiempo de inserción, búsqueda y elimninación de 100000 datos",
         () async => pruebaNDatosArray(100000));
   });
+
+  group("Tiempo de inserción, búsqueda y eliminación para String", () {
+    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
+        () => pruebaNDatosArrayString(10000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
+        () => pruebaNDatosArrayString(20000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
+        () => pruebaNDatosArrayString(30000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
+        () => pruebaNDatosArrayString(40000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
+        () => pruebaNDatosArrayString(50000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
+        () => pruebaNDatosArrayString(60000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
+        () => pruebaNDatosArrayString(70000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
+        () => pruebaNDatosArrayString(80000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
+        () => pruebaNDatosArrayString(90000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
+        () => pruebaNDatosArrayString(100000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 200000 datos",
+        () => pruebaNDatosArrayString(200000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
+        () => pruebaNDatosArrayString(300000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 400000 datos",
+        () => pruebaNDatosArrayString(400000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 500000 datos",
+        () => pruebaNDatosArrayString(500000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 600000 datos",
+        () => pruebaNDatosArrayString(600000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 700000 datos",
+        () => pruebaNDatosArrayString(700000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
+        () => pruebaNDatosArrayString(800000));
+  });
 }
 
 pruebaNDatosArray(int N) async {
@@ -176,6 +229,31 @@ pruebaNDatosArray(int N) async {
   for (int i = 0; i < palabras.length; i++) {
     // ignore: unused_local_variable
     Palabra palabra = arreglo.pop();
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
+}
+
+pruebaNDatosArrayString(int N) {
+  print("Prueba con $N datos");
+  Array lista = Array<String>(N);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.insert("Palabra $i");
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  expect(lista.search("Palabra ${N ~/ 2}"), true);
+  expect(lista.search("Palabra ${N + 1}"), false);
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    lista.pop();
   }
   stopwatch.stop();
   print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
