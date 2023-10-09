@@ -4,8 +4,8 @@ import 'package:study_buddy/src/pages/traduccion/errores_page.dart';
 import 'package:study_buddy/src/pages/traduccion/traduccion_page.dart';
 import 'package:study_buddy/src/pages/traduccion/traduccion_ejercicio_page.dart';
 import 'package:study_buddy/src/pages/traduccion/palabra_page.dart';
-import 'package:study_buddy/src/pages/parejas_page.dart';
-import 'package:study_buddy/src/pages/parejas_game.dart';
+import 'package:study_buddy/src/pages/parejas/parejas_page.dart';
+import 'package:study_buddy/src/pages/parejas/parejas_game.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
