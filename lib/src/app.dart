@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: "/", // Ruta inicial
       routes: {
-        "/": (context) => LoginView(),
-        //"/": (context) => const MyHomePage(
-        //    title: "Study Buddy"), // Ruta de la pagina principal
+        "/login": (context) => const LoginView(),
+        "/": (context) => const MyHomePage(
+            title: "Study Buddy"), // Ruta de la pagina principal
         "/traduccion": (context) =>
             const TraduccionPage(), // Ruta de la pagina de traduccion
         "/traduccion/ejercicio": (context) =>
