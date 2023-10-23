@@ -42,3 +42,23 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Created by https://www.toptal.com/developers/gitignore/api/firebase
+# Edit at https://www.toptal.com/developers/gitignore?templates=firebase
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+# End of https://www.toptal.com/developers/gitignore/api/firebase
+
+android/app/google-services.json
+ios/firebase_app_id_file.json
+ios/Runner/GoogleService-Info.plist
+macos/firebase_app_id_file.json
+macos/Runner/GoogleService-Info.plist
