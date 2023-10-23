@@ -6,6 +6,7 @@ import 'package:study_buddy/src/pages/traduccion/traduccion_ejercicio_page.dart'
 import 'package:study_buddy/src/pages/traduccion/palabra_page.dart';
 import 'package:study_buddy/src/pages/parejas/parejas_page.dart';
 import 'package:study_buddy/src/pages/parejas/parejas_game.dart';
+import "package:study_buddy/src/pages/auth_management/login_view.dart";
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -20,8 +21,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: "/", // Ruta inicial
       routes: {
-        "/": (context) => const MyHomePage(
-            title: "Study Buddy"), // Ruta de la pagina principal
+        "/": (context) => LoginView(),
+        //"/": (context) => const MyHomePage(
+        //    title: "Study Buddy"), // Ruta de la pagina principal
         "/traduccion": (context) =>
             const TraduccionPage(), // Ruta de la pagina de traduccion
         "/traduccion/ejercicio": (context) =>
