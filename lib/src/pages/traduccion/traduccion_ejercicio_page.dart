@@ -15,10 +15,8 @@ class TraduccionEjercicioPage extends StatefulWidget {
 }
 
 class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
-  String ingles = "hello";
-  String traduccion = "hola";
-  String significado = "Saludo Casual";
   String imagenAsset = "assets/images/quokka-pregunta.png";
+  late Palabra palabra;
 
   void cambiarImagen(String nuevaRuta) {
     setState(() {
@@ -147,6 +145,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
         ],
       ),
     );
+    palabra = words.pop()!;
   }
 
   @override
@@ -202,8 +201,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
             ],
           ),
           Flashcard(
-            pregunta: ingles,
-            respuesta: significado,
+            pregunta: palabra.ingles,
+            respuesta: palabra.definicion,
           ),
           const SizedBox(
             width: 350,
@@ -218,7 +217,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
               textAlign: TextAlign.left,
             ),
           ),
-          Formulario(traduccion, cambiarImagen),
+          Formulario(palabra.espanol, cambiarImagen),
           Image.asset(
             imagenAsset,
             width: 159,
