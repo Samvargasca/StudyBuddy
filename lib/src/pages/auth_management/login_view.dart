@@ -9,8 +9,8 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(context) {
@@ -45,7 +45,7 @@ class _LoginViewState extends State<LoginView> {
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(e.toString()),
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                         ));
                       }
                       print(_passwordController.text);
@@ -60,7 +60,7 @@ class _LoginViewState extends State<LoginView> {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(e.toString()),
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                           ));
                         }
                       }
@@ -78,7 +78,7 @@ class _LoginViewState extends State<LoginView> {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(e.toString()),
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                       ));
                     }
                   }
