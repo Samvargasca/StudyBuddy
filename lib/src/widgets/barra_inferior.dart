@@ -20,10 +20,10 @@ class BarraInferior extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const SizedBox(
+          SizedBox(
             child: IconButton(
-              onPressed: null,
-              icon: Icon(
+              onPressed: () => Navigator.pushNamed(context, "/login"),
+              icon: const Icon(
                 Icons.home,
                 color: azulRey,
               ),

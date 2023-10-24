@@ -24,7 +24,7 @@ class FirebaseService extends ChangeNotifier {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 
