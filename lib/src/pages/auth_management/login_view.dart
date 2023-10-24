@@ -11,7 +11,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  bool validEmail = false;
   @override
   Widget build(context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
@@ -24,7 +24,16 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextField(
-                decoration: const InputDecoration(labelText: "Email/User"),
+                onChanged: (value) {
+                  setState(() {
+                    validEmail = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value);
+                  });
+                },
+                decoration: InputDecoration(
+                    labelText: "Email/User",
+                    suffixIcon: Icon(validEmail ? Icons.check : Icons.close)),
                 controller: _emailController,
               ),
               TextField(
