@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
+import 'package:study_buddy/src/widgets/creador_palabras.dart';
 
 class ParejasGame extends StatefulWidget {
   const ParejasGame({Key? key}) : super(key: key);
@@ -12,12 +13,6 @@ class _ParejasGame extends State<ParejasGame> {
   //!Variables
   List<String> palabrasA = ["pal1", "pal2", "pal3", "pal4", "pal5"];
   List<String> palabrasB = ["pal4", "pal3", "pal2", "pal5", "pal1"];
-  List<int> tras = [0, 1, 2, 3];
-
-  String? A;
-  int? posA;
-  String? B;
-  int? posB;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +68,7 @@ class _ParejasGame extends State<ParejasGame> {
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: [ 
                 Expanded(
                   child: ListView.builder(
                       itemCount: palabrasA.length,
@@ -84,19 +79,15 @@ class _ParejasGame extends State<ParejasGame> {
                               palabra: palabrasA[index],
                               onTap: () {
                                 setState(() {
-                                  A = palabrasA[index];
-                                  posA = palabrasA.indexOf(palabrasA[index]);
-                                  print(palabrasA.indexOf(palabrasA[index]));
-                                  if (A == B) {
-                                    palabrasB.remove(B);
-                                    palabrasA.remove(A);
-                                  }
                                 });
                               },
                             ));
                       }),
+
                 ),
+
                 const SizedBox(width: 35),
+
                 Expanded(
                   child: ListView.builder(
                       itemCount: palabrasB.length,
@@ -107,68 +98,17 @@ class _ParejasGame extends State<ParejasGame> {
                               palabra: palabrasB[index],
                               onTap: () {
                                 setState(() {
-                                  B = palabrasB[index];
-                                  posB = palabrasB.indexOf(palabrasB[index]);
-                                  if (A == B) {
-                                    palabrasB.remove(B);
-                                    palabrasA.remove(A);
-                                  }
                                 });
                               },
                             ));
                       }),
                 ),
+
               ],
             ),
           ),
           const BarraInferior(),
         ],
-      ),
-    );
-  }
-}
-
-class CreaPalabras extends StatefulWidget {
-  final String palabra;
-  final int? clave;
-  final Function onTap;
-
-  const CreaPalabras(
-      {super.key, required this.palabra, this.clave, required this.onTap});
-
-  @override
-  State<CreaPalabras> createState() => _CreaPalabras();
-}
-
-class _CreaPalabras extends State<CreaPalabras> {
-  Color colorButton = Colors.white;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 140,
-      height: 100,
-      child: ElevatedButton(
-        onPressed: () {
-          widget.onTap();
-          setState(() {
-            colorButton = Colors.blue;
-          });
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: colorButton,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          side: const BorderSide(color: azulRey, width: 4),
-        ),
-        child: Text(
-          widget.palabra,
-          style: const TextStyle(
-              color: Colors.black,
-              fontFamily: "Arimo",
-              fontWeight: FontWeight.bold,
-              fontSize: 32),
-        ),
       ),
     );
   }

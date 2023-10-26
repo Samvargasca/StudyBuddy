@@ -10,6 +10,7 @@
       "Hello, everyone!"
     ]
   },
+
   {
     "espanol": "Perro",
     "ingles": "Dog",
@@ -20,6 +21,7 @@
       "Many people love to play fetch with their dogs."
     ]
   },
+  
   {
     "espanol": "Casa",
     "ingles": "House",
