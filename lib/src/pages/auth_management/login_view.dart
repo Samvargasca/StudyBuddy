@@ -19,98 +19,111 @@ class _LoginViewState extends State<LoginView> {
 
     return Scaffold(
       backgroundColor: azulClaro,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(), // Cerrar teclado
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 50), // Modificar con diseño correspondiente
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Image.asset(
+                  // Modificar con diseño correspondiente
+                  "assets/icon/icon.png",
                 ),
-                child: Column(
-                  children: [
-                    const Text("Iniciar sesión"),
-                    const Text("¡Hola, qué gusto verte de nuevo!"),
-                    TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          validEmail = RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(value);
-                        });
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Email/User",
-                          suffixIcon:
-                              Icon(validEmail ? Icons.check : Icons.close)),
-                      controller: _emailController,
-                    ),
-                    TextField(
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        labelText: "Password",
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                          "Iniciar sesión"), // Modificar con diseño correspondiente
+                      const Text(
+                          "¡Hola, qué gusto verte de nuevo!"), // Modificar con diseño correspondiente
+                      TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) {
+                          setState(() {
+                            validEmail = RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value);
+                          });
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Email/User",
+                            suffixIcon:
+                                Icon(validEmail ? Icons.check : Icons.close)),
+                        controller: _emailController,
                       ),
-                      controller: _passwordController,
+                      TextField(
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: "Password",
+                        ),
+                        controller: _passwordController,
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        try {
+                          await firebaseService.signInWithEmailAndPassword(
+                              _emailController.text, _passwordController.text);
+                          Navigator.pushNamed(context, "/home");
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text("Log In"),
                     ),
+                    ElevatedButton(
+                        onPressed: () {
+                          try {
+                            firebaseService.createUserWithEmailAndPassword(
+                                _emailController.text,
+                                _passwordController.text);
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(e.toString()),
+                                duration: const Duration(milliseconds: 300),
+                              ));
+                            }
+                          }
+                          print(_passwordController.text);
+                        },
+                        child: const Text("Sign Up"))
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
+                Text(firebaseService.user.toString()),
+                ElevatedButton(
+                    onPressed: () {
                       try {
-                        await firebaseService.signInWithEmailAndPassword(
-                            _emailController.text, _passwordController.text);
-                        Navigator.pushNamed(context, "/home");
+                        firebaseService.signOut();
                       } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(e.toString()),
-                          ),
-                        );
-                      }
-                    },
-                    child: const Text("Log In"),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        try {
-                          firebaseService.createUserWithEmailAndPassword(
-                              _emailController.text, _passwordController.text);
-                        } catch (e) {
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(e.toString()),
-                              duration: const Duration(milliseconds: 300),
-                            ));
-                          }
+                            duration: const Duration(milliseconds: 300),
+                          ));
                         }
-                        print(_passwordController.text);
-                      },
-                      child: const Text("Sign Up"))
-                ],
-              ),
-              Text(firebaseService.user.toString()),
-              ElevatedButton(
-                  onPressed: () {
-                    try {
-                      firebaseService.signOut();
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(e.toString()),
-                          duration: const Duration(milliseconds: 300),
-                        ));
                       }
-                    }
-                    print(_passwordController.text);
-                  },
-                  child: const Text("Log Out"))
-            ],
+                      print(_passwordController.text);
+                    },
+                    child: const Text("Log Out"))
+              ],
+            ),
           ),
         ),
       ),
