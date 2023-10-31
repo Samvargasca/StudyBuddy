@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
+import 'package:study_buddy/src/constants/colors.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -17,31 +18,44 @@ class _LoginViewState extends State<LoginView> {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
 
     return Scaffold(
+      backgroundColor: azulClaro,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    validEmail = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value);
-                  });
-                },
-                decoration: InputDecoration(
-                    labelText: "Email/User",
-                    suffixIcon: Icon(validEmail ? Icons.check : Icons.close)),
-                controller: _emailController,
-              ),
-              TextField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: "Password",
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
                 ),
-                controller: _passwordController,
+                child: Column(
+                  children: [
+                    const Text("Iniciar sesión"),
+                    const Text("¡Hola, qué gusto verte de nuevo!"),
+                    TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          validEmail = RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                          labelText: "Email/User",
+                          suffixIcon:
+                              Icon(validEmail ? Icons.check : Icons.close)),
+                      controller: _emailController,
+                    ),
+                    TextField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                      ),
+                      controller: _passwordController,
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -51,6 +65,7 @@ class _LoginViewState extends State<LoginView> {
                       try {
                         await firebaseService.signInWithEmailAndPassword(
                             _emailController.text, _passwordController.text);
+                        Navigator.pushNamed(context, "/home");
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

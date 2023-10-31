@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
           : const LoginView(),
       routes: {
         "/login": (context) => const LoginView(),
-        // "/": (context) => const MyHomePage(
-        //     title: "Study Buddy"), // Ruta de la pagina principal
+        "/home": (context) => const MyHomePage(
+            title: "Study Buddy"), // Ruta de la pagina principal
         "/traduccion": (context) =>
             const TraduccionPage(), // Ruta de la pagina de traduccion
         "/traduccion/ejercicio": (context) =>
