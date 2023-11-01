@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         "/parejas": (context) =>
             const ParejasPage(), // Ruta de la pagina de parejas
         "/parejas/game": (context) =>
-            const ParejasGame(), // Ruta de la pagina de juego de parejas
+            ParejasGame(), // Ruta de la pagina de juego de parejas
       },
     );
   }

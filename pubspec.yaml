@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.0.7
   provider: ^6.0.5
+  timer_count_down: ^2.0.0
 
 dev_dependencies:
   flutter_test:

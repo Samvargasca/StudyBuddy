@@ -3,19 +3,16 @@ import 'package:study_buddy/src/constants/colors.dart';
 
 class CreaPalabras extends StatefulWidget {
   final String palabra;
-  final int? clave;
+  final bool isSelected; // Nueva propiedad para indicar si el botón está seleccionado
   final Function onTap;
 
-  const CreaPalabras(
-      {super.key, required this.palabra, this.clave, required this.onTap});
+  const CreaPalabras({Key? key, required this.palabra, required this.isSelected, required this.onTap});
 
   @override
-  State<CreaPalabras> createState() => _CreaPalabras();
+  State<CreaPalabras> createState() => _CreaPalabrasState();
 }
 
-class _CreaPalabras extends State<CreaPalabras> {
-  Color colorButton = Colors.white;
-
+class _CreaPalabrasState extends State<CreaPalabras> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -24,16 +21,14 @@ class _CreaPalabras extends State<CreaPalabras> {
       child: ElevatedButton(
         onPressed: () {
           widget.onTap();
-          setState(() {
-            colorButton = Colors.blue;
-          });
         },
+
         style: ElevatedButton.styleFrom(
-          backgroundColor: colorButton,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: widget.isSelected ? azulClaro : Colors.white, // Usar la propiedad isSelected
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           side: const BorderSide(color: azulRey, width: 4),
         ),
+
         child: Text(
           widget.palabra,
           style: const TextStyle(
