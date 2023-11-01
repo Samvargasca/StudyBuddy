@@ -3,17 +3,21 @@ import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
 import 'package:study_buddy/src/constants/colors.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _SignUpState extends State<SignUp> {
+  final TextEditingController _userController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmationController =
+      TextEditingController();
   bool validEmail = false;
   bool invisiblePassword = true;
+  bool invisibleConfirmedPassword = true;
   late var currentContext;
 
   @override
@@ -31,6 +35,7 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Text("G*ADSAfdbx ,dsm"),
                 Image.asset(
                   // Modificar con diseño correspondiente
                   "assets/icon/icon.png",
@@ -45,9 +50,16 @@ class _LoginViewState extends State<LoginView> {
                     child: Column(
                       children: [
                         const Text(
-                            "Iniciar sesión"), // Modificar con diseño correspondiente
+                            "Registro"), // Modificar con diseño correspondiente
                         const Text(
-                            "¡Hola, qué gusto verte de nuevo!"), // Modificar con diseño correspondiente
+                            "¡Bienvenido a una nueva experiencia de aprendizaje!"), // Modificar con diseño correspondiente
+                        TextField(
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                            labelText: "Usuario",
+                          ),
+                          controller: _userController,
+                        ),
                         TextField(
                           keyboardType: TextInputType.emailAddress,
                           onChanged: (value) {
@@ -65,8 +77,9 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         TextField(
                           obscureText: invisiblePassword,
+                          keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecoration(
-                            labelText: "Password",
+                            labelText: "Contraseña",
                             suffixIcon: IconButton(
                               onPressed: () => setState(() {
                                 invisiblePassword = !invisiblePassword;
@@ -78,6 +91,23 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           controller: _passwordController,
                         ),
+                        TextField(
+                          obscureText: invisibleConfirmedPassword,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            labelText: "Confirmar contraseña",
+                            suffixIcon: IconButton(
+                              onPressed: () => setState(() {
+                                invisibleConfirmedPassword =
+                                    !invisibleConfirmedPassword;
+                              }),
+                              icon: invisibleConfirmedPassword
+                                  ? const Icon(Icons.visibility_off)
+                                  : const Icon(Icons.visibility),
+                            ),
+                          ),
+                          controller: _passwordConfirmationController,
+                        ),
                       ],
                     ),
                   ),
@@ -87,9 +117,14 @@ class _LoginViewState extends State<LoginView> {
                   onPressed: () async {
                     currentContext = context;
                     try {
-                      await firebaseService.signInWithEmailAndPassword(
+                      await firebaseService.createUserWithEmailAndPassword(
                           _emailController.text, _passwordController.text);
-                      Navigator.pushNamed(currentContext, "/home");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Usuario creado"),
+                        ),
+                      );
+                      Navigator.pushNamed(currentContext, "/login");
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -106,14 +141,14 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     minimumSize: const Size(double.infinity, 0),
                   ),
-                  child: const Text("Log In"),
+                  child: const Text("Registrarse"),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                       // Modificar con diseño correspondiente
                       onPressed: () {
-                        Navigator.pushNamed(context, "/signup");
+                        Navigator.pushNamed(context, "/login");
                       },
                       // onPressed: () {
                       //   try {
@@ -129,7 +164,7 @@ class _LoginViewState extends State<LoginView> {
                       //   }
                       //   print(_passwordController.text);
                       // },
-                      child: const Text("Sign Up")),
+                      child: const Text("Iniciar Sesión")),
                 ),
                 // ElevatedButton(
                 //     onPressed: () {
