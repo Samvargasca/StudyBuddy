@@ -28,9 +28,13 @@ class _LoginViewState extends State<LoginView> {
           child: Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: 50), // Modificar con diseño correspondiente
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: ListView(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
               children: [
+                // This SizedBox helps to push items towards the center of the screen
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+
                 Image.asset(
                   // Modificar con diseño correspondiente
                   "assets/icon/icon.png",
@@ -146,6 +150,8 @@ class _LoginViewState extends State<LoginView> {
                 //       print(_passwordController.text);
                 //     },
                 //     child: const Text("Log Out"))
+                // This SizedBox helps to push items towards the center of the screen
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               ],
             ),
           ),
