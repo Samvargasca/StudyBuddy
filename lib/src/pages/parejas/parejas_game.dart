@@ -47,9 +47,7 @@ class _ParejasGame extends State<ParejasGame> {
   void mostrarMensaje() {
   timeRemaining = 1.0; // Reiniciar el temporizador
   // Calcula el recuento de aciertos y desaciertos aquí
-  for (int i = 0; i < palabrasA.length; i++) {
     //TODO Poner haciertos y desaciertos
-  }
   
   showDialog(
     context: context,
