@@ -12,8 +12,11 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool validEmail = false;
   bool invisiblePassword = true;
+  bool isShowingSnackBar = false;
+
   late var currentContext;
 
   @override
@@ -52,36 +55,7 @@ class _LoginViewState extends State<LoginView> {
                             "Iniciar sesión"), // Modificar con diseño correspondiente
                         const Text(
                             "¡Hola, qué gusto verte de nuevo!"), // Modificar con diseño correspondiente
-                        TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          onChanged: (value) {
-                            setState(() {
-                              validEmail = RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value);
-                            });
-                          },
-                          decoration: InputDecoration(
-                              labelText: "Email",
-                              suffixIcon:
-                                  Icon(validEmail ? Icons.check : Icons.close)),
-                          controller: _emailController,
-                        ),
-                        TextField(
-                          obscureText: invisiblePassword,
-                          decoration: InputDecoration(
-                            labelText: "Password",
-                            suffixIcon: IconButton(
-                              onPressed: () => setState(() {
-                                invisiblePassword = !invisiblePassword;
-                              }),
-                              icon: invisiblePassword
-                                  ? const Icon(Icons.visibility_off)
-                                  : const Icon(Icons.visibility),
-                            ),
-                          ),
-                          controller: _passwordController,
-                        ),
+                        FormularioInicioSesion(formKey: _formKey),
                       ],
                     ),
                   ),
@@ -90,16 +64,19 @@ class _LoginViewState extends State<LoginView> {
                   // Modificar con diseño correspondiente
                   onPressed: () async {
                     currentContext = context;
-                    try {
-                      await firebaseService.signInWithEmailAndPassword(
-                          _emailController.text, _passwordController.text);
-                      Navigator.pushNamed(currentContext, "/home");
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(e.toString()),
-                        ),
-                      );
+                    if (_formKey.currentState!.validate()) {
+                      var currentContext = context;
+                      try {
+                        await firebaseService.signInWithEmailAndPassword(
+                            _emailController.text, _passwordController.text);
+                        Navigator.pushNamed(currentContext, "/home");
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        );
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -156,6 +133,79 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class FormularioInicioSesion extends StatefulWidget {
+  final GlobalKey<FormState> formKey;
+  const FormularioInicioSesion({super.key, required this.formKey});
+
+  @override
+  State<FormularioInicioSesion> createState() => _FormularioInicioSesionState();
+}
+
+class _FormularioInicioSesionState extends State<FormularioInicioSesion> {
+  GlobalKey<FormState>? _formKey;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _invisiblePassword = true;
+  String _email = "";
+  String _password = "";
+
+  @override
+  Widget build(BuildContext context) {
+    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+    _formKey = widget.formKey;
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            controller: _emailController,
+            onSaved: (newValue) => _email = newValue ?? "",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Introduce texto";
+              }
+              if (!RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(value)) {
+                return "Introduce un correo válido";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              labelText: "Email",
+              suffixIcon: IconButton(
+                  onPressed: () => _emailController.clear(),
+                  icon: const Icon(Icons.close)),
+            ),
+          ),
+          TextFormField(
+            obscureText: _invisiblePassword,
+            onSaved: (newValue) => _password,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Introduce una contraseña";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              labelText: "Password",
+              suffixIcon: IconButton(
+                onPressed: () => setState(() {
+                  _invisiblePassword = !_invisiblePassword;
+                }),
+                icon: _invisiblePassword
+                    ? const Icon(Icons.visibility_off)
+                    : const Icon(Icons.visibility),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
