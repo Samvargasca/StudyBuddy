@@ -24,8 +24,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(context) {
-    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
-
     return Scaffold(
       backgroundColor: azulClaro,
       body: GestureDetector(
@@ -42,66 +40,9 @@ class _SignUpState extends State<SignUp> {
                   // Modificar con diseño correspondiente
                   "assets/icon/icon.png",
                 ),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(
-                        8.0), // Modificar con diseño correspondiente
-                    child: Column(
-                      children: [
-                        const Text(
-                            "Registro"), // Modificar con diseño correspondiente
-                        const Text(
-                            "¡Bienvenido a una nueva experiencia de aprendizaje!"), // Modificar con diseño correspondiente
-                        FormularioRegistro(formKey: _formKey),
-                      ],
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  // Modificar con diseño correspondiente
-                  onPressed: () async {
-                    setState(() {
-                      _isCreatingUser = true;
-                    });
-                    currentContext = context;
-                    try {
-                      await firebaseService.createUserWithEmailAndPassword(
-                          _emailController.text, _passwordController.text);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Usuario creado"),
-                        ),
-                      );
-                      Navigator.pushNamed(currentContext, "/login");
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(e.toString()),
-                        ),
-                      );
-                    } finally {
-                      setState(() {
-                        _isCreatingUser = false;
-                      });
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    // Modificar con diseño correspondiente
-                    padding: const EdgeInsets.all(10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    minimumSize: const Size(double.infinity, 0),
-                  ),
-                  child: _isCreatingUser
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                        )
-                      : const Text("Registrarse"),
-                ),
+
+                FormularioRegistro(formKey: _formKey),
+
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
@@ -169,6 +110,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
   GlobalKey<FormState>? _formKey;
 
   bool _invisiblePassword = true;
+  bool _invisibleConfirmedPassword = true;
 
   // Variables donde se guardará la información del formulario
   String _user = "";
@@ -176,105 +118,167 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
   String _password = "";
   String _confirmedPassword = "";
 
+  bool _isCreatingUser = false;
+  late var currentContext;
+
   @override
   Widget build(BuildContext context) {
     _formKey = widget.formKey;
+
+    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
-            keyboardType: TextInputType.name,
-            decoration: InputDecoration(
-              labelText: "Usuario",
-              suffixIcon: IconButton(
-                onPressed: () => _userController.clear(),
-                icon: const Icon(Icons.close),
-              ),
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Introduce un usuario";
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            controller: _emailController,
-            onSaved: (newValue) => _email = newValue ?? "",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Introduce un correo";
-              }
-              if (!RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                  .hasMatch(value)) {
-                return "Introduce un correo válido";
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: "Email",
-              suffixIcon: IconButton(
-                onPressed: () => _emailController.clear(),
-                icon: const Icon(Icons.close),
-              ),
-            ),
-          ),
-          TextFormField(
-            obscureText: _invisiblePassword,
-            onSaved: (newValue) => _password,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Introduce una contraseña";
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: "Contraseña",
-              suffixIcon: IconButton(
-                onPressed: () => setState(() {
-                  _invisiblePassword = !_invisiblePassword;
-                }),
-                icon: _invisiblePassword
-                    ? const Icon(Icons.visibility_off)
-                    : const Icon(Icons.visibility),
-              ),
-            ),
-          ),
-          TextFormField(
-            obscureText: _invisiblePassword,
-            onSaved: (newValue) => _password,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Introduce una contraseña";
-              }
-              if (value != _passwordController.text) {
-                return "Las contraseñas no coinciden";
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: "Confirmar Contraseña",
-              suffixIcon: IconButton(
-                onPressed: () => setState(() {
-                  _invisiblePassword = !_invisiblePassword;
-                }),
-                icon: _invisiblePassword
-                    ? const Icon(Icons.visibility_off)
-                    : const Icon(Icons.visibility),
+            child: Padding(
+              padding: const EdgeInsets.all(
+                  8.0), // Modificar con diseño correspondiente
+              child: Column(
+                children: [
+                  const Text(
+                      "Registro"), // Modificar con diseño correspondiente
+                  const Text(
+                      "¡Bienvenido a una nueva experiencia de aprendizaje!"), // Modificar con diseño correspondiente
+                  TextFormField(
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      labelText: "Usuario",
+                      suffixIcon: IconButton(
+                        onPressed: () => _userController.clear(),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Introduce un usuario";
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
+                    onSaved: (newValue) => _email = newValue ?? "",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Introduce un correo";
+                      }
+                      if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return "Introduce un correo válido";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Email",
+                      suffixIcon: IconButton(
+                        onPressed: () => _emailController.clear(),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: _invisiblePassword,
+                    onSaved: (newValue) => _password,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Introduce una contraseña";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Contraseña",
+                      suffixIcon: IconButton(
+                        onPressed: () => setState(() {
+                          _invisiblePassword = !_invisiblePassword;
+                        }),
+                        icon: _invisiblePassword
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    obscureText: _invisibleConfirmedPassword,
+                    onSaved: (newValue) => _password = newValue ?? "",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Introduce una contraseña";
+                      }
+                      if (value != _passwordController.text) {
+                        return "Las contraseñas no coinciden";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Confirmar Contraseña",
+                      suffixIcon: IconButton(
+                        onPressed: () => setState(() {
+                          _invisibleConfirmedPassword =
+                              !_invisibleConfirmedPassword;
+                        }),
+                        icon: _invisibleConfirmedPassword
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
           ElevatedButton(
-            onPressed: () {
+            style: ElevatedButton.styleFrom(
+              // Modificar con diseño correspondiente
+              padding: const EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              minimumSize: const Size(double.infinity, 0),
+            ),
+            onPressed: () async {
               if (_formKey!.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Usuario creado"),
-                  ),
+                _formKey!.currentState!.save();
+                FocusScope.of(context).unfocus(); // Desenfoca el campo de texto
+                showDialog(
+                  context: context,
+                  barrierDismissible:
+                      false, // Impide cerrar la pantalla de carga con un tap afuera
+                  builder: (BuildContext context) {
+                    return const Center(
+                      child: CircularProgressIndicator(), // Pantalla de carga
+                    );
+                  },
                 );
+                try {
+                  await firebaseService.createUserWithEmailAndPassword(
+                      _email, _password);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Usuario creado"),
+                      ),
+                    );
+                    Navigator.pop(context);
+                  }
+                  await Future.delayed(const Duration(milliseconds: 2000));
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, "/login");
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString()),
+                    ),
+                  );
+                }
               }
             },
             child: const Text("Crear usuario"),
@@ -282,5 +286,46 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
         ],
       ),
     );
+    ElevatedButton(
+        // Modificar con diseño correspondiente
+        onPressed: () async {
+          setState(() {
+            _isCreatingUser = true;
+          });
+          currentContext = context;
+          try {
+            await firebaseService.createUserWithEmailAndPassword(
+                _emailController.text, _passwordController.text);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Usuario creado"),
+              ),
+            );
+            Navigator.pushNamed(currentContext, "/login");
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(e.toString()),
+              ),
+            );
+          } finally {
+            setState(() {
+              _isCreatingUser = false;
+            });
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          // Modificar con diseño correspondiente
+          padding: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          minimumSize: const Size(double.infinity, 0),
+        ),
+        child: _isCreatingUser
+            ? const CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : const Text("Registrarse"));
   }
 }

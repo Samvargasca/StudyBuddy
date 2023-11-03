@@ -34,7 +34,7 @@ class FirebaseService extends ChangeNotifier {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 
