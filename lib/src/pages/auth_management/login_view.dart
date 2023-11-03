@@ -10,17 +10,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-
-  final TextEditingController _passwordController = TextEditingController();
-  bool _invisiblePassword = true;
-  String _email = "";
-  String _password = "";
-  bool validEmail = false;
-
-  late var currentContext;
-
   @override
   Widget build(context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
