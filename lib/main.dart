@@ -4,6 +4,7 @@ import 'firebase_options.dart';
 import 'src/app.dart';
 import 'package:provider/provider.dart';
 import 'package:study_buddy/src/services/firebase_service.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (create) => FirebaseService()),
+        ChangeNotifierProvider(create: (create) => FirestoreService()),
       ],
       child: const MyApp(),
     ),

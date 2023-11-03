@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
+import "package:study_buddy/src/services/firestore_service.dart";
 import 'package:study_buddy/src/constants/colors.dart';
 
 class SignUp extends StatefulWidget {
@@ -107,6 +108,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
   @override
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+    FirestoreService firestoreService = Provider.of<FirestoreService>(context);
 
     return Form(
       key: _formKey,
@@ -127,10 +129,15 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                       "¡Bienvenido a una nueva experiencia de aprendizaje!"), // Modificar con diseño correspondiente
                   TextFormField(
                     keyboardType: TextInputType.name,
+                    controller: _userController,
+                    onSaved: (newValue) => _user = newValue ?? "",
                     decoration: InputDecoration(
                       labelText: "Usuario",
                       suffixIcon: IconButton(
-                        onPressed: () => _userController.clear(),
+                        onPressed: () {
+                          _userController.clear();
+                          print("hola");
+                        },
                         icon: const Icon(Icons.close),
                       ),
                     ),
@@ -241,6 +248,8 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                 try {
                   await firebaseService.createUserWithEmailAndPassword(
                       _email, _password);
+                  await firestoreService.createUser(
+                      firebaseService.user!.uid, _user);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -254,17 +263,24 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                     Navigator.pushNamed(context, "/login");
                   }
                 } catch (e) {
-                  Navigator.pop(context);
+                  if (firebaseService.user != null) {
+                    await firebaseService.deleteUser(firebaseService.user);
+                  }
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                   if (!_isShowingSnackbar) {
                     _isShowingSnackbar = true;
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                          SnackBar(
-                            content: Text(e.toString()),
-                          ),
-                        )
-                        .closed
-                        .then((_) => _isShowingSnackbar = false);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                            ),
+                          )
+                          .closed
+                          .then((_) => _isShowingSnackbar = false);
+                    }
                   }
                 }
               }

@@ -38,6 +38,14 @@ class FirebaseService extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteUser(User? user) async {
+    try {
+      await user!.delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> signOut() async {
     try {
       await _auth.signOut();
