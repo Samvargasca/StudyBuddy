@@ -10,18 +10,6 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final TextEditingController _userController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController =
-      TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  bool validEmail = false;
-  bool invisiblePassword = true;
-  bool invisibleConfirmedPassword = true;
-  bool _isCreatingUser = false;
-  late var currentContext;
-
   @override
   Widget build(context) {
     return Scaffold(
@@ -41,7 +29,7 @@ class _SignUpState extends State<SignUp> {
                   "assets/icon/icon.png",
                 ),
 
-                FormularioRegistro(formKey: _formKey),
+                FormularioRegistro(),
 
                 Align(
                   alignment: Alignment.centerRight,
@@ -91,8 +79,7 @@ class _SignUpState extends State<SignUp> {
 }
 
 class FormularioRegistro extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-  const FormularioRegistro({super.key, required this.formKey});
+  const FormularioRegistro({super.key});
 
   @override
   State<FormularioRegistro> createState() => _FormularioRegistroState();
@@ -103,11 +90,9 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmedPasswordController =
-      TextEditingController();
 
   // Llave del formulario
-  GlobalKey<FormState>? _formKey;
+  final _formKey = GlobalKey<FormState>();
 
   bool _invisiblePassword = true;
   bool _invisibleConfirmedPassword = true;
@@ -116,15 +101,11 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
   String _user = "";
   String _email = "";
   String _password = "";
-  String _confirmedPassword = "";
 
-  bool _isCreatingUser = false;
-  late var currentContext;
+  bool _isShowingSnackbar = false;
 
   @override
   Widget build(BuildContext context) {
-    _formKey = widget.formKey;
-
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
 
     return Form(
@@ -244,8 +225,8 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
               minimumSize: const Size(double.infinity, 0),
             ),
             onPressed: () async {
-              if (_formKey!.currentState!.validate()) {
-                _formKey!.currentState!.save();
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
                 FocusScope.of(context).unfocus(); // Desenfoca el campo de texto
                 showDialog(
                   context: context,
@@ -273,11 +254,18 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                     Navigator.pushNamed(context, "/login");
                   }
                 } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(e.toString()),
-                    ),
-                  );
+                  Navigator.pop(context);
+                  if (!_isShowingSnackbar) {
+                    _isShowingSnackbar = true;
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        )
+                        .closed
+                        .then((_) => _isShowingSnackbar = false);
+                  }
                 }
               }
             },
@@ -286,46 +274,5 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
         ],
       ),
     );
-    ElevatedButton(
-        // Modificar con diseño correspondiente
-        onPressed: () async {
-          setState(() {
-            _isCreatingUser = true;
-          });
-          currentContext = context;
-          try {
-            await firebaseService.createUserWithEmailAndPassword(
-                _emailController.text, _passwordController.text);
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Usuario creado"),
-              ),
-            );
-            Navigator.pushNamed(currentContext, "/login");
-          } catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(e.toString()),
-              ),
-            );
-          } finally {
-            setState(() {
-              _isCreatingUser = false;
-            });
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          // Modificar con diseño correspondiente
-          padding: const EdgeInsets.all(10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          minimumSize: const Size(double.infinity, 0),
-        ),
-        child: _isCreatingUser
-            ? const CircularProgressIndicator(
-                color: Colors.white,
-              )
-            : const Text("Registrarse"));
   }
 }
