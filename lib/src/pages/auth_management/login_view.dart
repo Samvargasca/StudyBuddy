@@ -91,11 +91,19 @@ class FormularioLogIn extends StatefulWidget {
 }
 
 class _FormularioLoginState extends State<FormularioLogIn> {
+  // Variables para formulario
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+
+  // Control de invisibilidad de contraseña
   bool _invisiblePassword = true;
+
+  // Variables para guardar datos
   String _email = "";
   String _password = "";
+
+  // Variable para controlar si se está mostrando un snackbar
+  bool _isShowingSnackbar = false;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +113,6 @@ class _FormularioLoginState extends State<FormularioLogIn> {
       key: _formKey,
       child: Column(
         children: [
-          Text(firebaseService.user?.email ?? "No hay usuario"),
           Container(
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -171,10 +178,11 @@ class _FormularioLoginState extends State<FormularioLogIn> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                FocusScope.of(context).unfocus(); // Desenfoca el campo de texto
                 showDialog(
                   context: context,
                   barrierDismissible:
-                      true, // Impide cerrar la pantalla de carga con un tap afuera
+                      false, // Impide cerrar la pantalla de carga con un tap afuera
                   builder: (BuildContext context) {
                     return const Center(
                       child: CircularProgressIndicator(), // Pantalla de carga
@@ -189,11 +197,17 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                   }
                 } catch (e) {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(e.toString()),
-                    ),
-                  );
+                  if (!_isShowingSnackbar) {
+                    _isShowingSnackbar = true;
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        )
+                        .closed
+                        .then((_) => _isShowingSnackbar = false);
+                  }
                 }
               }
             },
