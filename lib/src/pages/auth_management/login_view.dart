@@ -11,9 +11,13 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+  bool _invisiblePassword = true;
+  String _email = "";
+  String _password = "";
   bool validEmail = false;
-  bool invisiblePassword = true;
-  bool isShowingSnackBar = false;
 
   late var currentContext;
 
@@ -40,12 +44,12 @@ class _LoginViewState extends State<LoginView> {
                   // Modificar con diseño correspondiente
                   "assets/icon/icon.png",
                 ),
-                FormularioInicioSesion(formKey: _formKey),
+                const FormularioLogIn(),
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                       // Modificar con diseño correspondiente
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.pushNamed(context, "/signup");
                       },
                       // onPressed: () {
@@ -90,27 +94,24 @@ class _LoginViewState extends State<LoginView> {
   }
 }
 
-class FormularioInicioSesion extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-  const FormularioInicioSesion({super.key, required this.formKey});
+class FormularioLogIn extends StatefulWidget {
+  const FormularioLogIn({super.key});
 
   @override
-  State<FormularioInicioSesion> createState() => _FormularioInicioSesionState();
+  State<FormularioLogIn> createState() => _FormularioLoginState();
 }
 
-class _FormularioInicioSesionState extends State<FormularioInicioSesion> {
-  GlobalKey<FormState>? _formKey;
+class _FormularioLoginState extends State<FormularioLogIn> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   bool _invisiblePassword = true;
   String _email = "";
   String _password = "";
-  var currentContext;
 
   @override
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
-    _formKey = widget.formKey;
+
     return Form(
       key: _formKey,
       child: Column(
@@ -153,7 +154,7 @@ class _FormularioInicioSesionState extends State<FormularioInicioSesion> {
                   ),
                   TextFormField(
                     obscureText: _invisiblePassword,
-                    onSaved: (newValue) => _password,
+                    onSaved: (newValue) => _password = newValue ?? "",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Introduce una contraseña";
@@ -179,30 +180,32 @@ class _FormularioInicioSesionState extends State<FormularioInicioSesion> {
           ElevatedButton(
             // Modificar con diseño correspondiente
             onPressed: () async {
-              if (_formKey!.currentState!.validate()) {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
                 showDialog(
                   context: context,
                   barrierDismissible:
-                      false, // Impide cerrar la pantalla de carga con un tap afuera
+                      true, // Impide cerrar la pantalla de carga con un tap afuera
                   builder: (BuildContext context) {
                     return const Center(
                       child: CircularProgressIndicator(), // Pantalla de carga
                     );
                   },
                 );
-                // try {
-                await firebaseService.signInWithEmailAndPassword(
-                    _emailController.text, _passwordController.text);
-                Navigator.pushNamed(context, "/home");
-                // } catch (e) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text(e.toString()),
-                //     ),
-                //   );
-                // } finally {
-                Navigator.pop(context);
-                // }
+                try {
+                  await firebaseService.signInWithEmailAndPassword(
+                      _email, _password);
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, "/home");
+                  }
+                } catch (e) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString()),
+                    ),
+                  );
+                }
               }
             },
             style: ElevatedButton.styleFrom(
