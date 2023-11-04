@@ -23,8 +23,6 @@ class _LoginViewState extends State<LoginView> {
             padding: const EdgeInsets.symmetric(
                 horizontal: 50), // Modificar con diseño correspondiente
             child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
               children: [
                 // This SizedBox helps to push items towards the center of the screen
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
@@ -32,41 +30,49 @@ class _LoginViewState extends State<LoginView> {
                 Image.asset(
                   // Modificar con diseño correspondiente
                   "assets/icon/icon.png",
+                  height: 172,
                 ),
                 const FormularioLogIn(),
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
-                      // Modificar con diseño correspondiente
-                      onPressed: () async {
-                        Navigator.pushNamed(context, "/signup");
-                      },
-                      // onPressed: () {
-                      //   try {
-                      //     firebaseService.createUserWithEmailAndPassword(
-                      //         _emailController.text, _passwordController.text);
-                      //   } catch (e) {
-                      //     if (context.mounted) {
-                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      //         content: Text(e.toString()),
-                      //         duration: const Duration(milliseconds: 300),
-                      //       ));
-                      //     }
-                      //   }
-                      //   print(_passwordController.text);
-                      // },
-                      child: const Text("Sign Up")),
+                    // Modificar con diseño correspondiente
+                    onPressed: () async {
+                      Navigator.pushNamed(context, "/signup");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      padding: const EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      minimumSize: const Size(140, 40),
+                    ),
+                    child: const Text(
+                      "Registrarse",
+                      style: TextStyle(
+                        color: azulRey,
+                        fontFamily: "Arimo",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
                 ),
+                // Eliminar cuando ya esté dentro de la aplicación
                 ElevatedButton(
                   onPressed: () {
                     try {
                       firebaseService.signOut();
                     } catch (e) {
                       if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(e.toString()),
-                          duration: const Duration(milliseconds: 300),
-                        ));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                            duration: const Duration(milliseconds: 300),
+                          ),
+                        );
                       }
                     }
                   },
@@ -114,65 +120,102 @@ class _FormularioLoginState extends State<FormularioLogIn> {
       child: Column(
         children: [
           Container(
+            height: 300,
             decoration: const BoxDecoration(
               color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(22)),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Modificar con diseño correspondiente
-              child: Column(
-                children: [
-                  const Text(
-                      "Iniciar sesión"), // Modificar con diseño correspondiente
-                  const Text(
-                      "¡Hola, qué gusto verte de nuevo!"), // Modificar con diseño correspondiente
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
-                    onSaved: (newValue) => _email = newValue ?? "",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Introduce texto";
-                      }
-                      if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return "Introduce un correo válido";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      suffixIcon: IconButton(
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Iniciar sesión",
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: azulRey,
+                          fontFamily: "Arimo",
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ), // Modificar con diseño correspondiente
+                    const Text(
+                      "¡Hola, qué gusto verte de nuevo!",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: gris,
+                        fontFamily: "Arimo",
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ), // Modificar con diseño correspondiente
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
+                      onSaved: (newValue) => _email = newValue ?? "",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Introduce texto";
+                        }
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return "Introduce un correo válido";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        labelStyle: const TextStyle(
+                          color: azulRey,
+                          fontFamily: "Arimo",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 1, horizontal: 0),
+                        suffixIcon: IconButton(
                           onPressed: () => _emailController.clear(),
-                          icon: const Icon(Icons.close)),
-                    ),
-                  ),
-                  TextFormField(
-                    obscureText: _invisiblePassword,
-                    onSaved: (newValue) => _password = newValue ?? "",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Introduce una contraseña";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      suffixIcon: IconButton(
-                        onPressed: () => setState(() {
-                          _invisiblePassword = !_invisiblePassword;
-                        }),
-                        icon: _invisiblePassword
-                            ? const Icon(Icons.visibility_off)
-                            : const Icon(Icons.visibility),
+                          icon: const Icon(Icons.close),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    TextFormField(
+                      obscureText: _invisiblePassword,
+                      onSaved: (newValue) => _password = newValue ?? "",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Introduce una contraseña";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        labelStyle: const TextStyle(
+                          color: azulRey,
+                          fontFamily: "Arimo",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () => setState(() {
+                            _invisiblePassword = !_invisiblePassword;
+                          }),
+                          icon: _invisiblePassword
+                              ? const Icon(Icons.visibility_off)
+                              : const Icon(Icons.visibility),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          const SizedBox(height: 19),
           ElevatedButton(
             // Modificar con diseño correspondiente
             onPressed: () async {
@@ -212,14 +255,23 @@ class _FormularioLoginState extends State<FormularioLogIn> {
               }
             },
             style: ElevatedButton.styleFrom(
-              // Modificar con diseño correspondiente
+              backgroundColor: azulRey,
+              elevation: 0,
               padding: const EdgeInsets.all(10),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
               ),
-              minimumSize: const Size(double.infinity, 0),
+              minimumSize: const Size(double.infinity, 40),
             ),
-            child: const Text("Log In"),
+            child: const Text(
+              "Iniciar sesión",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: "Arimo",
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
