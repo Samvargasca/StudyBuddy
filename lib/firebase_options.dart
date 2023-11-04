@@ -23,9 +23,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -61,27 +67,5 @@ class DefaultFirebaseOptions {
     projectId: 'study-buddy-400416',
     databaseURL: 'https://study-buddy-400416-default-rtdb.firebaseio.com',
     storageBucket: 'study-buddy-400416.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAl-qqkNJVjtEfBMSnkubxQRm1F_Dega9I',
-    appId: '1:784380872372:ios:f5df4d653fd7658c0439e1',
-    messagingSenderId: '784380872372',
-    projectId: 'study-buddy-400416',
-    databaseURL: 'https://study-buddy-400416-default-rtdb.firebaseio.com',
-    storageBucket: 'study-buddy-400416.appspot.com',
-    iosClientId: '784380872372-gaj9crq9j19i67il0m310j75h98mqpc8.apps.googleusercontent.com',
-    iosBundleId: 'com.example.studyBuddy',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAl-qqkNJVjtEfBMSnkubxQRm1F_Dega9I',
-    appId: '1:784380872372:ios:f60ad5e86d0a0e970439e1',
-    messagingSenderId: '784380872372',
-    projectId: 'study-buddy-400416',
-    databaseURL: 'https://study-buddy-400416-default-rtdb.firebaseio.com',
-    storageBucket: 'study-buddy-400416.appspot.com',
-    iosClientId: '784380872372-uk5geq4be7ca1bbq83djt053bab24cvj.apps.googleusercontent.com',
-    iosBundleId: 'com.example.studyBuddy.RunnerTests',
   );
 }

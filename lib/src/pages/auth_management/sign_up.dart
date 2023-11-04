@@ -1,20 +1,19 @@
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
+import "package:study_buddy/src/services/firestore_service.dart";
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/constants/styles.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(context) {
-    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
-
     return Scaffold(
       backgroundColor: azulClaro,
       body: GestureDetector(
@@ -24,22 +23,20 @@ class _LoginViewState extends State<LoginView> {
             padding: const EdgeInsets.symmetric(
                 horizontal: 50), // Modificar con diseño correspondiente
             child: ListView(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // This SizedBox helps to push items towards the center of the screen
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-
                 Image.asset(
-                  // Modificar con diseño correspondiente
                   "assets/icon/icon.png",
-                  height: 172,
+                  height: 163,
                 ),
-                const FormularioLogIn(),
+                const FormularioRegistro(),
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                     // Modificar con diseño correspondiente
-                    onPressed: () async {
-                      Navigator.pushNamed(context, "/signup");
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/login");
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -51,7 +48,7 @@ class _LoginViewState extends State<LoginView> {
                       minimumSize: const Size(140, 40),
                     ),
                     child: const Text(
-                      "Registrarse",
+                      "Iniciar Sesión",
                       style: TextStyle(
                         color: azulRey,
                         fontFamily: "Arimo",
@@ -61,25 +58,6 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ),
-                // Eliminar cuando ya esté dentro de la aplicación
-                ElevatedButton(
-                  onPressed: () {
-                    try {
-                      firebaseService.signOut();
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(e.toString()),
-                            duration: const Duration(milliseconds: 300),
-                          ),
-                        );
-                      }
-                    }
-                  },
-                  child: const Text("Log Out"),
-                ),
-                // This SizedBox helps to push items towards the center of the screen
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               ],
             ),
@@ -90,38 +68,43 @@ class _LoginViewState extends State<LoginView> {
   }
 }
 
-class FormularioLogIn extends StatefulWidget {
-  const FormularioLogIn({super.key});
+class FormularioRegistro extends StatefulWidget {
+  const FormularioRegistro({super.key});
 
   @override
-  State<FormularioLogIn> createState() => _FormularioLoginState();
+  State<FormularioRegistro> createState() => _FormularioRegistroState();
 }
 
-class _FormularioLoginState extends State<FormularioLogIn> {
-  // Variables para formulario
-  final _formKey = GlobalKey<FormState>();
+class _FormularioRegistroState extends State<FormularioRegistro> {
+  // Controladores del texto
+  final TextEditingController _userController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  // Control de invisibilidad de contraseña
+  // Llave del formulario
+  final _formKey = GlobalKey<FormState>();
+
   bool _invisiblePassword = true;
+  bool _invisibleConfirmedPassword = true;
 
-  // Variables para guardar datos
+  // Variables donde se guardará la información del formulario
+  String _user = "";
   String _email = "";
   String _password = "";
 
-  // Variable para controlar si se está mostrando un snackbar
   bool _isShowingSnackbar = false;
 
   @override
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+    FirestoreService firestoreService = Provider.of<FirestoreService>(context);
 
     return Form(
       key: _formKey,
       child: Column(
         children: [
           Container(
-            height: 300,
+            height: 437,
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(22)),
@@ -135,7 +118,7 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Iniciar sesión",
+                        "Registro",
                         style: TextStyle(
                           fontSize: 26,
                           color: azulRey,
@@ -145,7 +128,7 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                       ),
                     ), // Modificar con diseño correspondiente
                     const Text(
-                      "¡Hola, qué gusto verte de nuevo!",
+                      "¡Bienvenido a una nueva experiencia de aprendizaje!",
                       style: TextStyle(
                         fontSize: 16,
                         color: gris,
@@ -154,12 +137,35 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                       ),
                     ), // Modificar con diseño correspondiente
                     TextFormField(
+                      keyboardType: TextInputType.name,
+                      controller: _userController,
+                      onSaved: (newValue) => _user = newValue ?? "",
+                      decoration: InputDecoration(
+                        labelText: "Usuario",
+                        labelStyle: estiloTextInput,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 1, horizontal: 0),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _userController.clear();
+                          },
+                          icon: const Icon(Icons.close),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Introduce un usuario";
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
                       onSaved: (newValue) => _email = newValue ?? "",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Introduce texto";
+                          return "Introduce un correo";
                         }
                         if (!RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -180,8 +186,9 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                       ),
                     ),
                     TextFormField(
+                      controller: _passwordController,
                       obscureText: _invisiblePassword,
-                      onSaved: (newValue) => _password = newValue ?? "",
+                      onSaved: (newValue) => _password,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Introduce una contraseña";
@@ -189,13 +196,43 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        labelText: "Password",
+                        labelText: "Contraseña",
                         labelStyle: estiloTextInput,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 1, horizontal: 0),
                         suffixIcon: IconButton(
                           onPressed: () => setState(() {
                             _invisiblePassword = !_invisiblePassword;
                           }),
                           icon: _invisiblePassword
+                              ? const Icon(Icons.visibility_off)
+                              : const Icon(Icons.visibility),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      obscureText: _invisibleConfirmedPassword,
+                      onSaved: (newValue) => _password = newValue ?? "",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Introduce una contraseña";
+                        }
+                        if (value != _passwordController.text) {
+                          return "Las contraseñas no coinciden";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Confirmar Contraseña",
+                        labelStyle: estiloTextInput,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 1, horizontal: 0),
+                        suffixIcon: IconButton(
+                          onPressed: () => setState(() {
+                            _invisibleConfirmedPassword =
+                                !_invisibleConfirmedPassword;
+                          }),
+                          icon: _invisibleConfirmedPassword
                               ? const Icon(Icons.visibility_off)
                               : const Icon(Icons.visibility),
                         ),
@@ -208,7 +245,15 @@ class _FormularioLoginState extends State<FormularioLogIn> {
           ),
           const SizedBox(height: 19),
           ElevatedButton(
-            // Modificar con diseño correspondiente
+            style: ElevatedButton.styleFrom(
+              backgroundColor: azulRey,
+              elevation: 0,
+              padding: const EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              minimumSize: const Size(double.infinity, 40),
+            ),
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
@@ -224,38 +269,47 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                   },
                 );
                 try {
-                  await firebaseService.signInWithEmailAndPassword(
+                  await firebaseService.createUserWithEmailAndPassword(
                       _email, _password);
+                  await firestoreService.createUser(
+                      firebaseService.user!.uid, _user);
                   if (context.mounted) {
-                    Navigator.pushNamed(context, "/home");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Usuario creado"),
+                      ),
+                    );
+                    Navigator.pop(context);
+                  }
+                  await Future.delayed(const Duration(milliseconds: 2000));
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, "/login");
                   }
                 } catch (e) {
-                  Navigator.pop(context);
+                  if (firebaseService.user != null) {
+                    await firebaseService.deleteUser(firebaseService.user);
+                  }
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                   if (!_isShowingSnackbar) {
                     _isShowingSnackbar = true;
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                          SnackBar(
-                            content: Text(e.toString()),
-                          ),
-                        )
-                        .closed
-                        .then((_) => _isShowingSnackbar = false);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                            ),
+                          )
+                          .closed
+                          .then((_) => _isShowingSnackbar = false);
+                    }
                   }
                 }
               }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: azulRey,
-              elevation: 0,
-              padding: const EdgeInsets.all(10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              minimumSize: const Size(double.infinity, 40),
-            ),
             child: const Text(
-              "Iniciar sesión",
+              "Crear usuario",
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: "Arimo",
