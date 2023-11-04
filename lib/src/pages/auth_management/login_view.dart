@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/constants/styles.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -169,12 +170,7 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                       },
                       decoration: InputDecoration(
                         labelText: "Email",
-                        labelStyle: const TextStyle(
-                          color: azulRey,
-                          fontFamily: "Arimo",
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        labelStyle: estiloTextInput,
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 1, horizontal: 0),
                         suffixIcon: IconButton(
@@ -194,12 +190,7 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                       },
                       decoration: InputDecoration(
                         labelText: "Password",
-                        labelStyle: const TextStyle(
-                          color: azulRey,
-                          fontFamily: "Arimo",
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        labelStyle: estiloTextInput,
                         suffixIcon: IconButton(
                           onPressed: () => setState(() {
                             _invisiblePassword = !_invisiblePassword;
