@@ -11,8 +11,9 @@ environment:
 
 dependencies:
   auto_size_text: ^3.0.0
-  firebase_auth: ^4.11.1
-  firebase_core: ^2.19.0
+  cloud_firestore: ^4.12.2
+  firebase_auth: ^4.12.1
+  firebase_core: ^2.21.0
   flip_card: ^0.7.0
   flutter:
     sdk: flutter
@@ -57,6 +58,7 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/icon/
 
   fonts:
     - family: Chewy

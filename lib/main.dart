@@ -4,14 +4,18 @@ import 'firebase_options.dart';
 import 'src/app.dart';
 import 'package:provider/provider.dart';
 import 'package:study_buddy/src/services/firebase_service.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (create) => FirebaseService()),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (create) => FirebaseService()),
+        ChangeNotifierProvider(create: (create) => FirestoreService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }

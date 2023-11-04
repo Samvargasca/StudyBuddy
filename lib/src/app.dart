@@ -7,6 +7,9 @@ import 'package:study_buddy/src/pages/traduccion/palabra_page.dart';
 import 'package:study_buddy/src/pages/parejas/parejas_page.dart';
 import 'package:study_buddy/src/pages/parejas/parejas_game.dart';
 import "package:study_buddy/src/pages/auth_management/login_view.dart";
+import "package:study_buddy/src/pages/auth_management/sign_up.dart";
+import "package:provider/provider.dart";
+import "package:study_buddy/src/services/firebase_service.dart";
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -16,13 +19,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+
     return MaterialApp(
       title: "Study Buddy",
       debugShowCheckedModeBanner: false,
-      initialRoute: "/", // Ruta inicial
+      home: firebaseService.user != null
+          ? const MyHomePage(title: "Study Buddy")
+          : const LoginView(),
       routes: {
         "/login": (context) => const LoginView(),
-        "/": (context) => const MyHomePage(
+        "/home": (context) => const MyHomePage(
             title: "Study Buddy"), // Ruta de la pagina principal
         "/traduccion": (context) =>
             const TraduccionPage(), // Ruta de la pagina de traduccion
@@ -35,7 +42,8 @@ class MyApp extends StatelessWidget {
         "/parejas": (context) =>
             const ParejasPage(), // Ruta de la pagina de parejas
         "/parejas/game": (context) =>
-            ParejasGame(), // Ruta de la pagina de juego de parejas
+            const ParejasGame(), // Ruta de la pagina de juego de parejas
+        "/signup": (context) => const SignUp(),
       },
     );
   }
