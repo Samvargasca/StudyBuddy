@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/services/firestore_service.dart';
@@ -103,6 +105,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                           ),
                         ),
                       ),
+                      const Temporizador(),
                       IconButton(
                         onPressed: () => Navigator.pop(
                             context), // Volver a la página anterior
@@ -345,6 +348,66 @@ class _FormularioState extends State<Formulario> {
           )
         ],
       ),
+    );
+  }
+}
+
+class Temporizador extends StatefulWidget {
+  const Temporizador({super.key});
+
+  @override
+  State<Temporizador> createState() => _TemporizadorState();
+}
+
+class _TemporizadorState extends State<Temporizador> {
+  int segundos = 0;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        segundos++;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Icon(
+          Icons.timer,
+          color: azulRey,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40),
+            color: azulRey,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Text(
+            "${segundos ~/ 60}:${(segundos % 60).toString().padLeft(2, '0')}",
+            style: const TextStyle(
+              fontFamily: "Arimo",
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
