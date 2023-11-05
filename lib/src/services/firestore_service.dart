@@ -11,7 +11,6 @@ class FirestoreService extends ChangeNotifier {
     try {
       await _usersCollectionRef.doc(id).set({'usuario': usuario});
     } catch (e) {
-      print(e.toString());
       rethrow;
     }
   }
@@ -19,6 +18,16 @@ class FirestoreService extends ChangeNotifier {
   Future<void> deleteUser(String id) async {
     try {
       await _usersCollectionRef.doc(id).delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> getUser(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await _usersCollectionRef.doc(id).get();
+      return documentSnapshot.get('usuario');
     } catch (e) {
       rethrow;
     }
