@@ -35,7 +35,7 @@ class _CreaPalabrasState extends State<CreaPalabras> {
               color: Colors.black,
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,
-              fontSize: 22),
+              fontSize: 32),
         ),
       ),
     );

@@ -4,7 +4,7 @@ import 'package:study_buddy/src/app.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/creador_palabras.dart';
-import 'dart:math';
+//import 'dart:math';
 
 class ParejasGame extends StatefulWidget {
   const ParejasGame({Key? key}) : super(key: key);
@@ -21,41 +21,41 @@ class _ParejasGame extends State<ParejasGame> {
     "dog": "perro",
     "bird": "ave",
     "day": "dia",
-    "night": "noche",
-    "house": "casa",
-    "tree": "arbol",
-    "sun": "sol",
-    "moon": "luna",
-    "star": "estrella",
-    "sky": "cielo",
-    "cloud": "nube",
-    "rain": "lluvia",
-    "snow": "nieve",
-    "wind": "viento",
-    "river": "rio",
-    "lake": "lago",
-    "sea": "mar",
-    "ocean": "oceano",
-    "mountain": "montaña",
-    "road": "camino",
-    "street": "calle",
-    "bridge": "puente",
-    "book": "libro",
-    "bus": "autobus",
-    "train": "tren",
-    "airplane": "avion",
-    "boat": "bote",
-    "ship": "barco",
-    "bicycle": "bicicleta",
-    "motorcycle": "motocicleta",
-    "taxi": "taxi",
-    "subway": "metro",
-    "truck": "camion",
-    "school": "escuela",
-    "university": "universidad",
-    "hospital": "hospital",
-    "bank": "banco",
-    "store": "tienda",
+    // "night": "noche",
+    // "house": "casa",
+    // "tree": "arbol",
+    // "sun": "sol",
+    // "moon": "luna",
+    // "star": "estrella",
+    // "sky": "cielo",
+    // "cloud": "nube",
+    // "rain": "lluvia",
+    // "snow": "nieve",
+    // "wind": "viento",
+    // "river": "rio",
+    // "lake": "lago",
+    // "sea": "mar",
+    // "ocean": "oceano",
+    // "mountain": "montaña",
+    // "road": "camino",
+    // "street": "calle",
+    // "bridge": "puente",
+    // "book": "libro",
+    // "bus": "autobus",
+    // "train": "tren",
+    // "airplane": "avion",
+    // "boat": "bote",
+    // "ship": "barco",
+    // "bicycle": "bicicleta",
+    // "motorcycle": "motocicleta",
+    // "taxi": "taxi",
+    // "subway": "metro",
+    // "truck": "camion",
+    // "school": "escuela",
+    // "university": "universidad",
+    // "hospital": "hospital",
+    // "bank": "banco",
+    // "store": "tienda",
   };
   String selectedWordA = ''; // Palabra seleccionada en la columna A
   String selectedWordB = ''; // Palabra seleccionada en la columna B
@@ -214,7 +214,7 @@ class _ParejasGame extends State<ParejasGame> {
                 Expanded(
                   child: ListView.builder(
                     itemCount: palabrasColumnaIzquierda.length,
-                    itemExtent: 100, // Establece la altura de cada elemento
+                    //itemExtent: 100, // Establece la altura de cada elemento
                     itemBuilder: (context, index) {
                       final key = palabrasColumnaIzquierda[index];
                       return Padding(
@@ -240,7 +240,7 @@ class _ParejasGame extends State<ParejasGame> {
                 Expanded(
                   child: ListView.builder(
                     itemCount: parejas.length,
-                    itemExtent: 100, // Establece la altura de cada elemento
+                    //itemExtent: 100, // Establece la altura de cada elemento
                     itemBuilder: (context, index) {
                       final key = parejas.keys.elementAt(index);
                       final value = parejas[key]!;
