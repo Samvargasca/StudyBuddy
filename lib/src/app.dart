@@ -8,6 +8,7 @@ import 'package:study_buddy/src/pages/parejas/parejas_page.dart';
 import 'package:study_buddy/src/pages/parejas/parejas_game.dart';
 import "package:study_buddy/src/pages/auth_management/login_view.dart";
 import "package:study_buddy/src/pages/auth_management/sign_up.dart";
+import "package:study_buddy/src/pages/user/user_page.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
 
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         "/parejas/game": (context) =>
             const ParejasGame(), // Ruta de la pagina de juego de parejas
         "/signup": (context) => const SignUp(),
+        "/user": (context) => const UserPage(),
       },
     );
   }

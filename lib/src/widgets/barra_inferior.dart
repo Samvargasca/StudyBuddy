@@ -22,7 +22,7 @@ class BarraInferior extends StatelessWidget {
         children: [
           SizedBox(
             child: IconButton(
-              onPressed: () => Navigator.pushNamed(context, "/login"),
+              onPressed: () => Navigator.pushNamed(context, "/user"),
               icon: const Icon(
                 Icons.home,
                 color: azulRey,
@@ -65,18 +65,23 @@ class BarraInferior extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            child: IconButton(
-              onPressed: null,
-              icon: SvgPicture.asset(
-                "assets/images/account.svg",
-                colorFilter: const ColorFilter.mode(
-                  azulRey,
-                  BlendMode.srcIn,
-                ),
+          IconButton(
+              onPressed: () {
+                print("ola");
+                Navigator.pushNamed(context, "/user");
+              },
+              icon: const Icon(
+                Icons.person,
+                color: azulRey,
+              )
+              // icon: SvgPicture.asset(
+              //   "assets/images/account.svg",
+              //   colorFilter: const ColorFilter.mode(
+              //     azulRey,
+              //     BlendMode.srcIn,
+              //   ),
+              // ),
               ),
-            ),
-          ),
         ],
       ),
     );
