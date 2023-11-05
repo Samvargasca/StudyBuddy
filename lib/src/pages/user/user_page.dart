@@ -13,8 +13,13 @@ class UserPage extends StatelessWidget {
   Future<String> _getUserData(FirebaseService firebaseService,
       FirestoreService firestoreService) async {
     try {
-      String id = firebaseService.user!.uid;
-      String usuario = await firestoreService.getUser(id);
+      String usuario;
+      if (firebaseService.user != null) {
+        String id = firebaseService.user!.uid;
+        usuario = await firestoreService.getUser(id);
+      } else {
+        usuario = "Usuario";
+      }
       return usuario;
     } catch (e) {
       rethrow;
