@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/flashcard.dart';
 
-import '../../data_structures/stack.dart' as stack;
-import '../../functions/obtener_palabras.dart';
+import '../../data_structures/queue.dart' as queue;
 
 class TraduccionEjercicioPage extends StatefulWidget {
   const TraduccionEjercicioPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class TraduccionEjercicioPage extends StatefulWidget {
 
 class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   String imagenAsset = "assets/images/quokka-pregunta.png";
-  late Palabra palabra;
+  Palabra? palabra;
 
   void cambiarImagen(String nuevaRuta) {
     setState(() {
@@ -24,132 +24,37 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
     });
   }
 
-  stack.Stack words = stack.Stack<Palabra>(10);
+  queue.Queue words = queue.Queue(10);
+
+  void cargarPalabras() async {
+    final FirestoreService firestoreService = FirestoreService();
+    final List<Palabra> palabras = await firestoreService.getPalabras();
+    palabras.shuffle();
+    for (int i = 0; i < 10; i++) {
+      words.enqueue(palabras[i]);
+    }
+
+    setState(() {
+      palabra = words.dequeue();
+    });
+  }
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    words.push(
-      Palabra(
-        "Hola",
-        "Hello",
-        "Saludo casual o informal",
-        ["Hello, how are you?", "Hello, my name is Jude", "Hello, I'm James"],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Perro",
-        "Dog",
-        "Animal de cuatro patas que usualmente  se tiene como mascota o se entrena para trabajar.",
-        [
-          "I have a dog named Max.",
-          "Dogs are known for their loyalty to humans.",
-          "Many people love to play fetch with their dogs."
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Casa",
-        "House",
-        "Construcción donde viven las personas",
-        [
-          "I live in a small house in the suburbs.",
-          "Houses come in many different architectural styles.",
-          "They are renovating their old house."
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Comer",
-        "Eat",
-        "Ingerir alimentos",
-        [
-          "I'm hungry; let's eat dinner.",
-          "Eating a balanced diet is important for your health.",
-          "She doesn't eat meat; she's a vegetarian."
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Beber",
-        "Drink",
-        "Consumir líquidos a través de la boca",
-        [
-          "I like to drink water throughout the day.",
-          "Drinking too much alcohol can be harmful to your health.",
-          "Would you like to drink some coffee?"
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Dormir",
-        "Sleep",
-        "Un estado de descanso natural, generalmente durante la noche",
-        [
-          "I need to sleep for at least eight hours to feel rested.",
-          "Some people have trouble sleeping at night.",
-          "She fell asleep while reading a book."
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Libro",
-        "Book",
-        "Un objeto compuesto por páginas impresas o en blanco, generalmente contenido en una cubierta",
-        [
-          "I love to read a good book on a rainy day.",
-          "This library has a vast collection of books.",
-          "She's writing a book about her travels."
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Fútbol",
-        "Football",
-        "Deporte de equipo jugado con los pies y una pelota en forma de esfera",
-        [
-          "My favorite sport to watch is football.",
-          "I played football in high school.",
-          "The football game is on TV tonight."
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Escuela",
-        "School",
-        "Una institución educativa",
-        [
-          "I'm going to school to study mathematics.",
-          "The school is closed for the summer vacation.",
-          "She's a teacher at the local elementary school."
-        ],
-      ),
-    );
-    words.push(
-      Palabra(
-        "Camiseta",
-        "T-Shirt",
-        "Prenda de vestir utilizada en la parte superior del cuerpo",
-        [
-          "This is my favorite T-shirt.",
-          "I bought a new Tottenham T-shirt yesterday.",
-          "She's wearing a T-shirt and jeans."
-        ],
-      ),
-    );
-    palabra = words.pop()!;
+    cargarPalabras();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (palabra == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -201,8 +106,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
             ],
           ),
           Flashcard(
-            pregunta: palabra.ingles,
-            respuesta: palabra.definicion,
+            pregunta: palabra!.ingles,
+            respuesta: palabra!.definicion,
           ),
           const SizedBox(
             width: 350,
@@ -217,7 +122,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
               textAlign: TextAlign.left,
             ),
           ),
-          Formulario(palabra.espanol, cambiarImagen),
+          Formulario(palabra!.espanol, cambiarImagen),
           Image.asset(
             imagenAsset,
             width: 159,

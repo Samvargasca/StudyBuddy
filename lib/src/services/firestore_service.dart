@@ -46,20 +46,26 @@ class FirestoreService extends ChangeNotifier {
 
   // Referencia a la coleccion de palabras
   late final CollectionReference _palabrasCollectionRef =
-      _db.collection('palabras').withConverter(
-            fromFirestore: Palabra.fromFirestore,
-            toFirestore: (Object? palabra, _) {
-              if (palabra is Palabra) {
-                return palabra.toFirestore();
-              }
-              throw Exception("Se está intentando cargar un tipo diferente");
-            },
-          );
+      _db.collection('palabras');
 
   Future<void> createPalabra(Palabra palabra) async {
     await _palabrasCollectionRef.add(palabra);
   }
 
+  Future<List<Palabra>> getPalabras() async {
+    try {
+      QuerySnapshot querySnapshot = await _palabrasCollectionRef.get();
+
+      List<Palabra> palabras = querySnapshot.docs.map((value) {
+        return Palabra.fromFirestore(value, null);
+      }).toList();
+      return palabras;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Función para cargar las palabras desde un archivo JSON
   Future<List<Palabra>> cargarPalabrasFromJson() async {
     String jsonString =
         await rootBundle.loadString('assets/json/datos_prueba.json');
@@ -78,17 +84,21 @@ class Palabra {
 
   Palabra(this.espanol, this.ingles, this.definicion, this.ejemplos);
 
-  factory Palabra.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options) {
-    final data = snapshot.data();
-    return Palabra(
-      data?['espanol'],
-      data?['ingles'],
-      data?['definicion'],
-      data?['ejemplos'] is Iterable
-          ? List.from(data?['ejemplos'])
-          : throw Exception("Fallo al obtener los ejemplos"),
-    );
+  factory Palabra.fromFirestore(
+      QueryDocumentSnapshot<Object?> snapshot, SnapshotOptions? options) {
+    if (snapshot is QueryDocumentSnapshot<Map<String, dynamic>>) {
+      final data = snapshot.data();
+
+      return Palabra(
+        data['espanol'],
+        data['ingles'],
+        data['definicion'],
+        data['ejemplos'] is Iterable
+            ? List.from(data['ejemplos'])
+            : throw Exception("Fallo al obtener los ejemplos"),
+      );
+    }
+    throw Exception("Se están cargando valores erróneos");
   }
 
   Map<String, dynamic> toFirestore() {
