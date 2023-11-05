@@ -18,6 +18,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   String imagenAsset = "assets/images/quokka-pregunta.png";
   Palabra? palabra;
 
+  bool answeredForm = false;
+
   void cambiarImagen(String nuevaRuta) {
     setState(() {
       imagenAsset = nuevaRuta;
@@ -129,31 +131,65 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  Formulario(palabra!.espanol, cambiarImagen),
+                  Formulario(
+                    palabra!.espanol,
+                    cambiarImagen,
+                    onFormAnswered: () {
+                      setState(() {
+                        answeredForm = true;
+                      });
+                    },
+                  ),
                   Image.asset(
                     imagenAsset,
                     width: 159,
                   ),
-                  ElevatedButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, "/traduccion/errores"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: amarillo,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, "/traduccion/errores"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: amarillo,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                        ),
+                        child: const Text(
+                          "Ver Errores",
+                          style: TextStyle(
+                            color: azulOscuro,
+                            fontFamily: "Arimo",
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    child: const Text(
-                      "Ver Errores",
-                      style: TextStyle(
-                        color: azulOscuro,
-                        fontFamily: "Arimo",
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                      if (answeredForm)
+                        ElevatedButton(
+                          onPressed: () => null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: azulClaro,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                            ),
+                          ),
+                          child: const Text(
+                            "Siguiente",
+                            style: TextStyle(
+                              color: azulOscuro,
+                              fontFamily: "Arimo",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                   const BarraInferior(),
                 ],
@@ -167,9 +203,11 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 }
 
 class Formulario extends StatefulWidget {
-  const Formulario(this.traduccion, this.cambiarImagen, {super.key});
+  const Formulario(this.traduccion, this.cambiarImagen,
+      {super.key, required this.onFormAnswered});
   final String traduccion;
   final Function(String) cambiarImagen;
+  final VoidCallback onFormAnswered;
 
   @override
   State<Formulario> createState() => _FormularioState();
@@ -181,6 +219,28 @@ class _FormularioState extends State<Formulario> {
   final controladorTexto = TextEditingController();
 
   bool editar = true;
+
+  Color colorCampoTexto = Colors.white;
+
+  Color colorTexto = Colors.black;
+
+  String palabraUsuario = "";
+
+  void actualizarColorCampoTexto(bool correcto) {
+    setState(() {
+      if (correcto) {
+        colorCampoTexto = verde;
+      } else {
+        colorCampoTexto = rojo;
+      }
+    });
+  }
+
+  void actualizarColorTexto() {
+    setState(() {
+      colorTexto = Colors.white;
+    });
+  }
 
   @override
   void dispose() {
@@ -198,10 +258,18 @@ class _FormularioState extends State<Formulario> {
           SizedBox(
             width: 255,
             child: TextFormField(
-              controller: controladorTexto,
-              decoration: const InputDecoration(
+              style: TextStyle(
+                color: colorTexto,
+                fontFamily: "Arimo",
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              onSaved: (newValue) => palabraUsuario = newValue!,
+              decoration: InputDecoration(
                 hintText: 'Escribe la traducción en español',
-                border: OutlineInputBorder(
+                fillColor: colorCampoTexto,
+                filled: true,
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -236,16 +304,21 @@ class _FormularioState extends State<Formulario> {
                       // Validate will return true if the form is valid, or false if
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
-                        String mensaje;
-                        String palabraUsuario = controladorTexto.text;
+                        _formKey.currentState!.save();
 
-                        if (widget.traduccion.toLowerCase() ==
-                            palabraUsuario.toLowerCase()) {
+                        String mensaje;
+                        bool correcto = widget.traduccion.toLowerCase() ==
+                            palabraUsuario.toLowerCase();
+
+                        if (correcto) {
                           mensaje = "Correcto";
                           widget.cambiarImagen("assets/images/quokka-copa.png");
                         } else {
                           mensaje = "Incorrecto";
                         }
+
+                        actualizarColorCampoTexto(correcto);
+                        actualizarColorTexto();
                         // Process data.
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -258,6 +331,8 @@ class _FormularioState extends State<Formulario> {
                             editar = false;
                           },
                         );
+
+                        widget.onFormAnswered();
                       }
                     }
                   : null,
