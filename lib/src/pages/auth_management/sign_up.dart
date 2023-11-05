@@ -1,3 +1,4 @@
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
@@ -93,6 +94,8 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
   String _password = "";
 
   bool _isShowingSnackbar = false;
+  bool _error = false;
+  String _errorMessage = "";
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +173,11 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                         if (!RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value)) {
+                          setState(() {
+                            _error = true;
+                            _errorMessage =
+                                "Error. Por favor ingresa un email valido.";
+                          });
                           return "Introduce un correo válido";
                         }
                         return null;
@@ -218,6 +226,11 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                           return "Introduce una contraseña";
                         }
                         if (value != _passwordController.text) {
+                          setState(() {
+                            _error = true;
+                            _errorMessage =
+                                "Error. Las contraseñas no son iguales.";
+                          });
                           return "Las contraseñas no coinciden";
                         }
                         return null;
@@ -238,6 +251,28 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                         ),
                       ),
                     ),
+                    Container(
+                      width: 242,
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: _error
+                            ? const Color.fromARGB(255, 255, 0, 0)
+                            : Colors.transparent,
+                      ),
+                      child: _error
+                          ? Text(
+                              _errorMessage,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Arimo",
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : null,
+                    )
                   ],
                 ),
               ),
@@ -289,6 +324,33 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                   if (firebaseService.user != null) {
                     await firebaseService.deleteUser(firebaseService.user);
                   }
+
+                  if (e is FirebaseAuthException) {
+                    setState(() {
+                      _error = true;
+                      switch (e.code) {
+                        case "email-already-in-use":
+                          _errorMessage = "Error. El email ya está en uso.";
+                          break;
+                        case "invalid-email":
+                          _errorMessage = "El correo no es válido";
+                          break;
+                        case "weak-password":
+                          _errorMessage =
+                              "Error. La contraseña no es lo suficientemente fuerte. Debe tener 6 caracteres mínimo.";
+                          break;
+                        case "operation-not-allowed":
+                          _errorMessage =
+                              "Error. El email y la contraseña no están habilitados.";
+                          break;
+                        default:
+                          _errorMessage = "Error en la creación del usuario";
+                      }
+                    });
+                  } else {
+                    _errorMessage = e.toString();
+                  }
+
                   if (context.mounted) {
                     Navigator.pop(context);
                   }

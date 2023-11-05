@@ -1,3 +1,4 @@
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
@@ -112,6 +113,9 @@ class _FormularioLoginState extends State<FormularioLogIn> {
   // Variable para controlar si se está mostrando un snackbar
   bool _isShowingSnackbar = false;
 
+  bool _error = false;
+  String _errorMessage = "";
+
   @override
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
@@ -201,6 +205,26 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                         ),
                       ),
                     ),
+                    Container(
+                      width: 242,
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: _error
+                            ? const Color.fromARGB(255, 255, 0, 0)
+                            : Colors.transparent,
+                      ),
+                      child: Text(
+                        _errorMessage,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Arimo",
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -229,6 +253,29 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                   if (context.mounted) {
                     Navigator.pushNamed(context, "/home");
                   }
+                } on FirebaseAuthException {
+                  Navigator.pop(context);
+                  setState(() {
+                    _error = true;
+                    _errorMessage = "Credenciales incorrectas";
+                    // switch (e.code) {
+                    //   case "invalid-email":
+                    //     _errorMessage =
+                    //         "Error. Por favor ingrese un email valido.";
+                    //     break;
+                    //   case "user-disabled":
+                    //     _errorMessage = "Error. El email está deshabilitado.";
+                    //     break;
+                    //   case "user-not-found":
+                    //     _errorMessage = "Error. No se encontró tu cuenta.";
+                    //     break;
+                    //   case "wrong-password":
+                    //     _errorMessage = "Error. Contraseña incorrecta.";
+                    //     break;
+                    //   default:
+                    //     _errorMessage = "Error desconocido";
+                    // }
+                  });
                 } catch (e) {
                   Navigator.pop(context);
                   if (!_isShowingSnackbar) {
