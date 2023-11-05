@@ -9,6 +9,7 @@ class BarraInferior extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String currentRoute = ModalRoute.of(context)!.settings.name!;
     return Container(
       width: 302,
       height: 42,
@@ -31,11 +32,13 @@ class BarraInferior extends StatelessWidget {
           ),
           SizedBox(
             child: IconButton(
-              onPressed: null,
+              onPressed: () {
+                Navigator.popAndPushNamed(context, "/home");
+              },
               icon: SvgPicture.asset(
                 "assets/images/cards.svg",
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
+                colorFilter: ColorFilter.mode(
+                  currentRoute == "/home" ? Colors.white : azulRey,
                   BlendMode.srcIn,
                 ),
               ),
@@ -66,22 +69,17 @@ class BarraInferior extends StatelessWidget {
             ),
           ),
           IconButton(
-              onPressed: () {
-                print("ola");
-                Navigator.pushNamed(context, "/user");
-              },
-              icon: const Icon(
-                Icons.person,
-                color: azulRey,
-              )
-              // icon: SvgPicture.asset(
-              //   "assets/images/account.svg",
-              //   colorFilter: const ColorFilter.mode(
-              //     azulRey,
-              //     BlendMode.srcIn,
-              //   ),
-              // ),
+            onPressed: () {
+              Navigator.pushNamed(context, "/user");
+            },
+            icon: SvgPicture.asset(
+              "assets/images/account.svg",
+              colorFilter: ColorFilter.mode(
+                currentRoute == "/user" ? Colors.white : azulRey,
+                BlendMode.srcIn,
               ),
+            ),
+          ),
         ],
       ),
     );
