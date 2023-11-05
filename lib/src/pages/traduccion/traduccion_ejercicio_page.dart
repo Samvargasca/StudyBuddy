@@ -68,88 +68,99 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
         backgroundColor: azulClaro,
         shadowColor: Colors.transparent,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                height: 36,
-                width: 93,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: azulOscuro,
-                ),
-                child: const Center(
-                  child: Text(
-                    "Traducir",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: "Arimo",
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        height: 36,
+                        width: 93,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: azulOscuro,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Traducir",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: "Arimo",
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(
+                            context), // Volver a la página anterior
+                        icon: const Icon(
+                          Icons.cancel,
+                          color: rojo,
+                          size: 37,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Flashcard(
+                    pregunta: palabra!.ingles,
+                    respuesta: palabra!.definicion,
+                  ),
+                  const SizedBox(
+                    width: 350,
+                    child: Text(
+                      "Completa:",
+                      style: TextStyle(
+                        fontFamily: "Arimo",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: gris,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
                   ),
-                ),
-              ),
-              IconButton(
-                onPressed: () =>
-                    Navigator.pop(context), // Volver a la página anterior
-                icon: const Icon(
-                  Icons.cancel,
-                  color: rojo,
-                  size: 37,
-                ),
-              ),
-            ],
-          ),
-          Flashcard(
-            pregunta: palabra!.ingles,
-            respuesta: palabra!.definicion,
-          ),
-          const SizedBox(
-            width: 350,
-            child: Text(
-              "Completa:",
-              style: TextStyle(
-                fontFamily: "Arimo",
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: gris,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Formulario(palabra!.espanol, cambiarImagen),
-          Image.asset(
-            imagenAsset,
-            width: 159,
-          ),
-          ElevatedButton(
-            onPressed: () =>
-                Navigator.pushNamed(context, "/traduccion/errores"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: amarillo,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
+                  Formulario(palabra!.espanol, cambiarImagen),
+                  Image.asset(
+                    imagenAsset,
+                    width: 159,
+                  ),
+                  ElevatedButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, "/traduccion/errores"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: amarillo,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      "Ver Errores",
+                      style: TextStyle(
+                        color: azulOscuro,
+                        fontFamily: "Arimo",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const BarraInferior(),
+                ],
               ),
             ),
-            child: const Text(
-              "Ver Errores",
-              style: TextStyle(
-                color: azulOscuro,
-                fontFamily: "Arimo",
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const BarraInferior(),
-        ],
+          );
+        },
       ),
     );
   }
