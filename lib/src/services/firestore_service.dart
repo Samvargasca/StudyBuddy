@@ -44,6 +44,16 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  Future<void> agregarError(String idUsuario, String idPalabra) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'errores': FieldValue.arrayUnion([idPalabra])
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Referencia a la coleccion de palabras
   late final CollectionReference _palabrasCollectionRef =
       _db.collection('palabras');
@@ -81,8 +91,10 @@ class Palabra {
   String espanol;
   List<String> ejemplos;
   String definicion;
+  String id;
 
-  Palabra(this.espanol, this.ingles, this.definicion, this.ejemplos);
+  Palabra(this.espanol, this.ingles, this.definicion, this.ejemplos,
+      {this.id = ""});
 
   factory Palabra.fromFirestore(
       QueryDocumentSnapshot<Object?> snapshot, SnapshotOptions? options) {
@@ -96,6 +108,7 @@ class Palabra {
         data['ejemplos'] is Iterable
             ? List.from(data['ejemplos'])
             : throw Exception("Fallo al obtener los ejemplos"),
+        id: snapshot.id,
       );
     }
     throw Exception("Se están cargando valores erróneos");

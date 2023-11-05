@@ -22,12 +22,6 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 
   bool answeredForm = false;
 
-  void cambiarImagen(String nuevaRuta) {
-    setState(() {
-      imagenAsset = nuevaRuta;
-    });
-  }
-
   queue.Queue words = queue.Queue(10);
 
   void cargarPalabras() async {
@@ -45,9 +39,45 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     cargarPalabras();
+  }
+
+  // Procesar la respuesta del formulario respondido
+
+  void procesarRespuesta(bool correcto) {
+    if (correcto) {
+      // Mostrar imagen de copa
+      cambiarImagen("assets/images/quokka-copa.png");
+    } else {
+      // Mostrar imagen de X
+      cambiarImagen("assets/images/quokka-x2.png");
+    }
+    if (!correcto) {
+      words.enqueue(palabra!);
+      guardarError();
+    }
+  }
+
+  void cambiarImagen(String nuevaRuta) {
+    setState(() {
+      imagenAsset = nuevaRuta;
+    });
+  }
+
+  void guardarError() async {
+    final FirestoreService firestoreService = FirestoreService();
+
+    await firestoreService.agregarError("usuario", palabra!.id);
+  }
+
+  // Procesar para seguir a la siguiente palabra
+  void procesaraSiguiente() {
+    setState(() {
+      palabra = words.dequeue();
+      answeredForm = false;
+      imagenAsset = "assets/images/quokka-pregunta.png";
+    });
   }
 
   @override
@@ -137,10 +167,11 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                   Formulario(
                     palabra!.espanol,
                     cambiarImagen,
-                    onFormAnswered: () {
+                    onFormAnswered: (correcto) {
                       setState(() {
                         answeredForm = true;
                       });
+                      procesarRespuesta(correcto);
                     },
                   ),
                   Image.asset(
@@ -173,7 +204,9 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                       ),
                       if (answeredForm)
                         ElevatedButton(
-                          onPressed: () => null,
+                          onPressed: () {
+                            procesaraSiguiente();
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: azulClaro,
                             shape: const RoundedRectangleBorder(
@@ -210,7 +243,7 @@ class Formulario extends StatefulWidget {
       {super.key, required this.onFormAnswered});
   final String traduccion;
   final Function(String) cambiarImagen;
-  final VoidCallback onFormAnswered;
+  final void Function(bool) onFormAnswered;
 
   @override
   State<Formulario> createState() => _FormularioState();
@@ -308,26 +341,17 @@ class _FormularioState extends State<Formulario> {
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-
-                        String mensaje;
                         bool correcto = widget.traduccion.toLowerCase() ==
                             palabraUsuario.toLowerCase();
 
                         if (correcto) {
-                          mensaje = "Correcto";
                           widget.cambiarImagen("assets/images/quokka-copa.png");
                         } else {
-                          mensaje = "Incorrecto";
+                          widget.cambiarImagen("assets/images/quokka-x2.png");
                         }
 
                         actualizarColorCampoTexto(correcto);
                         actualizarColorTexto();
-                        // Process data.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(mensaje),
-                          ),
-                        );
 
                         setState(
                           () {
@@ -335,7 +359,7 @@ class _FormularioState extends State<Formulario> {
                           },
                         );
 
-                        widget.onFormAnswered();
+                        widget.onFormAnswered(correcto);
                       }
                     }
                   : null,
