@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/pages/user/user_change_page.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import "package:study_buddy/src/services/firebase_service.dart";
 import "package:study_buddy/src/services/firestore_service.dart";
@@ -40,7 +42,7 @@ class UserPage extends StatelessWidget {
               ),
             );
           }
-          String username = snapshot.data as String ?? "Usuario";
+          String username = snapshot.data as String;
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -72,7 +74,7 @@ class UserPage extends StatelessWidget {
                         ),
                         child: const Center(
                           child: Text(
-                            "Traducir",
+                            "Perfil",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: "Arimo",
@@ -135,7 +137,14 @@ class UserPage extends StatelessWidget {
                   width: 150,
                 ),
                 ElevatedButton(
-                  onPressed: () => null,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UserChangePage(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(235, 30),
                     elevation: 0,

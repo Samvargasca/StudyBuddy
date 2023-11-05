@@ -32,4 +32,12 @@ class FirestoreService extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<void> updateUser(String id, String usuario) async {
+    try {
+      await _usersCollectionRef.doc(id).update({'usuario': usuario});
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
