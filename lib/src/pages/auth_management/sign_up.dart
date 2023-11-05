@@ -251,6 +251,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                         ),
                       ),
                     ),
+                    // Contenedor con el error
                     Container(
                       width: 242,
                       padding: const EdgeInsets.all(10),

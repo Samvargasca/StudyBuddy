@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:flutter_svg/svg.dart';
+import "package:provider/provider.dart";
+import "package:study_buddy/src/services/barra_inferior_service.dart";
 
-class BarraInferior extends StatelessWidget {
+class BarraInferior extends StatefulWidget {
   const BarraInferior({
     super.key,
   });
 
   @override
+  State<BarraInferior> createState() => _BarraInferiorState();
+}
+
+class _BarraInferiorState extends State<BarraInferior> {
+  @override
   Widget build(BuildContext context) {
-    String currentRoute = ModalRoute.of(context)!.settings.name!;
+    final BottomBarProvider bottomBarProvider =
+        Provider.of<BottomBarProvider>(context);
+    String iconoActivo = bottomBarProvider.activeIcon;
+
     return Container(
       width: 302,
       height: 42,
@@ -34,11 +44,12 @@ class BarraInferior extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 Navigator.popAndPushNamed(context, "/home");
+                bottomBarProvider.setActiveIcon("home");
               },
               icon: SvgPicture.asset(
                 "assets/images/cards.svg",
                 colorFilter: ColorFilter.mode(
-                  currentRoute == "/home" ? Colors.white : azulRey,
+                  iconoActivo == "home" ? Colors.white : azulRey,
                   BlendMode.srcIn,
                 ),
               ),
@@ -71,11 +82,12 @@ class BarraInferior extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, "/user");
+              bottomBarProvider.setActiveIcon("user");
             },
             icon: SvgPicture.asset(
               "assets/images/account.svg",
               colorFilter: ColorFilter.mode(
-                currentRoute == "/user" ? Colors.white : azulRey,
+                iconoActivo == "user" ? Colors.white : azulRey,
                 BlendMode.srcIn,
               ),
             ),

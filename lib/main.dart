@@ -5,6 +5,7 @@ import 'src/app.dart';
 import 'package:provider/provider.dart';
 import 'package:study_buddy/src/services/firebase_service.dart';
 import 'package:study_buddy/src/services/firestore_service.dart';
+import 'package:study_buddy/src/services/barra_inferior_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (create) => FirebaseService()),
         ChangeNotifierProvider(create: (create) => FirestoreService()),
+        ChangeNotifierProvider(create: (create) => BottomBarProvider()),
       ],
       child: const MyApp(),
     ),
