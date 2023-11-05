@@ -3,7 +3,7 @@ import 'package:study_buddy/src/constants/colors.dart';
 
 class CreaPalabras extends StatefulWidget {
   final String palabra;
-  final bool isSelected; // Nueva propiedad para indicar si el botón está seleccionado
+  final bool isSelected;
   final Function onTap;
 
   const CreaPalabras({Key? key, required this.palabra, required this.isSelected, required this.onTap});
