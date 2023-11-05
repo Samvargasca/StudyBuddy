@@ -14,8 +14,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(context) {
-    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
-
     return Scaffold(
       backgroundColor: azulClaro,
       body: GestureDetector(
