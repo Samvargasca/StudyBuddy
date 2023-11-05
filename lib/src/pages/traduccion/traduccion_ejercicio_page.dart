@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/services/firestore_service.dart';
+import 'package:study_buddy/src/services/firebase_service.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/flashcard.dart';
 
@@ -45,7 +46,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 
   // Procesar la respuesta del formulario respondido
 
-  void procesarRespuesta(bool correcto) {
+  void procesarRespuesta(bool correcto, FirebaseService firebaseService,
+      FirestoreService firestoreService) {
     if (correcto) {
       // Mostrar imagen de copa
       cambiarImagen("assets/images/quokka-copa.png");
@@ -55,7 +57,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
     }
     if (!correcto) {
       words.enqueue(palabra!);
-      guardarError();
+      guardarError(firebaseService, firestoreService);
     }
   }
 
@@ -65,10 +67,9 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
     });
   }
 
-  void guardarError() async {
-    final FirestoreService firestoreService = FirestoreService();
-
-    await firestoreService.agregarError("usuario", palabra!.id);
+  void guardarError(FirebaseService firebaseService,
+      FirestoreService firestoreService) async {
+    await firestoreService.agregarError(firebaseService.user!.uid, palabra!.id);
   }
 
   // Procesar para seguir a la siguiente palabra
@@ -82,6 +83,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 
   @override
   Widget build(BuildContext context) {
+    final FirestoreService firestoreService = FirestoreService();
+    final FirebaseService firebaseService = FirebaseService();
     if (palabra == null) {
       return const Scaffold(
         body: Center(
@@ -171,7 +174,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                       setState(() {
                         answeredForm = true;
                       });
-                      procesarRespuesta(correcto);
+                      procesarRespuesta(
+                          correcto, firebaseService, firestoreService);
                     },
                   ),
                   Image.asset(
