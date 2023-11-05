@@ -4,6 +4,7 @@ import 'package:study_buddy/src/pages/user/user_change_page.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import "package:study_buddy/src/services/firebase_service.dart";
 import "package:study_buddy/src/services/firestore_service.dart";
+import "package:study_buddy/src/services/barra_inferior_service.dart";
 import "package:provider/provider.dart";
 
 class UserPage extends StatelessWidget {
@@ -24,7 +25,8 @@ class UserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
     FirestoreService firestoreService = Provider.of<FirestoreService>(context);
-
+    BottomBarProvider bottomBarProvider =
+        Provider.of<BottomBarProvider>(context);
     return FutureBuilder<Object>(
         future: _getUserData(firebaseService, firestoreService),
         builder: (context, snapshot) {
@@ -167,10 +169,14 @@ class UserPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     try {
+                      print("hoaol");
+
                       firebaseService.signOut();
+                      bottomBarProvider.setActiveIcon("home");
                       Navigator.popUntil(
                           context, (route) => route.settings.name == "/");
                     } catch (e) {
+                      print(e.toString());
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
