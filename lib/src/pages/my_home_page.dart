@@ -161,8 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           Positioned(
-            top: 1,
-            bottom: 1,
+            top: 200,
+            bottom: 200,
             right: -10,
             child: Image.asset(
               "assets/images/quokka-papeles.png",
