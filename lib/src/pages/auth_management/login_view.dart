@@ -211,7 +211,9 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromARGB(255, 255, 0, 0),
+                        color: _error
+                            ? const Color.fromARGB(255, 255, 0, 0)
+                            : Colors.transparent,
                       ),
                       child: Text(
                         _errorMessage,
@@ -222,7 +224,7 @@ class _FormularioLoginState extends State<FormularioLogIn> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
