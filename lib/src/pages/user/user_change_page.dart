@@ -114,7 +114,7 @@ class UserChangePage extends StatelessWidget {
               ),
             ),
             Image.asset(
-              "assets/images/quokka-copa.png",
+              "assets/images/quokka-pregunta.png",
               width: 150,
             ),
             ElevatedButton(
