@@ -135,31 +135,35 @@ class ErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 40),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ElevatedButton(
-        onPressed: () => Navigator.pushNamed(
-          context,
-          "/traduccion/palabra",
-          arguments: {"palabra": palabra},
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 40),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
         ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          shadowColor: gris,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+        child: ElevatedButton(
+          onPressed: () => Navigator.pushNamed(
+            context,
+            "/traduccion/palabra",
+            arguments: {"palabra": palabra},
           ),
-        ),
-        child: Text(
-          palabra.ingles,
-          style: const TextStyle(
-            fontFamily: "Arimo",
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: azulRey,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shadowColor: gris,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.all(20),
+          ),
+          child: Text(
+            palabra.ingles,
+            style: const TextStyle(
+              fontFamily: "Arimo",
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: azulRey,
+            ),
           ),
         ),
       ),
