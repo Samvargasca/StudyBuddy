@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/services/firebase_service.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
+import "package:provider/provider.dart";
 
 class FinalTraduccion extends StatelessWidget {
-  const FinalTraduccion({super.key});
+  const FinalTraduccion(this.tiempo, {super.key});
+  final int tiempo;
+
+  Future<void> guardarTiempo(FirestoreService firestoreService,
+      FirebaseService firebaseService) async {
+    String uid = firebaseService.user!.uid;
+    await firestoreService.guardarTiempo(uid, tiempo);
+  }
 
   @override
   Widget build(BuildContext context) {
+    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+    FirestoreService firestoreService = Provider.of<FirestoreService>(context);
+
+    guardarTiempo(firestoreService, firebaseService);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -38,12 +53,12 @@ class FinalTraduccion extends StatelessWidget {
                 "assets/images/quokka-copa.png",
                 width: 196,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 196,
                 child: Text(
-                  "Lo has logrado en 01:30 segundos ¡Muy Bien!",
+                  "Lo has logrado en ${tiempo ~/ 60}:${(tiempo % 60).toString().padLeft(2, '0')} segundos ¡Muy Bien!",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: gris,
                     fontFamily: "Arimo",
                     fontWeight: FontWeight.bold,

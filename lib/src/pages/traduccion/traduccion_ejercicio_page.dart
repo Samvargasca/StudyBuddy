@@ -25,6 +25,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   bool answeredForm = false;
 
   late _FormularioState formulario;
+  late _TemporizadorState temporizador;
 
   queue.Queue words = queue.Queue(11);
 
@@ -83,10 +84,13 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   // Procesar para seguir a la siguiente palabra
   void procesaraSiguiente(BuildContext context) {
     if (words.isEmpty()) {
+      // Obtener el tiempo del temporizador
+      int tiempo = temporizador._stopTimer();
+
       // Si ya no hay palabras, ir a la página final
       // Navigator.pop(context);
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const FinalTraduccion()));
+          MaterialPageRoute(builder: (context) => FinalTraduccion(tiempo)));
     } else {
       setState(() {
         palabra = words.dequeue();
@@ -156,7 +160,9 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                           ),
                         ),
                       ),
-                      const Temporizador(),
+                      Temporizador(onTemporizadorCreated: (temp) {
+                        temporizador = temp;
+                      }),
                       IconButton(
                         onPressed: () => Navigator.pop(
                             context), // Volver a la página anterior
@@ -420,7 +426,8 @@ class _FormularioState extends State<Formulario> {
 }
 
 class Temporizador extends StatefulWidget {
-  const Temporizador({super.key});
+  const Temporizador({super.key, required this.onTemporizadorCreated});
+  final void Function(_TemporizadorState state)? onTemporizadorCreated;
 
   @override
   State<Temporizador> createState() => _TemporizadorState();
@@ -434,6 +441,7 @@ class _TemporizadorState extends State<Temporizador> {
   void initState() {
     super.initState();
     _startTimer();
+    widget.onTemporizadorCreated?.call(this);
   }
 
   void _startTimer() {
@@ -442,6 +450,11 @@ class _TemporizadorState extends State<Temporizador> {
         segundos++;
       });
     });
+  }
+
+  int _stopTimer() {
+    _timer.cancel();
+    return segundos;
   }
 
   @override

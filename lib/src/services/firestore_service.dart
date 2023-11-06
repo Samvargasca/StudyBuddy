@@ -54,6 +54,16 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  Future<void> guardarTiempo(String idUsuario, int tiempo) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'tiempoTraduccion': tiempo,
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Referencia a la coleccion de palabras
   late final CollectionReference _palabrasCollectionRef =
       _db.collection('palabras');
