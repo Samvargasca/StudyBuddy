@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/pages/traduccion/final_traduccion_page.dart';
 import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:study_buddy/src/services/firebase_service.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
@@ -25,7 +26,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 
   late _FormularioState formulario;
 
-  queue.Queue words = queue.Queue(10);
+  queue.Queue words = queue.Queue(11);
 
   void cargarPalabras() async {
     final FirestoreService firestoreService = FirestoreService();
@@ -64,11 +65,15 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
     }
   }
 
+  // Cambiar la imagen del quokka
+
   void cambiarImagen(String nuevaRuta) {
     setState(() {
       imagenAsset = nuevaRuta;
     });
   }
+
+  // Guardar el error en la base de datos
 
   void guardarError(FirebaseService firebaseService,
       FirestoreService firestoreService) async {
@@ -78,8 +83,10 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   // Procesar para seguir a la siguiente palabra
   void procesaraSiguiente(BuildContext context) {
     if (words.isEmpty()) {
+      // Si ya no hay palabras, ir a la página final
+      // Navigator.pop(context);
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const Placeholder()));
+          MaterialPageRoute(builder: (context) => const FinalTraduccion()));
     } else {
       setState(() {
         palabra = words.dequeue();
