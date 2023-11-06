@@ -31,6 +31,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
     final FirestoreService firestoreService = FirestoreService();
     final List<Palabra> palabras = await firestoreService.getPalabras();
     palabras.shuffle();
+    // Los ejercicios tendrán 10 palabras
     for (int i = 0; i < 10; i++) {
       words.enqueue(palabras[i]);
     }
@@ -75,15 +76,20 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
   }
 
   // Procesar para seguir a la siguiente palabra
-  void procesaraSiguiente() {
-    setState(() {
-      palabra = words.dequeue();
-      answeredForm = false;
-      imagenAsset = "assets/images/quokka-pregunta.png";
-    });
+  void procesaraSiguiente(BuildContext context) {
+    if (words.isEmpty()) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const Placeholder()));
+    } else {
+      setState(() {
+        palabra = words.dequeue();
+        answeredForm = false;
+        imagenAsset = "assets/images/quokka-pregunta.png";
+      });
 
-    // Restablecer estilos del formulario
-    formulario.reiniciarEstilos();
+      // Restablecer estilos del formulario
+      formulario.reiniciarEstilos();
+    }
   }
 
   @override
@@ -217,7 +223,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                       if (answeredForm)
                         ElevatedButton(
                           onPressed: () {
-                            procesaraSiguiente();
+                            procesaraSiguiente(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: azulClaro,
