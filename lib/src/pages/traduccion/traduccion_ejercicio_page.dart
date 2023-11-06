@@ -23,6 +23,8 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 
   bool answeredForm = false;
 
+  late _FormularioState formulario;
+
   queue.Queue words = queue.Queue(10);
 
   void cargarPalabras() async {
@@ -79,6 +81,9 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
       answeredForm = false;
       imagenAsset = "assets/images/quokka-pregunta.png";
     });
+
+    // Restablecer estilos del formulario
+    formulario.reiniciarEstilos();
   }
 
   @override
@@ -177,6 +182,9 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                       procesarRespuesta(
                           correcto, firebaseService, firestoreService);
                     },
+                    onFormCreated: (form) {
+                      formulario = form;
+                    },
                   ),
                   Image.asset(
                     imagenAsset,
@@ -244,10 +252,11 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
 
 class Formulario extends StatefulWidget {
   const Formulario(this.traduccion, this.cambiarImagen,
-      {super.key, required this.onFormAnswered});
+      {super.key, required this.onFormAnswered, required this.onFormCreated});
   final String traduccion;
   final Function(String) cambiarImagen;
   final void Function(bool) onFormAnswered;
+  final void Function(_FormularioState state)? onFormCreated;
 
   @override
   State<Formulario> createState() => _FormularioState();
@@ -265,6 +274,22 @@ class _FormularioState extends State<Formulario> {
   Color colorTexto = Colors.black;
 
   String palabraUsuario = "";
+
+  @override
+  void initState() {
+    super.initState();
+    widget.onFormCreated?.call(this);
+  }
+
+  void reiniciarEstilos() {
+    setState(() {
+      colorCampoTexto = Colors.white;
+      colorTexto = Colors.black;
+      editar = true;
+    });
+
+    controladorTexto.clear();
+  }
 
   void actualizarColorCampoTexto(bool correcto) {
     setState(() {
@@ -298,6 +323,7 @@ class _FormularioState extends State<Formulario> {
           SizedBox(
             width: 255,
             child: TextFormField(
+              controller: controladorTexto,
               style: TextStyle(
                 color: colorTexto,
                 fontFamily: "Arimo",
