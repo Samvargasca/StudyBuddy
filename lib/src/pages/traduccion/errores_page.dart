@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/services/firebase_service.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
+import "package:provider/provider.dart";
 
 class ErroresPage extends StatefulWidget {
   const ErroresPage({Key? key}) : super(key: key);
@@ -11,9 +14,36 @@ class ErroresPage extends StatefulWidget {
 }
 
 class _ErroresPageState extends State<ErroresPage> {
-  List<String> errores = ["Error1", "Error2", "Error3", "Error4", "Error5"];
+  List<Palabra>? errores;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void obtenerErrores(String userId) async {
+    FirestoreService firestoreService =
+        Provider.of<FirestoreService>(context, listen: false);
+    var erroress = await firestoreService.obtenerErrores(userId);
+    setState(() {
+      errores = erroress;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+
+    obtenerErrores(firebaseService.user!.uid);
+
+    if (errores == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -87,8 +117,8 @@ class _ErroresPageState extends State<ErroresPage> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) =>
-                    ErrorCard(palabra: errores[index]),
-                itemCount: errores.length,
+                    ErrorCard(palabra: errores![index]),
+                itemCount: errores!.length,
               ),
             ),
             const BarraInferior(),
@@ -100,8 +130,8 @@ class _ErroresPageState extends State<ErroresPage> {
 }
 
 class ErrorCard extends StatelessWidget {
-  const ErrorCard({Key? key, this.palabra = "Palabra"}) : super(key: key);
-  final String palabra;
+  const ErrorCard({Key? key, required this.palabra}) : super(key: key);
+  final Palabra palabra;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +154,7 @@ class ErrorCard extends StatelessWidget {
           ),
         ),
         child: Text(
-          palabra,
+          palabra.ingles,
           style: const TextStyle(
             fontFamily: "Arimo",
             fontWeight: FontWeight.bold,

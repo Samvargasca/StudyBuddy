@@ -26,6 +26,7 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  // Función para obtener el nombre de usuario
   Future<String> getUser(String id) async {
     try {
       DocumentSnapshot documentSnapshot =
@@ -36,6 +37,7 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  // Función para actualizar el nombre de usuario
   Future<void> updateUser(String id, String usuario) async {
     try {
       await _usersCollectionRef.doc(id).update({'usuario': usuario});
@@ -44,11 +46,37 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  // Función para agregar un error a la lista de errores
   Future<void> agregarError(String idUsuario, String idPalabra) async {
     try {
       await _usersCollectionRef.doc(idUsuario).update({
         'errores': FieldValue.arrayUnion([idPalabra])
       });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Función para obtener la lista de errores
+  Future<List<Palabra>> obtenerErrores(String idUsuario) async {
+    try {
+      List<Palabra> errores_palabra = [];
+
+      DocumentSnapshot documentSnapshot =
+          await _usersCollectionRef.doc(idUsuario).get();
+
+      if (documentSnapshot.exists) {
+        List<String> errores = List.from(documentSnapshot.get('errores'));
+        for (String id in errores) {
+          DocumentSnapshot palabraData =
+              await _db.collection('palabras').doc(id).get();
+          if (palabraData.exists) {
+            errores_palabra.add(Palabra.fromFirestore2(palabraData, null));
+          }
+        }
+      }
+
+      return errores_palabra;
     } catch (e) {
       rethrow;
     }
@@ -113,6 +141,24 @@ class Palabra {
 
       return Palabra(
         data['espanol'],
+        data['ingles'],
+        data['definicion'],
+        data['ejemplos'] is Iterable
+            ? List.from(data['ejemplos'])
+            : throw Exception("Fallo al obtener los ejemplos"),
+        id: snapshot.id,
+      );
+    }
+    throw Exception("Se están cargando valores erróneos");
+  }
+
+  factory Palabra.fromFirestore2(
+      DocumentSnapshot snapshot, SnapshotOptions? options) {
+    if (snapshot is DocumentSnapshot<Map<String, dynamic>>) {
+      final data = snapshot.data();
+
+      return Palabra(
+        data!['espanol'],
         data['ingles'],
         data['definicion'],
         data['ejemplos'] is Iterable
