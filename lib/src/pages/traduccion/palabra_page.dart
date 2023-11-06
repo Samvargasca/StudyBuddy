@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
 
 class PalabraPage extends StatefulWidget {
   const PalabraPage({Key? key}) : super(key: key);
@@ -15,8 +16,9 @@ class _PalabraPageState extends State<PalabraPage> {
 
   @override
   Widget build(BuildContext context) {
-    Map argumentos = ModalRoute.of(context)!.settings.arguments as Map;
-    String palabra = argumentos["palabra"];
+    // Map argumentos = ModalRoute.of(context)!.settings.arguments as Map;
+    Palabra palabra =
+        Palabra("Hola", "Hello", "Saludo casual", ["Hello!", "Hi!", "Hey!"]);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,12 +34,12 @@ class _PalabraPageState extends State<PalabraPage> {
         shadowColor: Colors.transparent,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(23),
-              child: Row(
+        child: Padding(
+          padding: const EdgeInsets.all(35),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Transform.rotate(
@@ -51,6 +53,7 @@ class _PalabraPageState extends State<PalabraPage> {
                           BlendMode.srcIn,
                         ),
                       ),
+                      iconSize: 37,
                     ),
                   ),
                   IconButton(
@@ -64,53 +67,98 @@ class _PalabraPageState extends State<PalabraPage> {
                   ),
                 ],
               ),
-            ),
-            Container(
-              height: 36,
-              width: 93,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: azulOscuro,
+              const SizedBox(
+                height: 10,
               ),
-              child: const Center(
-                child: Text(
-                  "Traducir",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: 36,
+                  width: 93,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: azulOscuro,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Traducir",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: "Arimo",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Text(
-              "$palabra - $palabra",
-              style: const TextStyle(
-                fontFamily: "Chewy",
-                fontSize: 48,
-                color: azulOscuro,
+              Text(
+                "${palabra.ingles} - ${palabra.espanol}",
+                style: const TextStyle(
+                  fontFamily: "Chewy",
+                  fontSize: 48,
+                  color: azulOscuro,
+                ),
               ),
-            ),
-            const Divider(
-              thickness: 4,
-              color: azulRey,
-              indent: 35,
-              endIndent: 35,
-            ),
-            Text(
-              "Significado de $palabra",
-              style: const TextStyle(
-                fontFamily: "Arimo",
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: azulOscuro,
+              const Divider(
+                thickness: 4,
+                color: azulRey,
               ),
-            ),
-            Text("Ejemplos de $palabra"),
-            const BarraInferior(),
-          ],
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  palabra.definicion,
+                  style: const TextStyle(
+                    fontFamily: "Arimo",
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Ejemplos:",
+                  style: TextStyle(
+                    textBaseline: TextBaseline.alphabetic,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Arimo",
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: palabra.ejemplos.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: const CircleAvatar(
+                        // Creating a circle avatar as a bullet point
+                        backgroundColor: Colors
+                            .black, // Customize the color of the bullet point
+                        radius: 4, // Adjust the size of the bullet point
+                      ),
+                      title: Text(
+                        palabra.ejemplos[index],
+                        style: const TextStyle(
+                          textBaseline: TextBaseline.alphabetic,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Arimo",
+                          fontSize: 20,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const BarraInferior(),
+            ],
+          ),
         ),
       ),
     );
