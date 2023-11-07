@@ -92,6 +92,18 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  Future<List<Usuario>> obtenerUsuarios() async {
+    try {
+      QuerySnapshot querySnapshot = await _usersCollectionRef.get();
+      List<Usuario> usuarios = querySnapshot.docs.map((value) {
+        return Usuario.fromFirestore(value, null);
+      }).toList();
+      return usuarios;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Referencia a la coleccion de palabras
   late final CollectionReference _palabrasCollectionRef =
       _db.collection('palabras');
@@ -219,8 +231,8 @@ class Usuario {
   String id;
   String usuario;
   List<String> errores;
-  int tiempoTraduccion;
-  int tiempoParejas;
+  int? tiempoTraduccion;
+  int? tiempoParejas;
 
   Usuario(this.id, this.usuario, this.errores, this.tiempoTraduccion,
       this.tiempoParejas);
@@ -233,9 +245,7 @@ class Usuario {
       return Usuario(
         snapshot.id,
         data['usuario'],
-        data['errores'] is Iterable
-            ? List.from(data['errores'])
-            : throw Exception("Fallo al obtener los errores"),
+        data['errores'] is Iterable ? List.from(data['errores']) : [],
         data['tiempoTraduccion'],
         data['tiempoParejas'],
       );

@@ -33,7 +33,7 @@ class BSTUsuarioTraduccion {
     if (R.data == key) {
       return R;
     }
-    if (R.data.tiempoTraduccion < key.tiempoTraduccion) {
+    if (R.data.tiempoTraduccion! < key.tiempoTraduccion!) {
       return find(key, R.right);
     }
     if (R.left == null) {
@@ -60,7 +60,7 @@ class BSTUsuarioTraduccion {
   }
 
   Node rightAncestor(Node N) {
-    if (N.data.tiempoTraduccion < N.parent!.data.tiempoTraduccion) {
+    if (N.data.tiempoTraduccion! < N.parent!.data.tiempoTraduccion!) {
       return N.parent!;
     }
     return rightAncestor(N.parent!);
@@ -77,9 +77,9 @@ class BSTUsuarioTraduccion {
       current.parent = parent;
       return current;
     }
-    if (key.tiempoTraduccion < current.data.tiempoTraduccion) {
+    if (key.tiempoTraduccion! < current.data.tiempoTraduccion!) {
       current.left = _insertRec(current.left, current, key);
-    } else if (key.tiempoTraduccion > current.data.tiempoTraduccion) {
+    } else if (key.tiempoTraduccion! > current.data.tiempoTraduccion!) {
       current.right = _insertRec(current.right, current, key);
     }
     return current;
@@ -94,9 +94,9 @@ class BSTUsuarioTraduccion {
     if (current == null) {
       return current;
     }
-    if (key.tiempoTraduccion < current.data.tiempoTraduccion) {
+    if (key.tiempoTraduccion! < current.data.tiempoTraduccion!) {
       current.left = _deleteRec(current.left, key);
-    } else if (key.tiempoTraduccion > current.data.tiempoTraduccion) {
+    } else if (key.tiempoTraduccion! > current.data.tiempoTraduccion!) {
       current.right = _deleteRec(current.right, key);
     } else {
       if (current.left == null) {
@@ -119,9 +119,9 @@ class BSTUsuarioTraduccion {
   List<int> rangeSearch(Usuario x, Usuario y, R) {
     List<int> result = [];
     Node N = find(x, R);
-    while (N.data.tiempoTraduccion <= y.tiempoTraduccion) {
-      if (N.data.tiempoTraduccion >= x.tiempoTraduccion) {
-        result.add(N.data.tiempoTraduccion);
+    while (N.data.tiempoTraduccion! <= y.tiempoTraduccion!) {
+      if (N.data.tiempoTraduccion! >= x.tiempoTraduccion!) {
+        result.add(N.data.tiempoTraduccion!);
       }
       N = next(N);
     }
@@ -145,7 +145,7 @@ class BSTUsuarioTraduccion {
     while (current != null) {
       if (current.data == key) {
         return true;
-      } else if (current.data.tiempoTraduccion > key.tiempoTraduccion) {
+      } else if (current.data.tiempoTraduccion! > key.tiempoTraduccion!) {
         current = current.left;
       } else {
         current = current.right;
@@ -175,7 +175,7 @@ class BSTUsuarioParejas {
     if (R.data == key) {
       return R;
     }
-    if (R.data.tiempoParejas < key.tiempoParejas) {
+    if (R.data.tiempoParejas! < key.tiempoParejas!) {
       return find(key, R.right);
     }
     if (R.left == null) {
@@ -202,7 +202,7 @@ class BSTUsuarioParejas {
   }
 
   Node rightAncestor(Node N) {
-    if (N.data.tiempoParejas < N.parent!.data.tiempoParejas) {
+    if (N.data.tiempoParejas! < N.parent!.data.tiempoParejas!) {
       return N.parent!;
     }
     return rightAncestor(N.parent!);
@@ -219,9 +219,9 @@ class BSTUsuarioParejas {
       current.parent = parent;
       return current;
     }
-    if (key.tiempoParejas < current.data.tiempoParejas) {
+    if (key.tiempoParejas! < current.data.tiempoParejas!) {
       current.left = _insertRec(current.left, current, key);
-    } else if (key.tiempoParejas > current.data.tiempoParejas) {
+    } else if (key.tiempoParejas! > current.data.tiempoParejas!) {
       current.right = _insertRec(current.right, current, key);
     }
     return current;
@@ -236,9 +236,9 @@ class BSTUsuarioParejas {
     if (current == null) {
       return current;
     }
-    if (key.tiempoParejas < current.data.tiempoParejas) {
+    if (key.tiempoParejas! < current.data.tiempoParejas!) {
       current.left = _deleteRec(current.left, key);
-    } else if (key.tiempoParejas > current.data.tiempoParejas) {
+    } else if (key.tiempoParejas! > current.data.tiempoParejas!) {
       current.right = _deleteRec(current.right, key);
     } else {
       if (current.left == null) {
@@ -261,9 +261,9 @@ class BSTUsuarioParejas {
   List<int> rangeSearch(Usuario x, Usuario y, R) {
     List<int> result = [];
     Node N = find(x, R);
-    while (N.data.tiempoParejas <= y.tiempoParejas) {
-      if (N.data.tiempoParejas >= x.tiempoParejas) {
-        result.add(N.data.tiempoParejas);
+    while (N.data.tiempoParejas! <= y.tiempoParejas!) {
+      if (N.data.tiempoParejas! >= x.tiempoParejas!) {
+        result.add(N.data.tiempoParejas!);
       }
       N = next(N);
     }
@@ -287,7 +287,7 @@ class BSTUsuarioParejas {
     while (current != null) {
       if (current.data == key) {
         return true;
-      } else if (current.data.tiempoParejas > key.tiempoParejas) {
+      } else if (current.data.tiempoParejas! > key.tiempoParejas!) {
         current = current.left;
       } else {
         current = current.right;
