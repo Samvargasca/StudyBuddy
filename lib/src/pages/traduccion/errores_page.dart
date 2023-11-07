@@ -21,20 +21,27 @@ class _ErroresPageState extends State<ErroresPage> {
     super.initState();
   }
 
-  void obtenerErrores(String userId) async {
-    FirestoreService firestoreService =
-        Provider.of<FirestoreService>(context, listen: false);
-    var erroress = await firestoreService.obtenerErrores(userId);
-    setState(() {
-      errores = erroress;
-    });
+  void obtenerErrores(String userId, BuildContext context) async {
+    try {
+      FirestoreService firestoreService =
+          Provider.of<FirestoreService>(context, listen: false);
+      var erroress = await firestoreService.obtenerErrores(userId);
+      if (mounted) {
+        // Verificar si el widget está montado
+        setState(() {
+          errores = erroress;
+        });
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
 
-    obtenerErrores(firebaseService.user!.uid);
+    obtenerErrores(firebaseService.user!.uid, context);
 
     if (errores == null) {
       return const Scaffold(
