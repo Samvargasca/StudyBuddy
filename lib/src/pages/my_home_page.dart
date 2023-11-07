@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/flashcard.dart';
+import 'package:study_buddy/src/pages/flashcards/creacion_flashcards_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -137,7 +138,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: ElevatedButton(
-                                onPressed: () => null,
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CreacionFlashcardsPage())),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: azulRey,
                                   padding: const EdgeInsets.symmetric(

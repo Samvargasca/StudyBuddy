@@ -288,3 +288,34 @@ class Usuario {
       errores.hashCode ^
       tiempoTraduccion.hashCode;
 }
+
+class Flashcard {
+  String id;
+  Palabra palabra;
+  bool estado;
+
+  Flashcard(this.id, this.palabra, this.estado);
+
+  factory Flashcard.fromFirestore(
+    QueryDocumentSnapshot snapshot,
+    SnapshotOptions? options,
+  ) {
+    if (snapshot is QueryDocumentSnapshot<Map<String, dynamic>>) {
+      final data = snapshot.data();
+
+      return Flashcard(
+        snapshot.id,
+        Palabra.fromFirestore2(data['palabra'], null),
+        data['estado'],
+      );
+    }
+    throw Exception("Se están cargando valores erróneos");
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'palabra': palabra.toFirestore(),
+      'estado': estado,
+    };
+  }
+}
