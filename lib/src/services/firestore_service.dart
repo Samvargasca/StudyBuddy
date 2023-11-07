@@ -60,7 +60,7 @@ class FirestoreService extends ChangeNotifier {
   // Función para obtener la lista de errores
   Future<List<Palabra>> obtenerErrores(String idUsuario) async {
     try {
-      List<Palabra> errores_palabra = [];
+      List<Palabra> erroresPalabra = [];
 
       DocumentSnapshot documentSnapshot =
           await _usersCollectionRef.doc(idUsuario).get();
@@ -71,12 +71,32 @@ class FirestoreService extends ChangeNotifier {
           DocumentSnapshot palabraData =
               await _db.collection('palabras').doc(id).get();
           if (palabraData.exists) {
-            errores_palabra.add(Palabra.fromFirestore2(palabraData, null));
+            erroresPalabra.add(Palabra.fromFirestore2(palabraData, null));
           }
         }
       }
 
-      return errores_palabra;
+      return erroresPalabra;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Función para obtener las flashcards de un usuario
+  Future<List<Flashcard>> obtenerFlashcard(String idUsuario) async {
+    try {
+      List<Flashcard> flashcards = [];
+
+      QuerySnapshot querySnapshot = await _usersCollectionRef
+          .doc(idUsuario)
+          .collection('flashcards')
+          .get();
+
+      for (QueryDocumentSnapshot flashcard in querySnapshot.docs) {
+        flashcards.add(Flashcard.fromFirestore(flashcard, null));
+      }
+
+      return flashcards;
     } catch (e) {
       rethrow;
     }

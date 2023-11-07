@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/services/firebase_service.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
+import "package:provider/provider.dart";
 
 class CreacionFlashcardsPage extends StatefulWidget {
   const CreacionFlashcardsPage({Key? key}) : super(key: key);
@@ -9,10 +12,35 @@ class CreacionFlashcardsPage extends StatefulWidget {
 }
 
 class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
-  final List<String> flashcards = const ["hola", "chao"];
+  List<Flashcard>? flashcards;
+
+  void obtenerFlashcard(String userId, BuildContext context) async {
+    try {
+      FirestoreService firestoreService =
+          Provider.of<FirestoreService>(context, listen: false);
+      var fls = await firestoreService.obtenerFlashcard(userId);
+      if (mounted) {
+        // Verificar si el widget está montado
+        setState(() {
+          flashcards = fls;
+        });
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+    obtenerFlashcard(firebaseService.user!.uid, context);
+    if (flashcards == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -72,10 +100,12 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) => Text("Flashcard $index"),
-              itemCount: flashcards.length,
-            ),
+            child: flashcards!.isEmpty
+                ? const Text("No hay flashcards creadas")
+                : ListView.builder(
+                    itemBuilder: (context, index) => Text("Flashcard $index"),
+                    itemCount: flashcards!.length,
+                  ),
           ),
         ],
       ),
