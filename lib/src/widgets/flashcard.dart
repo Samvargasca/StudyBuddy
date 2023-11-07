@@ -17,6 +17,7 @@ class Flashcard extends StatefulWidget {
   final double height;
 
   @override
+  // ignore: library_private_types_in_public_api
   _FlashcardState createState() => _FlashcardState();
 }
 
