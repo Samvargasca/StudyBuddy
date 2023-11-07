@@ -45,8 +45,6 @@ class _ParejasGame extends State<ParejasGame> {
       });
     });
   }
-  
-  //!Baraja las palabras
   List<String> shuffleWords(List<String> words) {
     List<String> shuffledWords = [];
 
