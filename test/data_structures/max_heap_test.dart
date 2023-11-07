@@ -57,4 +57,50 @@ void main() {
       expect(heap.extractMax(), 2);
     });
   });
+  group("Tiempo de inserción, búsqueda y eliminación para MaxHeap", () {
+    test("Tiempo de inserción,búsqueda y eliminación de 10000 datos",
+        () => pruebaNDatosHeap(10000));
+    test("Tiempo de inserción,búsqueda y eliminación de 50000 datos",
+        () => pruebaNDatosHeap(50000));
+    test("Tiempo de inserción,búsqueda y eliminación de 100000 datos",
+        () => pruebaNDatosHeap(100000));
+    test("Tiempo de inserción,búsqueda y eliminación de 150000 datos",
+        () => pruebaNDatosHeap(150000));
+    test("Tiempo de inserción,búsqueda y eliminación de 200000 datos",
+        () => pruebaNDatosHeap(200000));
+    test("Tiempo de inserción,búsqueda y eliminación de 250000 datos",
+        () => pruebaNDatosHeap(250000));
+    test("Tiempo de inserción,búsqueda y eliminación de 300000 datos",
+        () => pruebaNDatosHeap(300000));
+    test("Tiempo de inserción,búsqueda y eliminación de 350000 datos",
+        () => pruebaNDatosHeap(350000));
+    test("Tiempo de inserción,búsqueda y eliminación de 400000 datos",
+        () => pruebaNDatosHeap(400000));
+    test("Tiempo de inserción,búsqueda y eliminación de 450000 datos",
+        () => pruebaNDatosHeap(450000));
+    test("Tiempo de inserción,búsqueda y eliminación de 500000 datos",
+        () => pruebaNDatosHeap(500000));
+  });
+}
+
+pruebaNDatosHeap(int N) {
+  print("Prueba con $N datos");
+  MaxHeap heap = MaxHeap(N);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    heap.insert(i);
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+
+  List<int> indicesToRemove = List<int>.generate(N - 1, (i) => i);
+  stopwatch.start();
+  indicesToRemove.sort((a, b) => b.compareTo(a));
+  for (int i in indicesToRemove) {
+    heap.remove(i);
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
 }
