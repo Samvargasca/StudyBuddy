@@ -69,11 +69,14 @@ class _BarraInferiorState extends State<BarraInferior> {
           ),
           SizedBox(
             child: IconButton(
-              onPressed: null,
+              onPressed: () {
+                Navigator.pushNamed(context, "/ranking");
+                bottomBarProvider.setActiveIcon("ranking");
+              },
               icon: SvgPicture.asset(
                 "assets/images/high-bars.svg",
-                colorFilter: const ColorFilter.mode(
-                  azulRey,
+                colorFilter: ColorFilter.mode(
+                  iconoActivo == "ranking" ? Colors.white : azulRey,
                   BlendMode.srcIn,
                 ),
               ),
