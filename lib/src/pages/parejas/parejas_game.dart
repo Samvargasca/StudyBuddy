@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:study_buddy/src/app.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/creador_palabras.dart';
-//import 'dart:math';
+import 'package:study_buddy/src/services/firestore_service.dart';
+import 'package:study_buddy/src/services/firebase_service.dart';
 
 class ParejasGame extends StatefulWidget {
   const ParejasGame({Key? key}) : super(key: key);
@@ -13,14 +15,57 @@ class ParejasGame extends StatefulWidget {
 }
 
 class _ParejasGame extends State<ParejasGame> {
+  @override
+  void initState() {
+    getPalabras();
+
+    super.initState();
+    //!Iniciar el temporizador en initState
+    timer = Timer.periodic(const Duration(milliseconds: 1), (Timer timer) {
+      setState(() {
+        timeRemaining -= 0.0001;
+        if (timeRemaining <= 0) {
+          timer.cancel();
+          mostrarMensaje();
+        }
+      });
+    });
+    // Copia las palabras de la columna izquierda y las baraja aleatoriamente
+    palabrasColumnaIzquierda = parejas.keys.toList()..shuffle();
+  }
+
+  //!Firebase
+Future<void> getPalabras() async {
+  try {
+    final CollectionReference collectionReference = FirebaseFirestore.instance.collection("palabras");
+    final QuerySnapshot palabras = await collectionReference.get();
+    
+    final Map<String, String> tempParejas = {};
+
+    for (final QueryDocumentSnapshot palabra in palabras.docs) {
+      final String espanol = palabra["espanol"];
+      final String ingles = palabra["ingles"];
+
+      tempParejas[espanol] = ingles;
+    }
+
+    setState(() {
+      parejas = tempParejas;
+    });
+  } catch (e) {
+    print("Error al cargar palabras desde Firestore: $e");
+  }
+  print(parejas);
+}
+
   //!Variables
   //!Diccionario que almacena las palabras para cada columna
-  Map<String, String> parejas = {
-    "car": "carro",
-    "hello": "hola",
-    "dog": "perro",
-    "bird": "ave",
-    "day": "dia",
+  Map<String, String> parejas = { 
+    // "car": "carro",
+    // "hello": "hola",
+    // "dog": "perro",
+    // "bird": "ave",
+    // "day": "dia",
     // "night": "noche",
     // "house": "casa",
     // "tree": "arbol",
@@ -57,6 +102,7 @@ class _ParejasGame extends State<ParejasGame> {
     // "bank": "banco",
     // "store": "tienda",
   };
+
   String selectedWordA = ''; // Palabra seleccionada en la columna A
   String selectedWordB = ''; // Palabra seleccionada en la columna B
   List<String> palabrasColumnaIzquierda = [];
@@ -66,24 +112,6 @@ class _ParejasGame extends State<ParejasGame> {
   int aciertos = 0;
   int desaciertos = 0;
   Timer? timer; // Contador de desaciertos
-
-  @override
-  void initState() {
-    super.initState();
-    //!Iniciar el temporizador en initState
-    timer = Timer.periodic(const Duration(milliseconds: 1), (Timer timer) {
-      setState(() {
-        timeRemaining -= 0.0001;
-        if (timeRemaining <= 0) {
-          timer.cancel();
-          mostrarMensaje();
-        }
-      });
-    });
-
-    // Copia las palabras de la columna izquierda y las baraja aleatoriamente
-    palabrasColumnaIzquierda = parejas.keys.toList()..shuffle();
-  }
 
   void mostrarMensaje() {
     timeRemaining = 1.0; // Reiniciar el temporizador
@@ -98,7 +126,10 @@ class _ParejasGame extends State<ParejasGame> {
               onPressed: () {
                 Navigator.of(context).pop(); // Cerrar el diálogo
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => const MyApp())); // Navegar al menú principal
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const MyApp())); // Navegar al menú principal
               },
               child: const Text("OK"),
             ),
@@ -110,7 +141,8 @@ class _ParejasGame extends State<ParejasGame> {
 
   void handleMatching() {
     if (selectedWordA.isNotEmpty && selectedWordB.isNotEmpty) {
-      if (parejas.containsKey(selectedWordA) && parejas[selectedWordA] == selectedWordB) {
+      if (parejas.containsKey(selectedWordA) &&
+          parejas[selectedWordA] == selectedWordB) {
         // Coincidencia encontrada, elimina las palabras del diccionario
         parejas.remove(selectedWordA);
         parejas.remove(selectedWordB);
@@ -190,9 +222,11 @@ class _ParejasGame extends State<ParejasGame> {
           Container(
             width: 350,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0), // Ajusta el valor para el redondeo deseado
+              borderRadius: BorderRadius.circular(
+                  20.0), // Ajusta el valor para el redondeo deseado
               // Agrega un borde si lo deseas
-              border: Border.all(color: azulClaro), // Agrega un borde si lo deseas
+              border:
+                  Border.all(color: azulClaro), // Agrega un borde si lo deseas
             ),
             child: LinearProgressIndicator(
               value: timeRemaining,
@@ -209,7 +243,8 @@ class _ParejasGame extends State<ParejasGame> {
           //!Cuerpo del juego
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Alinea las columnas en horizontal
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceEvenly, // Alinea las columnas en horizontal
               children: [
                 Expanded(
                   child: ListView.builder(
@@ -234,9 +269,7 @@ class _ParejasGame extends State<ParejasGame> {
                     },
                   ),
                 ),
-
                 const SizedBox(width: 35),
-
                 Expanded(
                   child: ListView.builder(
                     itemCount: parejas.length,
