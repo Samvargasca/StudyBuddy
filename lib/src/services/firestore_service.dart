@@ -92,6 +92,18 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  Future<List<Usuario>> obtenerUsuarios() async {
+    try {
+      QuerySnapshot querySnapshot = await _usersCollectionRef.get();
+      List<Usuario> usuarios = querySnapshot.docs.map((value) {
+        return Usuario.fromFirestore(value, null);
+      }).toList();
+      return usuarios;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Referencia a la coleccion de palabras
   late final CollectionReference _palabrasCollectionRef =
       _db.collection('palabras');
@@ -213,4 +225,66 @@ class Palabra {
       (json['ejemplos'] as List<dynamic>).cast<String>(),
     ); // Ensure ejemplos is a List<String>
   }
+}
+
+class Usuario {
+  String id;
+  String usuario;
+  List<String> errores;
+  int? tiempoTraduccion;
+  int? tiempoParejas;
+
+  Usuario(this.id, this.usuario, this.errores, this.tiempoTraduccion,
+      this.tiempoParejas);
+
+  factory Usuario.fromFirestore(
+      QueryDocumentSnapshot<Object?> snapshot, SnapshotOptions? options) {
+    if (snapshot is QueryDocumentSnapshot<Map<String, dynamic>>) {
+      final data = snapshot.data();
+
+      return Usuario(
+        snapshot.id,
+        data['usuario'],
+        data['errores'] is Iterable ? List.from(data['errores']) : [],
+        data['tiempoTraduccion'],
+        data['tiempoParejas'],
+      );
+    }
+    throw Exception("Se están cargando valores erróneos");
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'usuario': usuario,
+      'errores': errores,
+      'tiempoTraduccion': tiempoTraduccion,
+    };
+  }
+
+  // Función para comparar listas por contenido
+  bool listEquals(List a, List b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+
+  // función para comparar dos usuarios
+  @override
+  bool operator ==(Object other) =>
+      other is Usuario &&
+      other.id == id &&
+      other.usuario == usuario &&
+      listEquals(other.errores,
+          errores) && // Utiliza una función de comparación de listas
+      other.tiempoTraduccion == tiempoTraduccion;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      usuario.hashCode ^
+      errores.hashCode ^
+      tiempoTraduccion.hashCode;
 }
