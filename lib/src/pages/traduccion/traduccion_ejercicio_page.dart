@@ -390,8 +390,9 @@ class _FormularioState extends State<Formulario> {
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        bool correcto = widget.traduccion.toLowerCase() ==
-                            palabraUsuario.toLowerCase();
+                        bool correcto =
+                            widget.traduccion.toLowerCase().trim() ==
+                                palabraUsuario.toLowerCase().trim();
 
                         if (correcto) {
                           widget.cambiarImagen("assets/images/quokka-copa.png");
