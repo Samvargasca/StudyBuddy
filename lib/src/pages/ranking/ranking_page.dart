@@ -272,8 +272,8 @@ class _RankingPageState extends State<RankingPage> {
                                     title: Text(usuarios[index].usuario),
                                     trailing: Text(botonPresionado ==
                                             "traduccion"
-                                        ? "${usuarios[index].tiempoTraduccion} s"
-                                        : "${usuarios[index].tiempoParejas} s"),
+                                        ? "${(usuarios[index].tiempoTraduccion! ~/ 60).toString().padLeft(2)}:${(usuarios[index].tiempoTraduccion! % 60).toString().padLeft(2)}"
+                                        : "${(usuarios[index].tiempoParejas! ~/ 60).toString().padLeft(2)}:${(usuarios[index].tiempoParejas! % 60).toString().padLeft(2)}"),
                                   );
                                 },
                                 itemCount: usuarios.length,
