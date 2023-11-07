@@ -269,11 +269,36 @@ class _RankingPageState extends State<RankingPage> {
                                   }
                                   return ListTile(
                                     leading: leadingWidget,
-                                    title: Text(usuarios[index].usuario),
-                                    trailing: Text(botonPresionado ==
-                                            "traduccion"
-                                        ? "${(usuarios[index].tiempoTraduccion! ~/ 60).toString().padLeft(2)}:${(usuarios[index].tiempoTraduccion! % 60).toString().padLeft(2)}"
-                                        : "${(usuarios[index].tiempoParejas! ~/ 60).toString().padLeft(2)}:${(usuarios[index].tiempoParejas! % 60).toString().padLeft(2)}"),
+                                    title: Text(
+                                      usuarios[index].usuario,
+                                      style: const TextStyle(
+                                        fontFamily: "Arimo",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    trailing: Container(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(40)),
+                                        color: azulRey,
+                                      ),
+                                      width: 70,
+                                      height: 30,
+                                      child: Center(
+                                        child: Text(
+                                          botonPresionado == "traduccion"
+                                              ? "${(usuarios[index].tiempoTraduccion! ~/ 60).toString().padLeft(2)}:${(usuarios[index].tiempoTraduccion! % 60).toString().padLeft(2)}"
+                                              : "${(usuarios[index].tiempoParejas! ~/ 60).toString().padLeft(2)}:${(usuarios[index].tiempoParejas! % 60).toString().padLeft(2)}",
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontFamily: "Arimo",
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 },
                                 itemCount: usuarios.length,
