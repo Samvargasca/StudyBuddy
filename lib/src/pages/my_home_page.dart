@@ -125,35 +125,75 @@ class _MyHomePageState extends State<MyHomePage> {
                         topRight: Radius.circular(30),
                       ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BotonInicio(
-                                "Parejas",
-                                "¡Aprende juntando las palabras con sus traducciones!",
-                                SvgPicture.asset(
-                                  "assets/images/squares-2x2-solid.svg",
-                                  width: 65,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 48,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: ElevatedButton(
+                                onPressed: () => null,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: azulRey,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.add_circle_outline,
+                                    ),
+                                    Text(
+                                      "Añadir Flashcards",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Chewy",
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 20),
-                              BotonInicio(
-                                "Traducir",
-                                "¡Practica completando las traducciones de las palabras!",
-                                Image.asset(
-                                  "assets/images/traducir.png",
-                                  width: 65,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                        const BarraInferior(),
-                      ],
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                BotonInicio(
+                                  "Parejas",
+                                  "¡Aprende juntando las palabras con sus traducciones!",
+                                  SvgPicture.asset(
+                                    "assets/images/squares-2x2-solid.svg",
+                                    width: 65,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                BotonInicio(
+                                  "Traducir",
+                                  "¡Practica completando las traducciones de las palabras!",
+                                  Image.asset(
+                                    "assets/images/traducir.png",
+                                    width: 65,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const BarraInferior(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
