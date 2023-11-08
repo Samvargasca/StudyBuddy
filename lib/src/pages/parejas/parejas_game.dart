@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:study_buddy/src/app.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/creador_palabras.dart';
 import 'package:study_buddy/src/pages/parejas/parejas_victoria.dart';
+import 'package:study_buddy/src/pages/parejas/parejas_derrota.dart';
 import 'dart:math';
 
 class ParejasGame extends StatefulWidget {
@@ -21,6 +21,7 @@ class _ParejasGame extends State<ParejasGame> {
   String selectedWordA = ''; // Palabra seleccionada en la columna A
   String selectedWordB = ''; // Palabra seleccionada en la columna B
   List<String> palabrasColumnaIzquierda = [];
+  //double tiempoCompletado = 0.0; // Agregar esta variable
 
   double timeRemaining = 1.0;
 
@@ -40,7 +41,14 @@ class _ParejasGame extends State<ParejasGame> {
         timeRemaining -= 0.0001;
         if (timeRemaining <= 0) {
           timer.cancel();
-          mostrarMensaje();
+          timeRemaining = 1.0;
+          Navigator.pop(context);
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ParejasDerrota(),
+            ),
+          );
         }
       });
     });
@@ -87,39 +95,11 @@ class _ParejasGame extends State<ParejasGame> {
     }
   }
 
-  void mostrarMensaje() {
+  double mostrarMensaje() {
     final endTime = DateTime.now();
-    final tiempoTranscurrido = endTime.millisecondsSinceEpoch -
-        startTime!
-            .millisecondsSinceEpoch; // Calcula la diferencia de tiempo en milisegundos
-
-    final tiempoCompletado =
-        tiempoTranscurrido / 1000.0; // Convierte el tiempo a segundos
-
-    timeRemaining = 1.0; // Reiniciar el temporizador
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("¡Juego completado!"),
-          content: Text(
-              "Aciertos: $aciertos\nDesaciertos: $desaciertos\nTiempo transcurrido: ${tiempoCompletado.toStringAsFixed(2)} segundos"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Cerrar el diálogo
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const MyApp())); // Navegar al menú principal
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
+    final tiempoTranscurrido = endTime.millisecondsSinceEpoch -startTime!.millisecondsSinceEpoch; // Calcula la diferencia de tiempo en milisegundos
+    final tiempoCompletado = tiempoTranscurrido / 1000.0; // Convierte el tiempo a segundostimeRemaining = 1.0; // Reiniciar el temporizador
+    return tiempoCompletado;
   }
 
   //!Comprueba si hay una coincidencia
@@ -143,15 +123,19 @@ class _ParejasGame extends State<ParejasGame> {
           // Muestra un mensaje al usuario y detén el temporizador
           //mostrarMensaje();
           timer?.cancel();
-              // Navega a la página de victoria
+          // Navega a la página de victoria
+          timeRemaining = 1.0;
           Navigator.pop(context);
+          double tiempo=mostrarMensaje();
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>  ParejasVictoriaPage(),
+              builder: (context) => ParejasVictoriaPage(
+                  tiempoCompletado: tiempo,
+                  aciertos: aciertos,
+                  errores: desaciertos),
             ),
           );
-
         }
       } else {
         // No coincidencia, incrementar el contador de desaciertos

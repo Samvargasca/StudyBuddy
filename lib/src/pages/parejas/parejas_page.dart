@@ -3,6 +3,7 @@ import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 
 class ParejasPage extends StatefulWidget { //?Esta pagina podria ser StatelessWidget
+  
   const ParejasPage({super.key});
 
   @override

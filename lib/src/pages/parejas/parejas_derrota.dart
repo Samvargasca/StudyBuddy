@@ -2,24 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 
-class ParejasVictoriaPage extends StatefulWidget {
+class ParejasDerrota extends StatefulWidget {
   //?Esta pagina podria ser StatelessWidget
-  final double tiempoCompletado; // variable de instancia para almacenar los puntos
-  final int aciertos; // variable de instancia para almacenar los puntos
-  final int errores;
-
-  const ParejasVictoriaPage({Key? key, 
-  required this.tiempoCompletado,
-  required this.aciertos,
-  required this.errores
+  const ParejasDerrota({Key? key, 
   })
       :super(key: key);
 
   @override
-  State<ParejasVictoriaPage> createState() => _ParejasVictoriaPage();
+  State<ParejasDerrota> createState() => _ParejasDerrota();
 }
 
-class _ParejasVictoriaPage extends State<ParejasVictoriaPage> {
+class _ParejasDerrota extends State<ParejasDerrota> {
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +36,13 @@ class _ParejasVictoriaPage extends State<ParejasVictoriaPage> {
 
           //!Cuerpo de la pagina, titulo imagen, parrafo y boton de inicio
           //Texto de pagina
-          const Text("¡Felicidades!",
+          const Text("¡Casi lo logras!",
               style: TextStyle(fontFamily: "Chewy", fontSize: 48)),
 
-          Image.asset("assets/images/quokka-copa.png", width: 186),
+          Image.asset("assets/images/quokka-x.png", width: 186),
 
-          SizedBox(
+          const SizedBox(
             width: 185,
-            child: 
-            Text(
-              //"Has completado el juego en ${widget.tiempoCompletado.toStringAsFixed(2)} segundos",
-              "Has completado el juego en ${widget.tiempoCompletado.toStringAsFixed(2)} segundos, con ${widget.aciertos} aciertos y ${widget.errores} errores",
-              style: const TextStyle(
-                fontFamily: "Aribo",
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: gris,
-              ),
-              textAlign: TextAlign.center,
-            ),
           ),
 
           //Boton de inicio
