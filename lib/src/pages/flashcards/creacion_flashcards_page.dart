@@ -150,6 +150,19 @@ class FormularioFlashcard extends StatefulWidget {
 }
 
 class _FormularioFlashcardState extends State<FormularioFlashcard> {
+  final TextStyle estiloTitulo = const TextStyle(
+    fontFamily: "Arimo",
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    color: azulOscuro,
+  );
+
+  final TextStyle estiloTexto = const TextStyle(
+    fontSize: 15,
+    fontFamily: "Arimo",
+    fontWeight: FontWeight.bold,
+  );
+
   String? _selectedCategory;
 
   @override
@@ -184,28 +197,73 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                 labelText: "Traducción",
               ),
             ),
+
             Row(
               children: [
                 const Text("Categoría"),
-                // DropdownButtonFormField<String>(
-                //   items: [
-                //     "Sustantivo",
-                //     "Adjetivo",
-                //     "Verbo",
-                //     "Adverbio",
-                //     "Preposición",
-                //     "Otro"
-                //   ]
-                //       .map((String e) =>
-                //           DropdownMenuItem<String>(child: Text(e)))
-                //       .toList(),
-                //   onChanged: (value) {
-                //     setState(() {
-                //       _selectedCategory = value;
-                //     });
-                //   },
-                // ),
+                DropdownMenu<String>(
+                  dropdownMenuEntries: [
+                    "Sustantivo",
+                    "Adjetivo",
+                    "Verbo",
+                    "Adverbio",
+                    "Preposición",
+                    "Otro"
+                  ]
+                      .map((e) => DropdownMenuEntry<String>(value: e, label: e))
+                      .toList(),
+                  label: const Text("Categoría"),
+                  onSelected: (String? value) {
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  },
+                  width: 133,
+                ),
               ],
+            ),
+            Row(
+              children: [
+                const Text("Prioridad"),
+                DropdownMenu<String>(
+                  dropdownMenuEntries: [
+                    "Alta",
+                    "Media",
+                    "Baja",
+                  ]
+                      .map((e) => DropdownMenuEntry<String>(value: e, label: e))
+                      .toList(),
+                  label: const Text("Prioridad"),
+                  onSelected: (String? value) {
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  },
+                  width: 133,
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Definición",
+              style: estiloTitulo,
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: azulRey,
+                  width: 2,
+                ),
+              ),
+              child: TextFormField(
+                style: estiloTexto,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Ejemplos",
+              style: estiloTitulo,
             ),
             // ElevatedButton(
             //   onPressed: () {
