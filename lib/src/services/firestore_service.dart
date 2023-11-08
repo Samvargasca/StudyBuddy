@@ -84,22 +84,20 @@ class FirestoreService extends ChangeNotifier {
 
   // Función para obtener las flashcards de un usuario
   Future<List<Flashcard>> obtenerFlashcard(String idUsuario) async {
-    try {
-      List<Flashcard> flashcards = [];
+    // try {
+    List<Flashcard> flashcards = [];
 
-      QuerySnapshot querySnapshot = await _usersCollectionRef
-          .doc(idUsuario)
-          .collection('flashcards')
-          .get();
+    QuerySnapshot querySnapshot =
+        await _usersCollectionRef.doc(idUsuario).collection('flashcards').get();
 
-      for (QueryDocumentSnapshot flashcard in querySnapshot.docs) {
-        flashcards.add(Flashcard.fromFirestore(flashcard, null));
-      }
-
-      return flashcards;
-    } catch (e) {
-      rethrow;
+    for (QueryDocumentSnapshot flashcard in querySnapshot.docs) {
+      flashcards.add(Flashcard.fromFirestore(flashcard, null));
     }
+
+    return flashcards;
+    // } catch (e) {
+    //   rethrow;
+    // }
   }
 
   // Guardar flashcards
@@ -345,7 +343,7 @@ class Flashcard {
       final data = snapshot.data();
 
       return Flashcard(
-        Palabra.fromFirestore2(data['palabra'], null),
+        Palabra.fromJson(data['palabra']),
         data['estado'],
         data['prioridad'],
         id: snapshot.id,

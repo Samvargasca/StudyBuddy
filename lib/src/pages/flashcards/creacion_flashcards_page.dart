@@ -13,13 +13,13 @@ class CreacionFlashcardsPage extends StatefulWidget {
 
 class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
   // List<Flashcard>? flashcards;
-  List<Flashcard> flashcards2 = [
-    Flashcard(
-        Palabra("hola", "hello", "saludo", ["hola1", "hola2"], "Otro",
-            id: "hola"),
-        true,
-        3)
-  ];
+  // List<Flashcard> flashcards = [
+  //   // Flashcard(
+  //   //     Palabra("hola", "hello", "saludo", ["hola1", "hola2"], "Otro",
+  //   //         id: "hola"),
+  //   //     true,
+  //   //     3)
+  // ];
   String? _selectedCategory;
   String? _selectedPriority;
 
@@ -31,21 +31,17 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
     });
   }
 
-  // void obtenerFlashcard(String userId, BuildContext context) async {
-  //   try {
-  //     FirestoreService firestoreService =
-  //         Provider.of<FirestoreService>(context, listen: false);
-  //     var fls = await firestoreService.obtenerFlashcard(userId);
-  //     if (mounted) {
-  //       // Verificar si el widget está montado
-  //       setState(() {
-  //         flashcards = fls;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+  Future<List<Flashcard>> obtenerFlashcard(
+      String userId, BuildContext context) async {
+    // try {
+    FirestoreService firestoreService =
+        Provider.of<FirestoreService>(context, listen: false);
+    List<Flashcard> fls = await firestoreService.obtenerFlashcard(userId);
+    return fls;
+    // } catch (e) {
+    //   rethrow;
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,69 +73,88 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: azulOscuro,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6.5,
-                    horizontal: 11.5,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Flashcards",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+      body: FutureBuilder<Object>(
+        future: obtenerFlashcard(firebaseService.user!.uid, context),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            List<Flashcard> flashcards = snapshot.data as List<Flashcard>;
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: azulOscuro,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 6.5,
+                          horizontal: 11.5,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Flashcards",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: "Arimo",
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.cancel,
+                          color: rojo,
+                          size: 37,
+                        ),
+                      )
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        Column(
+                          children: [
+                            if (showCreateForm)
+                              FormularioFlashcard(
+                                  onSaved: toggleFormVisibility),
+                            if (flashcards.isEmpty)
+                              const Text("No hay flashcards creadas")
+                            else
+                              Column(
+                                children: flashcards
+                                    .map((flashcard) =>
+                                        VistaFlashcard(flashcard))
+                                    .toList(),
+                              )
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.cancel,
-                    color: rojo,
-                    size: 37,
-                  ),
-                )
-              ],
-            ),
-            Expanded(
-              child: ListView(
-                children: [
-                  Column(
-                    children: [
-                      if (showCreateForm)
-                        FormularioFlashcard(onSaved: toggleFormVisibility),
-                      if (flashcards2.isEmpty)
-                        const Text("No hay flashcards creadas")
-                      else
-                        Column(
-                          children: flashcards2
-                              .map((flashcard) => VistaFlashcard(flashcard))
-                              .toList(),
-                        )
-                    ],
-                  )
                 ],
               ),
-            ),
-          ],
-        ),
+            );
+          }
+          return const Center(
+            child: Text("Error al obtener las flashcards"),
+          );
+        },
       ),
     );
   }
