@@ -15,7 +15,6 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
   // List<Flashcard>? flashcards;
   List<Flashcard> flashcards2 = [
     Flashcard(
-        "Hola",
         Palabra("hola", "hello", "saludo", ["hola1", "hola2"], "Otro",
             id: "hola"),
         true,
@@ -119,16 +118,25 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
                 )
               ],
             ),
-            if (showCreateForm)
-              FormularioFlashcard(onSaved: toggleFormVisibility),
             Expanded(
-              child: flashcards2.isEmpty
-                  ? const Text("No hay flashcards creadas")
-                  : ListView.builder(
-                      itemBuilder: (context, index) =>
-                          VistaFlashcard(flashcards2[index]),
-                      itemCount: flashcards2.length,
-                    ),
+              child: ListView(
+                children: [
+                  Column(
+                    children: [
+                      if (showCreateForm)
+                        FormularioFlashcard(onSaved: toggleFormVisibility),
+                      if (flashcards2.isEmpty)
+                        const Text("No hay flashcards creadas")
+                      else
+                        Column(
+                          children: flashcards2
+                              .map((flashcard) => VistaFlashcard(flashcard))
+                              .toList(),
+                        )
+                    ],
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -163,9 +171,19 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
     fontWeight: FontWeight.bold,
   );
 
+  // Datos
+  String palabra = "";
+  String traduccion = "";
   String? _selectedCategory;
+  String? _selectedPriority;
+  String definicion = "";
+  List<String> ejemplos = [];
 
-  List<TextEditingController> _exampleControllers = [TextEditingController()];
+  final List<TextEditingController> _exampleControllers = [
+    TextEditingController()
+  ];
+
+  final _formKey = GlobalKey<FormState>();
 
   void _agregarCampoEjemplo() {
     if (_exampleControllers.last.text.isNotEmpty) {
@@ -175,10 +193,35 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
     }
   }
 
+  void obtenerEjemplos() {
+    for (var controller in _exampleControllers) {
+      if (controller.text.isNotEmpty) {
+        ejemplos.add(controller.text);
+      }
+    }
+  }
+
   void _eliminarCampoEjemplo(int index) {
     setState(() {
       _exampleControllers.removeAt(index);
     });
+  }
+
+  void guardarFlashcard(Flashcard flashcard) async {
+    try {
+      FirestoreService firestoreService =
+          Provider.of<FirestoreService>(context, listen: false);
+      FirebaseService firebaseService =
+          Provider.of<FirebaseService>(context, listen: false);
+
+      String uid = firebaseService.user!.uid;
+      await firestoreService.guardarFlashcard(
+        uid,
+        flashcard,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -200,6 +243,7 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
       ),
       padding: const EdgeInsets.all(25),
       child: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -212,11 +256,25 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
               ),
             ),
             TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor ingrese una palabra';
+                }
+                return null;
+              },
+              onSaved: (newValue) => palabra = newValue!,
               decoration: const InputDecoration(
                 labelText: "Palabra",
               ),
             ),
             TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor ingrese una palabra';
+                }
+                return null;
+              },
+              onSaved: (newValue) => traduccion = newValue!,
               decoration: const InputDecoration(
                 labelText: "Traducción",
               ),
@@ -315,7 +373,7 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                   ),
                   onSelected: (String? value) {
                     setState(() {
-                      _selectedCategory = value;
+                      _selectedPriority = value;
                     });
                   },
                   width: 133,
@@ -336,6 +394,13 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                 ),
               ),
               child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingrese una definición';
+                  }
+                  return null;
+                },
+                onSaved: (newValue) => definicion = newValue!,
                 style: estiloTexto,
               ),
             ),
@@ -384,7 +449,28 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
               ),
             ),
             ElevatedButton(
-              onPressed: null,
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  obtenerEjemplos();
+                  Flashcard flashcard = Flashcard(
+                    Palabra(
+                      palabra,
+                      traduccion,
+                      definicion,
+                      ejemplos,
+                      _selectedCategory!,
+                    ),
+                    true,
+                    _selectedPriority == "Alta"
+                        ? 1
+                        : _selectedPriority == "Media"
+                            ? 2
+                            : 3,
+                  );
+                  guardarFlashcard(flashcard);
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: azulOscuro,
                 shape: RoundedRectangleBorder(

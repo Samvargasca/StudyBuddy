@@ -102,6 +102,18 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  // Guardar flashcards
+  Future<void> guardarFlashcard(String idUsuario, Flashcard flashcard) async {
+    try {
+      await _usersCollectionRef
+          .doc(idUsuario)
+          .collection('flashcards')
+          .add(flashcard.toFirestore());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> guardarTiempo(String idUsuario, int tiempo) async {
     try {
       await _usersCollectionRef.doc(idUsuario).update({
@@ -323,7 +335,7 @@ class Flashcard {
   bool estado;
   int prioridad;
 
-  Flashcard(this.id, this.palabra, this.estado, this.prioridad);
+  Flashcard(this.palabra, this.estado, this.prioridad, {this.id = ""});
 
   factory Flashcard.fromFirestore(
     QueryDocumentSnapshot snapshot,
@@ -333,10 +345,10 @@ class Flashcard {
       final data = snapshot.data();
 
       return Flashcard(
-        snapshot.id,
         Palabra.fromFirestore2(data['palabra'], null),
         data['estado'],
         data['prioridad'],
+        id: snapshot.id,
       );
     }
     throw Exception("Se están cargando valores erróneos");
