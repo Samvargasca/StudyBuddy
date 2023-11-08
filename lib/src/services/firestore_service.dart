@@ -92,6 +92,16 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  Future<void> guardarTiempoParejas(String idUsuario, int tiempo) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'tiempoParejas': tiempo,
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<Usuario>> obtenerUsuarios() async {
     try {
       QuerySnapshot querySnapshot = await _usersCollectionRef.get();

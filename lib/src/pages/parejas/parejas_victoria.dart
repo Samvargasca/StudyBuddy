@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 
+import 'package:study_buddy/src/services/firebase_service.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
+import "package:provider/provider.dart";
+
 class ParejasVictoriaPage extends StatefulWidget {
   //?Esta pagina podria ser StatelessWidget
   final double tiempoCompletado; // variable de instancia para almacenar los puntos
   final int aciertos; // variable de instancia para almacenar los puntos
   final int errores;
 
-  const ParejasVictoriaPage({Key? key, 
-  required this.tiempoCompletado,
-  required this.aciertos,
-  required this.errores
-  })
-      :super(key: key);
+  const ParejasVictoriaPage(
+      {Key? key,
+      required this.tiempoCompletado,
+      required this.aciertos,
+      required this.errores})
+      : super(key: key);
 
   @override
   State<ParejasVictoriaPage> createState() => _ParejasVictoriaPage();
@@ -21,13 +25,24 @@ class ParejasVictoriaPage extends StatefulWidget {
 
 class _ParejasVictoriaPage extends State<ParejasVictoriaPage> {
 
+  Future<void> guardarTiempo() async {
+    int timpoint = widget.tiempoCompletado.toInt();
+    FirebaseService firebaseService =
+        Provider.of<FirebaseService>(context, listen: false);
+    FirestoreService firestoreService =
+        Provider.of<FirestoreService>(context, listen: false);
+    String idUsuario = firebaseService.user!.uid;
+    await firestoreService.guardarTiempoParejas(idUsuario, timpoint);
+  }
+
   @override
   Widget build(BuildContext context) {
+    guardarTiempo();
     return Scaffold(
       //!Titulo de la pagina
       appBar: AppBar(
           title: const Text("StudyBuddy",
-          style: TextStyle(fontFamily: "Chewy", fontSize: 32)),
+              style: TextStyle(fontFamily: "Chewy", fontSize: 32)),
           automaticallyImplyLeading: false,
           backgroundColor: azulClaro),
 
@@ -50,8 +65,7 @@ class _ParejasVictoriaPage extends State<ParejasVictoriaPage> {
 
           SizedBox(
             width: 185,
-            child: 
-            Text(
+            child: Text(
               //"Has completado el juego en ${widget.tiempoCompletado.toStringAsFixed(2)} segundos",
               "Has completado el juego en ${widget.tiempoCompletado.toStringAsFixed(2)} segundos, con ${widget.aciertos} aciertos y ${widget.errores} errores",
               style: const TextStyle(
