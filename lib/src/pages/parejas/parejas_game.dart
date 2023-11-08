@@ -127,6 +127,7 @@ class _ParejasGame extends State<ParejasGame> {
           timeRemaining = 1.0;
           Navigator.pop(context);
           double tiempo=mostrarMensaje();
+          
           Navigator.push(
             context,
             MaterialPageRoute(
