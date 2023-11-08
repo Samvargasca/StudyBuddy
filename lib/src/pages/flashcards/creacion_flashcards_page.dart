@@ -12,17 +12,6 @@ class CreacionFlashcardsPage extends StatefulWidget {
 }
 
 class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
-  // List<Flashcard>? flashcards;
-  // List<Flashcard> flashcards = [
-  //   // Flashcard(
-  //   //     Palabra("hola", "hello", "saludo", ["hola1", "hola2"], "Otro",
-  //   //         id: "hola"),
-  //   //     true,
-  //   //     3)
-  // ];
-  String? _selectedCategory;
-  String? _selectedPriority;
-
   bool showCreateForm = false; // Variable para mostrar el formulario
 
   void toggleFormVisibility() {
@@ -33,27 +22,20 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
 
   Future<List<Flashcard>> obtenerFlashcard(
       String userId, BuildContext context) async {
-    // try {
-    FirestoreService firestoreService =
-        Provider.of<FirestoreService>(context, listen: false);
-    List<Flashcard> fls = await firestoreService.obtenerFlashcard(userId);
-    return fls;
-    // } catch (e) {
-    //   rethrow;
-    // }
+    try {
+      FirestoreService firestoreService =
+          Provider.of<FirestoreService>(context, listen: false);
+      List<Flashcard> fls = await firestoreService.obtenerFlashcard(userId);
+      return fls;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
-    // obtenerFlashcard(firebaseService.user!.uid, context);
-    // if (flashcards == null) {
-    //   return const Scaffold(
-    //     body: Center(
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   );
-    // }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
