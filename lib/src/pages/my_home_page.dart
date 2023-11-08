@@ -55,6 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void ordenarFlashcards(List<Flashcard> arr) {
+    MaxHeap maxHeap = MaxHeap(flashcards!.length);
+    maxHeap.heapSort(arr);
+  }
+
   // void obtenerPalabras() async {
   //   FirestoreService firestoreService = Provider.of<FirestoreService>(context);
   //   FirebaseService firebaseService = Provider.of<FirebaseService>(context);
@@ -78,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
 
     obtenerFlashcard(firebaseService.user!.uid, context);
+    ordenarFlashcards(flashcards!);
     if (flashcards == null) {
       return const Scaffold(
         body: Center(
