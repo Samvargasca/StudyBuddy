@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:study_buddy/src/constants/colors.dart';
+import 'package:study_buddy/src/data_structures/max_heap_flashcard.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
-import 'package:study_buddy/src/widgets/flashcard.dart';
+import 'package:study_buddy/src/widgets/flashcard.dart' as flashcard;
 import 'package:study_buddy/src/pages/flashcards/creacion_flashcards_page.dart';
+import 'package:study_buddy/src/services/firestore_service.dart';
+import 'package:study_buddy/src/services/firebase_service.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -32,8 +36,55 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Flashcard>? flashcards;
+
+  void obtenerFlashcard(String userId, BuildContext context) async {
+    try {
+      FirestoreService firestoreService =
+          Provider.of<FirestoreService>(context, listen: false);
+      var flashcardss = await firestoreService.obtenerFlashcard(userId);
+      if (mounted) {
+        setState(() {
+          flashcards = flashcardss;
+
+          max = flashcards!.length;
+        });
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // void obtenerPalabras() async {
+  //   FirestoreService firestoreService = Provider.of<FirestoreService>(context);
+  //   FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+
+  //   // String uid = firebaseService.user!.uid;
+
+  //   // List<Flashcard> fls = await firestoreService.obtenerFlashcard(uid);
+  //   // MaxHeap maxHeap = MaxHeap(fls.length);
+  //   // for (Flashcard f in fls) {
+  //   //   maxHeap.insert(f);
+  //   // }
+  //   // for (int i = 0; i < fls.length; i++) {
+  //   //   setState(() {
+  //   //     flashcards.add(maxHeap.extractMax());
+  //   //   });
+  //   // }
+  // }
+
   @override
   Widget build(BuildContext context) {
+    FirebaseService firebaseService = Provider.of<FirebaseService>(context);
+
+    obtenerFlashcard(firebaseService.user!.uid, context);
+    if (flashcards == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -59,9 +110,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flashcard(
-                      pregunta: "Pregunta $numeroPalabra",
-                      respuesta: "Respuesta $numeroPalabra",
+                    flashcard.Flashcard(
+                      pregunta: flashcards![numeroPalabra - 1].palabra.espanol,
+                      respuesta: flashcards![numeroPalabra - 1].palabra.ingles,
                     ),
                     const SizedBox(height: 20),
                     Row(
