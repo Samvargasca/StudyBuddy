@@ -119,8 +119,8 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
                 )
               ],
             ),
-            // if (showCreateForm)
-            // FormularioFlashcard(onSaved: toggleFormVisibility),
+            if (showCreateForm)
+              FormularioFlashcard(onSaved: toggleFormVisibility),
             Expanded(
               child: flashcards2.isEmpty
                   ? const Text("No hay flashcards creadas")
@@ -249,153 +249,156 @@ class VistaFlashcard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: azulRey, width: 3),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: azulRey, width: 3),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
         ),
-      ),
-      padding: const EdgeInsets.all(25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            flashcard.palabra.ingles,
-            style: estiloTexto,
-          ),
-          const Divider(
-            thickness: 4,
-            color: azulRey,
-          ),
-          Text(
-            flashcard.palabra.espanol,
-            style: estiloTexto,
-          ),
-          const Divider(
-            thickness: 4,
-            color: azulRey,
-          ),
-          Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: azulRey,
-                ),
-                width: 95,
-                padding: const EdgeInsets.all(10),
-                child: const Center(
-                  child: Text(
-                    "Categoría",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Arimo",
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.all(10),
-                width: 140,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: gris, width: 1),
-                ),
-                child: Center(child: Text(flashcard.palabra.categoria)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: azulRey,
-                ),
-                width: 95,
-                padding: const EdgeInsets.all(10),
-                child: const Center(
-                  child: Text(
-                    "Prioridad",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Arimo",
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.all(10),
-                width: 140,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: gris, width: 1),
-                ),
-                child:
-                    Center(child: Text(obtenerPrioridad(flashcard.prioridad))),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Text(
-            "Definición",
-            style: estiloTitulo,
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: azulRey,
-                width: 2,
-              ),
-            ),
-            child: Text(
-              flashcard.palabra.definicion,
+        padding: const EdgeInsets.all(25),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              flashcard.palabra.ingles,
               style: estiloTexto,
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            "Ejemplos",
-            style: estiloTitulo,
-          ),
-          Container(
-            constraints: const BoxConstraints(maxHeight: 150),
-            child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: const Icon(Icons.arrow_right),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                    title: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: azulRey,
-                          width: 2,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        flashcard.palabra.ejemplos[index],
-                        style: estiloTexto,
+            const Divider(
+              thickness: 4,
+              color: azulRey,
+            ),
+            Text(
+              flashcard.palabra.espanol,
+              style: estiloTexto,
+            ),
+            const Divider(
+              thickness: 4,
+              color: azulRey,
+            ),
+            Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: azulRey,
+                  ),
+                  width: 95,
+                  padding: const EdgeInsets.all(10),
+                  child: const Center(
+                    child: Text(
+                      "Categoría",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Arimo",
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  );
-                },
-                itemCount: flashcard.palabra.ejemplos.length),
-          ),
-        ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  width: 140,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: gris, width: 1),
+                  ),
+                  child: Center(child: Text(flashcard.palabra.categoria)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: azulRey,
+                  ),
+                  width: 95,
+                  padding: const EdgeInsets.all(10),
+                  child: const Center(
+                    child: Text(
+                      "Prioridad",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Arimo",
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  width: 140,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: gris, width: 1),
+                  ),
+                  child: Center(
+                      child: Text(obtenerPrioridad(flashcard.prioridad))),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Definición",
+              style: estiloTitulo,
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: azulRey,
+                  width: 2,
+                ),
+              ),
+              child: Text(
+                flashcard.palabra.definicion,
+                style: estiloTexto,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Ejemplos",
+              style: estiloTitulo,
+            ),
+            Container(
+              constraints: const BoxConstraints(maxHeight: 150),
+              child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: const Icon(Icons.arrow_right),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: azulRey,
+                            width: 2,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          flashcard.palabra.ejemplos[index],
+                          style: estiloTexto,
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: flashcard.palabra.ejemplos.length),
+            ),
+          ],
+        ),
       ),
     );
   }
