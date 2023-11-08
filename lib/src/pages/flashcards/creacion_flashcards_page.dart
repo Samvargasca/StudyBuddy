@@ -216,6 +216,9 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
         uid,
         flashcard,
       );
+      if (context.mounted) {
+        widget.onSaved();
+      }
     } catch (e) {
       rethrow;
     }
