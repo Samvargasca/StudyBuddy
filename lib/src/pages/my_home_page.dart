@@ -19,7 +19,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int numeroPalabra = 1;
-  int max = 99;
+  int max = 1;
 
   void aumentarPalabra() {
     setState(() {
@@ -36,20 +36,20 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  List<Flashcard>? flashcards;
+  List<Flashcard> flashcards = [
+    Flashcard(
+      Palabra("Hola", "Puedes agregar más flashcards debajo", "", [""], ""),
+      true,
+      3,
+    ),
+  ];
 
-  void obtenerFlashcard(String userId, BuildContext context) async {
+  Future<List<Flashcard>> obtenerFlashcard(
+      String userId, BuildContext context) async {
     try {
       FirestoreService firestoreService =
           Provider.of<FirestoreService>(context, listen: false);
-      var flashcardss = await firestoreService.obtenerFlashcard(userId);
-      if (mounted) {
-        setState(() {
-          flashcards = flashcardss;
-
-          max = flashcards!.length;
-        });
-      }
+      return await firestoreService.obtenerFlashcard(userId);
     } catch (e) {
       rethrow;
     }
@@ -60,37 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
     maxHeap.heapSort(arr);
   }
 
-  // void obtenerPalabras() async {
-  //   FirestoreService firestoreService = Provider.of<FirestoreService>(context);
-  //   FirebaseService firebaseService = Provider.of<FirebaseService>(context);
-
-  //   // String uid = firebaseService.user!.uid;
-
-  //   // List<Flashcard> fls = await firestoreService.obtenerFlashcard(uid);
-  //   // MaxHeap maxHeap = MaxHeap(fls.length);
-  //   // for (Flashcard f in fls) {
-  //   //   maxHeap.insert(f);
-  //   // }
-  //   // for (int i = 0; i < fls.length; i++) {
-  //   //   setState(() {
-  //   //     flashcards.add(maxHeap.extractMax());
-  //   //   });
-  //   // }
-  // }
-
   @override
   Widget build(BuildContext context) {
     FirebaseService firebaseService = Provider.of<FirebaseService>(context);
 
-    obtenerFlashcard(firebaseService.user!.uid, context);
-    ordenarFlashcards(flashcards!);
-    if (flashcards == null) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
+    ordenarFlashcards(flashcards);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -105,174 +79,197 @@ class _MyHomePageState extends State<MyHomePage> {
         shadowColor: Colors.transparent,
       ),
       backgroundColor: azulClaro,
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Centra los elementos verticalmente
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      body: FutureBuilder<Object>(
+          future: obtenerFlashcard(firebaseService.user!.uid, context),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var fls = snapshot.data as List<Flashcard>;
+              if (fls.isNotEmpty) {
+                flashcards = fls;
+                max = flashcards.length;
+              }
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text("Error al obtener las flashcards"),
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment
+                      .center, // Centra los elementos verticalmente
                   children: [
-                    flashcard.Flashcard(
-                      pregunta: flashcards![numeroPalabra - 1].palabra.espanol,
-                      respuesta: flashcards![numeroPalabra - 1].palabra.ingles,
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Transform.rotate(
-                          angle: -90 * 3.141592 / 180,
-                          child: IconButton(
-                            onPressed: () => disminuirPalabra(),
-                            icon: SvgPicture.asset(
-                              width: 24,
-                              "assets/images/up-arrow.svg",
-                              colorFilter: const ColorFilter.mode(
-                                azulOscuro,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 60,
-                          height: 21,
-                          decoration: BoxDecoration(
-                            color: azulRey,
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "$numeroPalabra/$max",
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Transform.rotate(
-                          angle: 90 * 3.141592 / 180,
-                          child: IconButton(
-                            onPressed: () => aumentarPalabra(),
-                            icon: SvgPicture.asset(
-                              width: 24,
-                              "assets/images/up-arrow.svg",
-                              colorFilter: const ColorFilter.mode(
-                                azulOscuro,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: FractionallySizedBox(
-                  widthFactor: 1,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 48,
-                      ),
+                    Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: ElevatedButton(
-                                onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            CreacionFlashcardsPage())),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: azulRey,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 10,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.add_circle_outline,
+                          flashcard.Flashcard(
+                            pregunta:
+                                flashcards![numeroPalabra - 1].palabra.espanol,
+                            respuesta:
+                                flashcards![numeroPalabra - 1].palabra.ingles,
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Transform.rotate(
+                                angle: -90 * 3.141592 / 180,
+                                child: IconButton(
+                                  onPressed: () => disminuirPalabra(),
+                                  icon: SvgPicture.asset(
+                                    width: 24,
+                                    "assets/images/up-arrow.svg",
+                                    colorFilter: const ColorFilter.mode(
+                                      azulOscuro,
+                                      BlendMode.srcIn,
                                     ),
-                                    Text(
-                                      "Añadir Flashcards",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "Chewy",
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                BotonInicio(
-                                  "Parejas",
-                                  "¡Aprende juntando las palabras con sus traducciones!",
-                                  SvgPicture.asset(
-                                    "assets/images/squares-2x2-solid.svg",
-                                    width: 65,
+                              Container(
+                                width: 60,
+                                height: 21,
+                                decoration: BoxDecoration(
+                                  color: azulRey,
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "$numeroPalabra/$max",
+                                  style: const TextStyle(
+                                    color: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 20),
-                                BotonInicio(
-                                  "Traducir",
-                                  "¡Practica completando las traducciones de las palabras!",
-                                  Image.asset(
-                                    "assets/images/traducir.png",
-                                    width: 65,
+                              ),
+                              Transform.rotate(
+                                angle: 90 * 3.141592 / 180,
+                                child: IconButton(
+                                  onPressed: () => aumentarPalabra(),
+                                  icon: SvgPicture.asset(
+                                    width: 24,
+                                    "assets/images/up-arrow.svg",
+                                    colorFilter: const ColorFilter.mode(
+                                      azulOscuro,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          const BarraInferior(),
                         ],
                       ),
                     ),
+                    Expanded(
+                      child: FractionallySizedBox(
+                        widthFactor: 1,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 48,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: ElevatedButton(
+                                      onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CreacionFlashcardsPage())),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: azulRey,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                          vertical: 10,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                      child: const Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.add_circle_outline,
+                                          ),
+                                          Text(
+                                            "Añadir Flashcards",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: "Chewy",
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      BotonInicio(
+                                        "Parejas",
+                                        "¡Aprende juntando las palabras con sus traducciones!",
+                                        SvgPicture.asset(
+                                          "assets/images/squares-2x2-solid.svg",
+                                          width: 65,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      BotonInicio(
+                                        "Traducir",
+                                        "¡Practica completando las traducciones de las palabras!",
+                                        Image.asset(
+                                          "assets/images/traducir.png",
+                                          width: 65,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const BarraInferior(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 200,
+                  bottom: 200,
+                  right: -10,
+                  child: Image.asset(
+                    "assets/images/quokka-papeles.png",
+                    width: 150,
                   ),
                 ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 200,
-            bottom: 200,
-            right: -10,
-            child: Image.asset(
-              "assets/images/quokka-papeles.png",
-              width: 150,
-            ),
-          ),
-        ],
-      ),
+              ],
+            );
+          }),
     );
   }
 }
