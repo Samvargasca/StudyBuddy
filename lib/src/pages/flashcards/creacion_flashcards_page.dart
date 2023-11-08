@@ -165,6 +165,30 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
 
   String? _selectedCategory;
 
+  List<TextEditingController> _exampleControllers = [TextEditingController()];
+
+  void _agregarCampoEjemplo() {
+    if (_exampleControllers.last.text.isNotEmpty) {
+      setState(() {
+        _exampleControllers.add(TextEditingController());
+      });
+    }
+  }
+
+  void _eliminarCampoEjemplo(int index) {
+    setState(() {
+      _exampleControllers.removeAt(index);
+    });
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _exampleControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -197,10 +221,29 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                 labelText: "Traducción",
               ),
             ),
-
+            const SizedBox(height: 20),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text("Categoría"),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: azulRey,
+                  ),
+                  width: 95,
+                  padding: const EdgeInsets.all(10),
+                  child: const Center(
+                    child: Text(
+                      "Categoría",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Arimo",
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
                 DropdownMenu<String>(
                   dropdownMenuEntries: [
                     "Sustantivo",
@@ -212,19 +255,47 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                   ]
                       .map((e) => DropdownMenuEntry<String>(value: e, label: e))
                       .toList(),
-                  label: const Text("Categoría"),
+                  label: const Text(
+                    "Categoría",
+                    style: TextStyle(
+                      color: gris,
+                      fontFamily: "Arimo",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 11,
+                    ),
+                  ),
                   onSelected: (String? value) {
                     setState(() {
                       _selectedCategory = value;
                     });
                   },
-                  width: 133,
+                  width: 200,
                 ),
               ],
             ),
+            const SizedBox(height: 20),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text("Prioridad"),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: azulRey,
+                  ),
+                  width: 95,
+                  padding: const EdgeInsets.all(10),
+                  child: const Center(
+                    child: Text(
+                      "Prioridad",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Arimo",
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
                 DropdownMenu<String>(
                   dropdownMenuEntries: [
                     "Alta",
@@ -233,7 +304,15 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                   ]
                       .map((e) => DropdownMenuEntry<String>(value: e, label: e))
                       .toList(),
-                  label: const Text("Prioridad"),
+                  label: const Text(
+                    "Prioridad",
+                    style: TextStyle(
+                      color: gris,
+                      fontFamily: "Arimo",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 11,
+                    ),
+                  ),
                   onSelected: (String? value) {
                     setState(() {
                       _selectedCategory = value;
@@ -265,13 +344,62 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
               "Ejemplos",
               style: estiloTitulo,
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Lógica para guardar la nueva flashcard
-            //     // Puedes agregar la nueva flashcard a la lista flashcards
-            //   },
-            //   child: const Text('Guardar Flashcard'),
-            // ),
+            Column(
+              children: List.generate(
+                _exampleControllers.length,
+                (index) => Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _exampleControllers[index],
+                        decoration: InputDecoration(
+                          labelText: 'Ejemplo ${index + 1}',
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => _eliminarCampoEjemplo(index),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _agregarCampoEjemplo,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: azulRey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: const Text(
+                'Agregar Ejemplo',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "Arimo",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: azulOscuro,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: const Text(
+                'Guardar',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "Arimo",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ],
         ),
       ),
