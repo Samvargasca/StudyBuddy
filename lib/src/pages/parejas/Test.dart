@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:study_buddy/src/app.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/widgets/creador_palabras.dart';
-import 'package:study_buddy/src/pages/parejas/parejas_victoria.dart';
-import 'package:study_buddy/src/pages/parejas/parejas_derrota.dart';
 import 'dart:math';
 
 class ParejasGame extends StatefulWidget {
@@ -21,14 +20,14 @@ class _ParejasGame extends State<ParejasGame> {
   String selectedWordA = ''; // Palabra seleccionada en la columna A
   String selectedWordB = ''; // Palabra seleccionada en la columna B
   List<String> palabrasColumnaIzquierda = [];
-  //double tiempoCompletado = 0.0; // Agregar esta variable
 
   double timeRemaining = 1.0;
 
   int aciertos = 0;
   int desaciertos = 0;
-  Timer? timer;
+  Timer? timer; 
   DateTime? startTime; // Variable para almacenar la hora de inicio del juego
+
 
   @override
   void initState() {
@@ -41,20 +40,11 @@ class _ParejasGame extends State<ParejasGame> {
         timeRemaining -= 0.0001;
         if (timeRemaining <= 0) {
           timer.cancel();
-          timeRemaining = 1.0;
-          Navigator.pop(context);
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ParejasDerrota(),
-            ),
-          );
+          mostrarMensaje();
         }
       });
     });
   }
-
-  //!Baraja las palabras
   List<String> shuffleWords(List<String> words) {
     List<String> shuffledWords = [];
 
@@ -70,10 +60,9 @@ class _ParejasGame extends State<ParejasGame> {
   //!Firebase
   Future<void> getPalabras() async {
     try {
-      final CollectionReference collectionReference =
-          FirebaseFirestore.instance.collection("palabras");
+      final CollectionReference collectionReference = FirebaseFirestore.instance.collection("palabras");
       final QuerySnapshot palabras = await collectionReference.get();
-
+    
       final Map<String, String> tempParejas = {};
 
       for (final QueryDocumentSnapshot palabra in palabras.docs) {
@@ -89,24 +78,48 @@ class _ParejasGame extends State<ParejasGame> {
         //!Copia las palabras de la columna izquierda y las baraja aleatoriamente
         //palabrasColumnaIzquierda = parejas.keys.toList()..shuffle();
         palabrasColumnaIzquierda = shuffleWords(parejas.keys.toList());
+
       });
     } catch (e) {
-      //print("Error al cargar palabras desde Firestore: $e");
+      print("Error al cargar palabras desde Firestore: $e");
     }
   }
 
-  double mostrarMensaje() {
-    final endTime = DateTime.now();
-    final tiempoTranscurrido = endTime.millisecondsSinceEpoch -startTime!.millisecondsSinceEpoch; // Calcula la diferencia de tiempo en milisegundos
-    final tiempoCompletado = tiempoTranscurrido / 1000.0; // Convierte el tiempo a segundostimeRemaining = 1.0; // Reiniciar el temporizador
-    return tiempoCompletado;
-  }
+void mostrarMensaje() {
+  final endTime = DateTime.now();
+  final tiempoTranscurrido = endTime.millisecondsSinceEpoch - startTime!.millisecondsSinceEpoch; // Calcula la diferencia de tiempo en milisegundos
+
+  final tiempoCompletado = tiempoTranscurrido / 1000.0; // Convierte el tiempo a segundos
+
+  timeRemaining = 1.0; // Reiniciar el temporizador
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("¡Juego completado!"),
+        content: Text("Aciertos: $aciertos\nDesaciertos: $desaciertos\nTiempo transcurrido: ${tiempoCompletado.toStringAsFixed(2)} segundos"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cerrar el diálogo
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const MyApp())); // Navegar al menú principal
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   //!Comprueba si hay una coincidencia
   void handleMatching() {
     if (selectedWordA.isNotEmpty && selectedWordB.isNotEmpty) {
-      if (parejas.containsKey(selectedWordA) &&
-          parejas[selectedWordA] == selectedWordB) {
+      if (parejas.containsKey(selectedWordA) && parejas[selectedWordA] == selectedWordB) {
         // Coincidencia encontrada, elimina las palabras del diccionario
         parejas.remove(selectedWordA);
         parejas.remove(selectedWordB);
@@ -117,25 +130,12 @@ class _ParejasGame extends State<ParejasGame> {
         // Limpiar las selecciones
         selectedWordA = '';
         selectedWordB = '';
-
+        
         // Comprobar si ya no quedan más parejas
         if (parejas.isEmpty) {
           // Muestra un mensaje al usuario y detén el temporizador
-          //mostrarMensaje();
+          mostrarMensaje();
           timer?.cancel();
-          // Navega a la página de victoria
-          timeRemaining = 1.0;
-          Navigator.pop(context);
-          double tiempo=mostrarMensaje();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ParejasVictoriaPage(
-                  tiempoCompletado: tiempo,
-                  aciertos: aciertos,
-                  errores: desaciertos),
-            ),
-          );
         }
       } else {
         // No coincidencia, incrementar el contador de desaciertos
@@ -146,6 +146,7 @@ class _ParejasGame extends State<ParejasGame> {
       }
     }
   }
+
 
   @override
   void dispose() {
@@ -214,10 +215,8 @@ class _ParejasGame extends State<ParejasGame> {
           Container(
             width: 350,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                  20.0), // Ajusta el valor para el redondeo deseado
-              border:
-                  Border.all(color: azulClaro), // Agrega un borde si lo deseas
+              borderRadius: BorderRadius.circular(20.0), // Ajusta el valor para el redondeo deseado
+              border: Border.all(color: azulClaro), // Agrega un borde si lo deseas
             ),
             child: LinearProgressIndicator(
               value: timeRemaining,
@@ -234,15 +233,12 @@ class _ParejasGame extends State<ParejasGame> {
           //!Cuerpo del juego
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceEvenly, // Alinea las columnas en horizontal
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Alinea las columnas en horizontal
               children: [
                 Expanded(
                   child: ListView.builder(
                     //itemCount: palabrasColumnaIzquierda.length,
-                    itemCount: palabrasColumnaIzquierda.length < 5
-                        ? palabrasColumnaIzquierda.length
-                        : 5, // Limita a 5 elementos o menos
+                    itemCount: palabrasColumnaIzquierda.length < 5 ? palabrasColumnaIzquierda.length : 5, // Limita a 5 elementos o menos
                     itemBuilder: (context, index) {
                       final key = palabrasColumnaIzquierda[index];
                       return Padding(
@@ -265,9 +261,7 @@ class _ParejasGame extends State<ParejasGame> {
                 Expanded(
                   child: ListView.builder(
                     //itemCount: parejas.length,
-                    itemCount: parejas.length < 5
-                        ? parejas.length
-                        : 5, // Limita a 5 elementos o menos
+                    itemCount: parejas.length < 5 ?parejas.length : 5, // Limita a 5 elementos o menos
                     itemBuilder: (context, index) {
                       final key = parejas.keys.elementAt(index);
                       final value = parejas[key]!;

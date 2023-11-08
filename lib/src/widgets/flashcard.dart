@@ -56,17 +56,24 @@ class _FlashcardState extends State<Flashcard> {
                     fontFamily: "Arimo",
                     fontWeight: FontWeight.bold)),
           ),
-          back: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: AutoSizeText(
-              widget.respuesta,
-              style: const TextStyle(
-                  fontSize: 40,
+        back: Container(
+          padding: const EdgeInsets.all(16),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Text(
+                widget.respuesta,
+                style: const TextStyle(
+                  fontSize: 20,
                   fontFamily: "Arimo",
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,
+                ),
+                softWrap: true, // Permitir saltos de línea
+                textAlign: TextAlign.center, // Alineación horizontal centrada
+              ),
             ),
           ),
         ),
+      ),
       ),
       // child: Card(
       //   elevation: 4,
