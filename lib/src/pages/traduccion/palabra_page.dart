@@ -16,9 +16,10 @@ class _PalabraPageState extends State<PalabraPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Map argumentos = ModalRoute.of(context)!.settings.arguments as Map;
-    Palabra palabra =
-        Palabra("Hola", "Hello", "Saludo casual", ["Hello!", "Hi!", "Hey!"]);
+    Map argumentos = ModalRoute.of(context)!.settings.arguments as Map;
+    Palabra palabra = argumentos["palabra"];
+    // Palabra palabra =
+    //     Palabra("Hola", "Hello", "Saludo casual", ["Hello!", "Hi!", "Hey!"]);
 
     return Scaffold(
       appBar: AppBar(
