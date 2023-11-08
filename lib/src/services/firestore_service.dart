@@ -162,8 +162,10 @@ class Palabra {
   List<String> ejemplos;
   String definicion;
   String id;
+  String categoria;
 
-  Palabra(this.espanol, this.ingles, this.definicion, this.ejemplos,
+  Palabra(
+      this.espanol, this.ingles, this.definicion, this.ejemplos, this.categoria,
       {this.id = ""});
 
   factory Palabra.fromFirestore(
@@ -177,7 +179,10 @@ class Palabra {
         data['definicion'],
         data['ejemplos'] is Iterable
             ? List.from(data['ejemplos'])
-            : throw Exception("Fallo al obtener los ejemplos"),
+            : throw Exception(
+                "Fallo al obtener los ejemplos",
+              ),
+        data['categoria'],
         id: snapshot.id,
       );
     }
@@ -196,6 +201,7 @@ class Palabra {
         data['ejemplos'] is Iterable
             ? List.from(data['ejemplos'])
             : throw Exception("Fallo al obtener los ejemplos"),
+        data['categoria'],
         id: snapshot.id,
       );
     }
@@ -208,6 +214,7 @@ class Palabra {
       'ingles': ingles,
       'definicion': definicion,
       'ejemplos': ejemplos,
+      'categoria': categoria,
     };
   }
 
@@ -243,6 +250,7 @@ class Palabra {
       json['ingles'] as String,
       json['definicion'] as String,
       (json['ejemplos'] as List<dynamic>).cast<String>(),
+      json['categoria'] as String,
     ); // Ensure ejemplos is a List<String>
   }
 }
@@ -313,8 +321,9 @@ class Flashcard {
   String id;
   Palabra palabra;
   bool estado;
+  int prioridad;
 
-  Flashcard(this.id, this.palabra, this.estado);
+  Flashcard(this.id, this.palabra, this.estado, this.prioridad);
 
   factory Flashcard.fromFirestore(
     QueryDocumentSnapshot snapshot,
@@ -327,6 +336,7 @@ class Flashcard {
         snapshot.id,
         Palabra.fromFirestore2(data['palabra'], null),
         data['estado'],
+        data['prioridad'],
       );
     }
     throw Exception("Se están cargando valores erróneos");
@@ -336,6 +346,7 @@ class Flashcard {
     return {
       'palabra': palabra.toFirestore(),
       'estado': estado,
+      'prioridad': prioridad,
     };
   }
 }
