@@ -43,7 +43,7 @@ class _ParejasGame extends State<ParejasGame> {
           timer.cancel();
           timeRemaining = 1.0;
           Navigator.pop(context);
-            Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const ParejasDerrota(),
@@ -97,8 +97,11 @@ class _ParejasGame extends State<ParejasGame> {
 
   double mostrarMensaje() {
     final endTime = DateTime.now();
-    final tiempoTranscurrido = endTime.millisecondsSinceEpoch -startTime!.millisecondsSinceEpoch; // Calcula la diferencia de tiempo en milisegundos
-    final tiempoCompletado = tiempoTranscurrido / 1000.0; // Convierte el tiempo a segundostimeRemaining = 1.0; // Reiniciar el temporizador
+    final tiempoTranscurrido = endTime.millisecondsSinceEpoch -
+        startTime!
+            .millisecondsSinceEpoch; // Calcula la diferencia de tiempo en milisegundos
+    final tiempoCompletado = tiempoTranscurrido /
+        1000.0; // Convierte el tiempo a segundostimeRemaining = 1.0; // Reiniciar el temporizador
     return tiempoCompletado;
   }
 
@@ -126,8 +129,8 @@ class _ParejasGame extends State<ParejasGame> {
           // Navega a la página de victoria
           timeRemaining = 1.0;
           Navigator.pop(context);
-          double tiempo=mostrarMensaje();
-          
+          double tiempo = mostrarMensaje();
+
           Navigator.push(
             context,
             MaterialPageRoute(
