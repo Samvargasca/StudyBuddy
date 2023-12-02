@@ -5,6 +5,12 @@ class MiMap<K, V> {
   int _size = 0;
   late List<LinkedList> _buckets;
 
+  // Get para size
+  int get size => _size;
+
+  // get para empty
+  bool get empty => _size == 0;
+
   MiMap(this._capacity) {
     _buckets = List.filled(_capacity, LinkedList<List<dynamic>>());
   }
