@@ -1,5 +1,5 @@
-import 'package:flutter/scheduler.dart';
 import 'package:study_buddy/src/data_structures/linked_list.dart';
+import 'package:study_buddy/src/functions/obtener_palabras.dart';
 
 class MiMap<K, V> {
   int _capacity;
@@ -21,6 +21,8 @@ class MiMap<K, V> {
       return _hashString(key);
     } else if (key is int) {
       return _hashInt(key);
+    } else if (key is Palabra) {
+      return _hashPalabra(key);
     }
     return key.hashCode % _capacity;
   }
@@ -39,6 +41,14 @@ class MiMap<K, V> {
 
   int _hashInt(int n) {
     return n % _capacity;
+  }
+
+  int _hashPalabra(Palabra palabra) {
+    return (_hashString(palabra.espanol) ^
+            _hashString(palabra.ingles) ^
+            _hashString(palabra.definicion) ^
+            _hashString(palabra.ejemplos[0])) %
+        _capacity;
   }
 
   // Función resize para mapa dinámico
