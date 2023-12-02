@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:study_buddy/src/data_structures/linked_list.dart';
 
 class MiMap<K, V> {
@@ -71,14 +72,14 @@ class MiMap<K, V> {
   }
 
   // Get que obtiene el valor de una llave
-  V get(K key) {
+  V? get(K key, [V? defaultValue]) {
     List bucket = _buckets[_hash(key)].getAll();
     for (List pair in bucket) {
       if (pair[0] == key) {
         return pair[1];
       }
     }
-    throw StateError("Key not found");
+    return defaultValue;
   }
 
   void set(K key, V value) {
