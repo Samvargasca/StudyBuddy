@@ -33,7 +33,7 @@ class _BarraInferiorState extends State<BarraInferior> {
         children: [
           SizedBox(
             child: IconButton(
-              onPressed: () => Navigator.pushNamed(context, "/user"),
+              onPressed: () => Navigator.pushNamed(context, "/palabras"),
               icon: const Icon(
                 Icons.home,
                 color: azulRey,
