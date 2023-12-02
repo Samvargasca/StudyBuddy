@@ -59,148 +59,157 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => cambiarBotonPresionado("sustantivos"),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 40),
-                      backgroundColor: botonPresionado == "sustantivos"
-                          ? azulRey
-                          : azulClaro,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => cambiarBotonPresionado("sustantivos"),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120, 40),
+                        backgroundColor: botonPresionado == "sustantivos"
+                            ? azulRey
+                            : azulClaro,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        "Sustantivos",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: botonPresionado == "sustantivos"
+                              ? Colors.white
+                              : azulRey,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      "Sustantivos",
-                      style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: botonPresionado == "sustantivos"
-                            ? Colors.white
-                            : azulRey,
+                    ElevatedButton(
+                      onPressed: () => cambiarBotonPresionado("adjetivos"),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120, 40),
+                        backgroundColor: botonPresionado == "adjetivos"
+                            ? azulRey
+                            : azulClaro,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        "Adjetivos",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: botonPresionado == "adjetivos"
+                              ? Colors.white
+                              : azulRey,
+                        ),
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => cambiarBotonPresionado("adjetivos"),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 40),
-                      backgroundColor:
-                          botonPresionado == "adjetivos" ? azulRey : azulClaro,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                    ElevatedButton(
+                      onPressed: () => cambiarBotonPresionado("verbos"),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120, 40),
+                        backgroundColor:
+                            botonPresionado == "verbos" ? azulRey : azulClaro,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        "Verbos",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: botonPresionado == "verbos"
+                              ? Colors.white
+                              : azulRey,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      "Adjetivos",
-                      style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: botonPresionado == "adjetivos"
-                            ? Colors.white
-                            : azulRey,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => cambiarBotonPresionado("verbos"),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 40),
-                      backgroundColor:
-                          botonPresionado == "verbos" ? azulRey : azulClaro,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Text(
-                      "Verbos",
-                      style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: botonPresionado == "verbos"
-                            ? Colors.white
-                            : azulRey,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => cambiarBotonPresionado("adverbios"),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 40),
-                      backgroundColor:
-                          botonPresionado == "adverbios" ? azulRey : azulClaro,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => cambiarBotonPresionado("adverbios"),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120, 40),
+                        backgroundColor: botonPresionado == "adverbios"
+                            ? azulRey
+                            : azulClaro,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        "Adverbios",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: botonPresionado == "adverbios"
+                              ? Colors.white
+                              : azulRey,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      "Adverbios",
-                      style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: botonPresionado == "adverbios"
-                            ? Colors.white
-                            : azulRey,
+                    ElevatedButton(
+                      onPressed: () => cambiarBotonPresionado("preposiciones"),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120, 40),
+                        backgroundColor: botonPresionado == "preposiciones"
+                            ? azulRey
+                            : azulClaro,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        "Preposiciones",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: botonPresionado == "preposiciones"
+                              ? Colors.white
+                              : azulRey,
+                        ),
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => cambiarBotonPresionado("preposiciones"),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 40),
-                      backgroundColor: botonPresionado == "preposiciones"
-                          ? azulRey
-                          : azulClaro,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                    ElevatedButton(
+                      onPressed: () => cambiarBotonPresionado("otros"),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120, 40),
+                        backgroundColor:
+                            botonPresionado == "otros" ? azulRey : azulClaro,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        "Otros",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: botonPresionado == "otros"
+                              ? Colors.white
+                              : azulRey,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      "Preposiciones",
-                      style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: botonPresionado == "preposiciones"
-                            ? Colors.white
-                            : azulRey,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => cambiarBotonPresionado("otros"),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(150, 40),
-                      backgroundColor:
-                          botonPresionado == "otros" ? azulRey : azulClaro,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Text(
-                      "Otros",
-                      style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color:
-                            botonPresionado == "otros" ? Colors.white : azulRey,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Expanded(
                 child: Text(botonPresionado),
