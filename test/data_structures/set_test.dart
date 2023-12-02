@@ -56,5 +56,28 @@ void main() {
 
       expect(set.size, 3);
     });
+
+    test("Elementos ausentes", () {
+      Palabra palabra1 = Palabra(
+          "Hola", "Hello", "Saludo casual", ["Hello!", "Hi!", "Hey!"], "");
+      Palabra palabra2 = Palabra("Adiós", "Goodbye", "Despedida casual",
+          ["Goodbye!", "Bye!", "See you!"], "");
+      Palabra palabra3 = Palabra("Gracias", "Thanks", "Agradecimiento",
+          ["Thanks!", "Thank you!", "Thank you very much!"], "");
+
+      MiSet set = MiSet(10);
+      set.insert(palabra1);
+      set.insert(palabra2);
+
+      expect(set.contains(palabra1), true);
+      expect(set.contains(palabra2), true);
+      expect(set.contains(palabra3), false);
+
+      expect(() => set.remove(palabra3), throwsException);
+    });
+    test("Conjunto vacío", () {
+      MiSet set = MiSet(10);
+      expect(set.empty, true);
+    });
   });
 }

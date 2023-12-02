@@ -9,6 +9,9 @@ class MiSet {
   // Get para size
   int get size => _size;
 
+  // get para empty
+  bool get empty => _size == 0;
+
   MiSet(int initialCapacity) {
     _capacity = initialCapacity;
     _buckets = List.filled(_capacity, LinkedList<Palabra>());
