@@ -14,6 +14,14 @@ class BarraInferior extends StatefulWidget {
 }
 
 class _BarraInferiorState extends State<BarraInferior> {
+  String botonPresionado = "sustantivos";
+
+  void cambiarBotonPresionado(String boton) {
+    setState(() {
+      botonPresionado = boton;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final BottomBarProvider bottomBarProvider =
@@ -33,10 +41,13 @@ class _BarraInferiorState extends State<BarraInferior> {
         children: [
           SizedBox(
             child: IconButton(
-              onPressed: () => Navigator.pushNamed(context, "/palabras"),
-              icon: const Icon(
+              onPressed: () {
+                Navigator.pushNamed(context, "/palabras");
+                bottomBarProvider.setActiveIcon("palabras");
+              },
+              icon: Icon(
                 Icons.home,
-                color: azulRey,
+                color: iconoActivo == "palabras" ? Colors.white : azulRey,
               ),
             ),
           ),
