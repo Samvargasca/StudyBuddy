@@ -17,9 +17,24 @@ class MiSet {
     _buckets = List.filled(_capacity, LinkedList<Palabra>());
   }
 
-  int _hash(String key) {
-    // Simple función de hash para demostración
-    return key.length % _capacity;
+  int _hashString(String s) {
+    int hashValue = 0;
+    const int base =
+        31; // Se puede cambiar por cualquier otro número primo mayor a 26
+
+    for (int i = 0; i < s.length; i++) {
+      hashValue = (hashValue * base + s.codeUnitAt(i)) % _capacity;
+    }
+
+    return hashValue;
+  }
+
+  int _hash(Palabra palabra) {
+    return (_hashString(palabra.espanol) ^
+            _hashString(palabra.ingles) ^
+            _hashString(palabra.definicion) ^
+            _hashString(palabra.ejemplos[0])) %
+        _capacity;
   }
 
   // Función resize para mapa dinámico
@@ -30,7 +45,7 @@ class MiSet {
     // Rehashing
     for (var bucket in _buckets) {
       for (var palabra in bucket.getAll()) {
-        var index = _hash(palabra.espanol);
+        var index = _hash(palabra);
         newBuckets[index].pushBack(palabra);
       }
     }
@@ -46,7 +61,7 @@ class MiSet {
         _resize();
       }
 
-      int index = _hash(palabra.espanol);
+      int index = _hash(palabra);
       _buckets[index].pushBack(palabra);
       _size++;
     }
@@ -54,14 +69,14 @@ class MiSet {
 
   // Eliminar un elemento
   void remove(Palabra palabra) {
-    int index = _hash(palabra.espanol);
+    int index = _hash(palabra);
     _buckets[index].delete(palabra);
     _size--;
   }
 
   // Revisar si un elemento está contenido
   bool contains(Palabra palabra) {
-    int index = _hash(palabra.espanol);
+    int index = _hash(palabra);
     return _buckets[index].search(palabra);
   }
 }
