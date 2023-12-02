@@ -1,8 +1,8 @@
 import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:study_buddy/src/data_structures/linked_list.dart';
 
-class MiSet {
-  late List<LinkedList<Palabra>> _buckets;
+class MiSet<T> {
+  late List<LinkedList<T>> _buckets;
   late int _capacity;
   int _size = 0;
 
@@ -14,7 +14,18 @@ class MiSet {
 
   MiSet(int initialCapacity) {
     _capacity = initialCapacity;
-    _buckets = List.filled(_capacity, LinkedList<Palabra>());
+    _buckets = List.filled(_capacity, LinkedList<T>());
+  }
+
+  int _hash(T value) {
+    if (value is String) {
+      return _hashString(value);
+    } else if (value is int) {
+      return _hashInt(value);
+    } else if (value is Palabra) {
+      return _hashPalabra(value);
+    }
+    return value.hashCode % _capacity;
   }
 
   int _hashString(String s) {
@@ -29,7 +40,11 @@ class MiSet {
     return hashValue;
   }
 
-  int _hash(Palabra palabra) {
+  int _hashInt(int n) {
+    return n % _capacity;
+  }
+
+  int _hashPalabra(Palabra palabra) {
     return (_hashString(palabra.espanol) ^
             _hashString(palabra.ingles) ^
             _hashString(palabra.definicion) ^
@@ -37,46 +52,46 @@ class MiSet {
         _capacity;
   }
 
-  // Función resize para mapa dinámico
-  void _resize() {
-    _capacity *= 2;
-    var newBuckets = List.filled(_capacity, LinkedList<Palabra>());
+  // Función resize para set dinámico
+  void _rehash() {
+    double loadFactor = _size / _capacity;
+    if (loadFactor >= 0.9) {
+      _capacity *= 2;
+      var newBuckets = List.filled(_capacity, LinkedList<T>());
 
-    // Rehashing
-    for (var bucket in _buckets) {
-      for (var palabra in bucket.getAll()) {
-        var index = _hash(palabra);
-        newBuckets[index].pushBack(palabra);
+      // Rehashing
+      for (var bucket in _buckets) {
+        for (var element in bucket.getAll()) {
+          var index = _hash(element);
+          newBuckets[index].pushBack(element);
+        }
       }
-    }
 
-    _buckets = newBuckets; // Reemplazar el arreglo viejo
+      _buckets = newBuckets; // Reemplazar el arreglo viejo
+    }
   }
 
   // Insertar un elemento
-  void insert(Palabra palabra) {
+  void insert(T value) {
     // Revisar si es necesario hacer resize
-    if (!contains(palabra)) {
-      if (_size >= _capacity) {
-        _resize();
-      }
-
-      int index = _hash(palabra);
-      _buckets[index].pushBack(palabra);
+    if (!contains(value)) {
+      _rehash();
+      int index = _hash(value);
+      _buckets[index].pushBack(value);
       _size++;
     }
   }
 
   // Eliminar un elemento
-  void remove(Palabra palabra) {
-    int index = _hash(palabra);
-    _buckets[index].delete(palabra);
+  void remove(T value) {
+    int index = _hash(value);
+    _buckets[index].delete(value);
     _size--;
   }
 
   // Revisar si un elemento está contenido
-  bool contains(Palabra palabra) {
-    int index = _hash(palabra);
-    return _buckets[index].search(palabra);
+  bool contains(T value) {
+    int index = _hash(value);
+    return _buckets[index].search(value);
   }
 }

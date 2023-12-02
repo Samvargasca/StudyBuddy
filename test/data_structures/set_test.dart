@@ -12,7 +12,7 @@ void main() {
       Palabra palabra3 = Palabra("Gracias", "Thanks", "Agradecimiento",
           ["Thanks!", "Thank you!", "Thank you very much!"], "");
 
-      MiSet set = MiSet(10);
+      MiSet<Palabra> set = MiSet(10);
       set.insert(palabra1);
       set.insert(palabra2);
 
@@ -28,7 +28,7 @@ void main() {
       Palabra palabra3 = Palabra("Gracias", "Thanks", "Agradecimiento",
           ["Thanks!", "Thank you!", "Thank you very much!"], "");
 
-      MiSet set = MiSet(10);
+      MiSet<Palabra> set = MiSet(10);
       set.insert(palabra1);
       set.insert(palabra2);
       set.insert(palabra3);
@@ -48,7 +48,7 @@ void main() {
       Palabra palabra3 = Palabra("Gracias", "Thanks", "Agradecimiento",
           ["Thanks!", "Thank you!", "Thank you very much!"], "");
 
-      MiSet set = MiSet(10);
+      MiSet<Palabra> set = MiSet(10);
       set.insert(palabra1);
       set.insert(palabra2);
       set.insert(palabra3);
@@ -65,7 +65,7 @@ void main() {
       Palabra palabra3 = Palabra("Gracias", "Thanks", "Agradecimiento",
           ["Thanks!", "Thank you!", "Thank you very much!"], "");
 
-      MiSet set = MiSet(10);
+      MiSet<Palabra> set = MiSet(10);
       set.insert(palabra1);
       set.insert(palabra2);
 
@@ -76,7 +76,7 @@ void main() {
       expect(() => set.remove(palabra3), throwsException);
     });
     test("Conjunto vacío", () {
-      MiSet set = MiSet(10);
+      MiSet<int> set = MiSet(10);
       expect(set.empty, true);
     });
   });
