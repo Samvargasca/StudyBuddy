@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void ordenarFlashcards(List<Flashcard> arr) {
-    MaxHeap maxHeap = MaxHeap(flashcards!.length);
+    MaxHeap maxHeap = MaxHeap(flashcards.length);
     maxHeap.heapSort(arr);
   }
 
@@ -110,9 +110,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           flashcard.Flashcard(
                             pregunta:
-                                flashcards![numeroPalabra - 1].palabra.espanol,
+                                flashcards[numeroPalabra - 1].palabra.espanol,
                             respuesta:
-                                flashcards![numeroPalabra - 1].palabra.ingles,
+                                flashcards[numeroPalabra - 1].palabra.ingles,
                           ),
                           const SizedBox(height: 20),
                           Row(
