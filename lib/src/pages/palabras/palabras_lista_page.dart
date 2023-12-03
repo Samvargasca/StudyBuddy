@@ -277,10 +277,16 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
   }
 }
 
-class PalabraCard extends StatelessWidget {
+class PalabraCard extends StatefulWidget {
   const PalabraCard({Key? key, required this.palabra}) : super(key: key);
   final Palabra palabra;
 
+  @override
+  State<PalabraCard> createState() => _PalabraCardState();
+}
+
+class _PalabraCardState extends State<PalabraCard> {
+  bool favorito = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -294,7 +300,7 @@ class PalabraCard extends StatelessWidget {
           onPressed: () => Navigator.pushNamed(
             context,
             "/traduccion/palabra",
-            arguments: {"palabra": palabra},
+            arguments: {"palabra": widget.palabra},
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
@@ -304,14 +310,31 @@ class PalabraCard extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(20),
           ),
-          child: Text(
-            palabra.ingles,
-            style: const TextStyle(
-              fontFamily: "Arimo",
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              color: azulRey,
-            ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text(
+                    widget.palabra.ingles,
+                    style: const TextStyle(
+                      fontFamily: "Arimo",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      color: azulRey,
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () => setState(() {
+                  favorito = !favorito;
+                }),
+                child: Icon(
+                  Icons.star,
+                  color: favorito ? amarillo : gris,
+                ),
+              ),
+            ],
           ),
         ),
       ),
