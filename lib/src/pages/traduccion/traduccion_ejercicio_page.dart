@@ -6,7 +6,7 @@ import 'package:study_buddy/src/pages/traduccion/final_traduccion_page.dart';
 import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:study_buddy/src/services/firebase_service.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
-import 'package:study_buddy/src/widgets/flashcard.dart';
+import 'package:study_buddy/src/widgets/flashcard.dart' as Flashcard;
 
 import '../../data_structures/queue.dart' as queue;
 
@@ -174,7 +174,7 @@ class _TraduccionEjercicioPageState extends State<TraduccionEjercicioPage> {
                       ),
                     ],
                   ),
-                  Flashcard(
+                  Flashcard.Flashcard(
                     pregunta: palabra!.ingles,
                     respuesta: palabra!.definicion,
                   ),
@@ -390,8 +390,9 @@ class _FormularioState extends State<Formulario> {
                       // the form is invalid.
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        bool correcto = widget.traduccion.toLowerCase() ==
-                            palabraUsuario.toLowerCase();
+                        bool correcto =
+                            widget.traduccion.toLowerCase().trim() ==
+                                palabraUsuario.toLowerCase().trim();
 
                         if (correcto) {
                           widget.cambiarImagen("assets/images/quokka-copa.png");

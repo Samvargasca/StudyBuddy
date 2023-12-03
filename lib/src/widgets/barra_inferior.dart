@@ -14,6 +14,14 @@ class BarraInferior extends StatefulWidget {
 }
 
 class _BarraInferiorState extends State<BarraInferior> {
+  String botonPresionado = "sustantivos";
+
+  void cambiarBotonPresionado(String boton) {
+    setState(() {
+      botonPresionado = boton;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final BottomBarProvider bottomBarProvider =
@@ -33,10 +41,13 @@ class _BarraInferiorState extends State<BarraInferior> {
         children: [
           SizedBox(
             child: IconButton(
-              onPressed: () => Navigator.pushNamed(context, "/user"),
-              icon: const Icon(
+              onPressed: () {
+                Navigator.pushNamed(context, "/palabras");
+                bottomBarProvider.setActiveIcon("palabras");
+              },
+              icon: Icon(
                 Icons.home,
-                color: azulRey,
+                color: iconoActivo == "palabras" ? Colors.white : azulRey,
               ),
             ),
           ),
@@ -69,11 +80,14 @@ class _BarraInferiorState extends State<BarraInferior> {
           ),
           SizedBox(
             child: IconButton(
-              onPressed: null,
+              onPressed: () {
+                Navigator.pushNamed(context, "/ranking");
+                bottomBarProvider.setActiveIcon("ranking");
+              },
               icon: SvgPicture.asset(
                 "assets/images/high-bars.svg",
-                colorFilter: const ColorFilter.mode(
-                  azulRey,
+                colorFilter: ColorFilter.mode(
+                  iconoActivo == "ranking" ? Colors.white : azulRey,
                   BlendMode.srcIn,
                 ),
               ),

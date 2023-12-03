@@ -60,7 +60,7 @@ class FirestoreService extends ChangeNotifier {
   // Función para obtener la lista de errores
   Future<List<Palabra>> obtenerErrores(String idUsuario) async {
     try {
-      List<Palabra> errores_palabra = [];
+      List<Palabra> erroresPalabra = [];
 
       DocumentSnapshot documentSnapshot =
           await _usersCollectionRef.doc(idUsuario).get();
@@ -71,12 +71,42 @@ class FirestoreService extends ChangeNotifier {
           DocumentSnapshot palabraData =
               await _db.collection('palabras').doc(id).get();
           if (palabraData.exists) {
-            errores_palabra.add(Palabra.fromFirestore2(palabraData, null));
+            erroresPalabra.add(Palabra.fromFirestore2(palabraData, null));
           }
         }
       }
 
-      return errores_palabra;
+      return erroresPalabra;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Función para obtener las flashcards de un usuario
+  Future<List<Flashcard>> obtenerFlashcard(String idUsuario) async {
+    // try {
+    List<Flashcard> flashcards = [];
+
+    QuerySnapshot querySnapshot =
+        await _usersCollectionRef.doc(idUsuario).collection('flashcards').get();
+
+    for (QueryDocumentSnapshot flashcard in querySnapshot.docs) {
+      flashcards.add(Flashcard.fromFirestore(flashcard, null));
+    }
+
+    return flashcards;
+    // } catch (e) {
+    //   rethrow;
+    // }
+  }
+
+  // Guardar flashcards
+  Future<void> guardarFlashcard(String idUsuario, Flashcard flashcard) async {
+    try {
+      await _usersCollectionRef
+          .doc(idUsuario)
+          .collection('flashcards')
+          .add(flashcard.toFirestore());
     } catch (e) {
       rethrow;
     }
@@ -87,6 +117,28 @@ class FirestoreService extends ChangeNotifier {
       await _usersCollectionRef.doc(idUsuario).update({
         'tiempoTraduccion': tiempo,
       });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> guardarTiempoParejas(String idUsuario, int tiempo) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'tiempoParejas': tiempo,
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Usuario>> obtenerUsuarios() async {
+    try {
+      QuerySnapshot querySnapshot = await _usersCollectionRef.get();
+      List<Usuario> usuarios = querySnapshot.docs.map((value) {
+        return Usuario.fromFirestore(value, null);
+      }).toList();
+      return usuarios;
     } catch (e) {
       rethrow;
     }
@@ -130,8 +182,10 @@ class Palabra {
   List<String> ejemplos;
   String definicion;
   String id;
+  String categoria;
 
-  Palabra(this.espanol, this.ingles, this.definicion, this.ejemplos,
+  Palabra(
+      this.espanol, this.ingles, this.definicion, this.ejemplos, this.categoria,
       {this.id = ""});
 
   factory Palabra.fromFirestore(
@@ -145,7 +199,10 @@ class Palabra {
         data['definicion'],
         data['ejemplos'] is Iterable
             ? List.from(data['ejemplos'])
-            : throw Exception("Fallo al obtener los ejemplos"),
+            : throw Exception(
+                "Fallo al obtener los ejemplos",
+              ),
+        data['categoria'],
         id: snapshot.id,
       );
     }
@@ -164,6 +221,7 @@ class Palabra {
         data['ejemplos'] is Iterable
             ? List.from(data['ejemplos'])
             : throw Exception("Fallo al obtener los ejemplos"),
+        data['categoria'],
         id: snapshot.id,
       );
     }
@@ -176,6 +234,7 @@ class Palabra {
       'ingles': ingles,
       'definicion': definicion,
       'ejemplos': ejemplos,
+      'categoria': categoria,
     };
   }
 
@@ -211,6 +270,103 @@ class Palabra {
       json['ingles'] as String,
       json['definicion'] as String,
       (json['ejemplos'] as List<dynamic>).cast<String>(),
+      json['categoria'] as String,
     ); // Ensure ejemplos is a List<String>
+  }
+}
+
+class Usuario {
+  String id;
+  String usuario;
+  List<String> errores;
+  int? tiempoTraduccion;
+  int? tiempoParejas;
+
+  Usuario(this.id, this.usuario, this.errores, this.tiempoTraduccion,
+      this.tiempoParejas);
+
+  factory Usuario.fromFirestore(
+      QueryDocumentSnapshot<Object?> snapshot, SnapshotOptions? options) {
+    if (snapshot is QueryDocumentSnapshot<Map<String, dynamic>>) {
+      final data = snapshot.data();
+
+      return Usuario(
+        snapshot.id,
+        data['usuario'],
+        data['errores'] is Iterable ? List.from(data['errores']) : [],
+        data['tiempoTraduccion'],
+        data['tiempoParejas'],
+      );
+    }
+    throw Exception("Se están cargando valores erróneos");
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'usuario': usuario,
+      'errores': errores,
+      'tiempoTraduccion': tiempoTraduccion,
+    };
+  }
+
+  // Función para comparar listas por contenido
+  bool listEquals(List a, List b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+
+  // función para comparar dos usuarios
+  @override
+  bool operator ==(Object other) =>
+      other is Usuario &&
+      other.id == id &&
+      other.usuario == usuario &&
+      listEquals(other.errores,
+          errores) && // Utiliza una función de comparación de listas
+      other.tiempoTraduccion == tiempoTraduccion;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      usuario.hashCode ^
+      errores.hashCode ^
+      tiempoTraduccion.hashCode;
+}
+
+class Flashcard {
+  String id;
+  Palabra palabra;
+  bool estado;
+  int prioridad;
+
+  Flashcard(this.palabra, this.estado, this.prioridad, {this.id = ""});
+
+  factory Flashcard.fromFirestore(
+    QueryDocumentSnapshot snapshot,
+    SnapshotOptions? options,
+  ) {
+    if (snapshot is QueryDocumentSnapshot<Map<String, dynamic>>) {
+      final data = snapshot.data();
+
+      return Flashcard(
+        Palabra.fromJson(data['palabra']),
+        data['estado'],
+        data['prioridad'],
+        id: snapshot.id,
+      );
+    }
+    throw Exception("Se están cargando valores erróneos");
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'palabra': palabra.toFirestore(),
+      'estado': estado,
+      'prioridad': prioridad,
+    };
   }
 }

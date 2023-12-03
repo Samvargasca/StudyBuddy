@@ -6,7 +6,10 @@ class CreaPalabras extends StatefulWidget {
   final bool isSelected;
   final Function onTap;
 
-  const CreaPalabras({Key? key, required this.palabra, required this.isSelected, required this.onTap});
+  const CreaPalabras({Key? key, 
+  required this.palabra, 
+  required this.isSelected, 
+  required this.onTap});
 
   @override
   State<CreaPalabras> createState() => _CreaPalabrasState();
