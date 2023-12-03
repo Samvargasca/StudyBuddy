@@ -94,4 +94,15 @@ class MiSet<T> {
     int index = _hash(value);
     return _buckets[index].search(value);
   }
+
+  // A lista
+  List<T> toList() {
+    List<T> list = [];
+    for (var bucket in _buckets) {
+      for (var element in bucket.getAll()) {
+        list.add(element);
+      }
+    }
+    return list;
+  }
 }
