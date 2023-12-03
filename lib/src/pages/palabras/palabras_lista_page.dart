@@ -5,7 +5,7 @@ import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:provider/provider.dart';
 import 'package:study_buddy/src/data_structures/map.dart';
 import 'package:study_buddy/src/data_structures/set.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 
 class PalabrasListaPage extends StatefulWidget {
   const PalabrasListaPage({super.key});
@@ -311,35 +311,35 @@ class _PalabraCardState extends State<PalabraCard> {
             ),
             padding: const EdgeInsets.all(20),
           ),
-          // child: 
+          // child:
           // // Row(
           // //   children: [
           //     Expanded(
           //       child: Center(
-                  child: Text(
-                    widget.palabra.ingles,
-                    style: const TextStyle(
-                      fontFamily: "Arimo",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color: azulRey,
-                    ),
-                  ),
-            //     ),
-            //   ),
-            //   InkWell(
-            //     onTap: () => setState(() {
-            //       favorito = !favorito;
-            //     }),
-            //     child: SvgPicture.asset(
-            //       "assets/images/star-bold.svg",
-            //       colorFilter: ColorFilter.mode(
-            //         favorito ? amarillo : grisClaro,
-            //         BlendMode.srcIn,
-            //       ),
-            //     ),
-            //   ),
-            // ],
+          child: Text(
+            widget.palabra.ingles,
+            style: const TextStyle(
+              fontFamily: "Arimo",
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: azulRey,
+            ),
+          ),
+          //     ),
+          //   ),
+          //   InkWell(
+          //     onTap: () => setState(() {
+          //       favorito = !favorito;
+          //     }),
+          //     child: SvgPicture.asset(
+          //       "assets/images/star-bold.svg",
+          //       colorFilter: ColorFilter.mode(
+          //         favorito ? amarillo : grisClaro,
+          //         BlendMode.srcIn,
+          //       ),
+          //     ),
+          //   ),
+          // ],
           // ),
         ),
       ),
