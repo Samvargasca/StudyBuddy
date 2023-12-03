@@ -13,3 +13,4 @@ const Color plateado = Color(0xFFB4B0A5);
 const Color plateadoBorde = Color(0xFF7A7A7A);
 const Color bronce = Color(0xFFDB633D);
 const Color bronceBorde = Color(0xFF982B08);
+const Color grisClaro = Color(0xFFB4B0A5);

@@ -5,6 +5,7 @@ import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:provider/provider.dart';
 import 'package:study_buddy/src/data_structures/map.dart';
 import 'package:study_buddy/src/data_structures/set.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PalabrasListaPage extends StatefulWidget {
   const PalabrasListaPage({super.key});
@@ -329,9 +330,12 @@ class _PalabraCardState extends State<PalabraCard> {
                 onTap: () => setState(() {
                   favorito = !favorito;
                 }),
-                child: Icon(
-                  Icons.star,
-                  color: favorito ? amarillo : gris,
+                child: SvgPicture.asset(
+                  "assets/images/star-bold.svg",
+                  colorFilter: ColorFilter.mode(
+                    favorito ? amarillo : grisClaro,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ],
