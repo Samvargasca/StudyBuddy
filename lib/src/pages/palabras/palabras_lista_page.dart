@@ -3,6 +3,8 @@ import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:provider/provider.dart';
+import 'package:study_buddy/src/data_structures/map.dart';
+import 'package:study_buddy/src/data_structures/set.dart';
 
 class PalabrasListaPage extends StatefulWidget {
   const PalabrasListaPage({super.key});
@@ -12,11 +14,39 @@ class PalabrasListaPage extends StatefulWidget {
 }
 
 class _PalabrasListaPageState extends State<PalabrasListaPage> {
-  String botonPresionado = "sustantivos";
+  String botonPresionado = "Sustantivo";
+  MiMap<String, MiSet<Palabra>>? palabrasCategorizadas;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPalabras();
+  }
 
   void cambiarBotonPresionado(String boton) {
     setState(() {
       botonPresionado = boton;
+    });
+  }
+
+  void getPalabras() async {
+    FirestoreService firestoreService =
+        Provider.of<FirestoreService>(context, listen: false);
+    List<Palabra> palabras = await firestoreService.getPalabras();
+    var cat = MiMap<String, MiSet<Palabra>>(10);
+    for (Palabra palabra in palabras) {
+      if (cat.hasKey(palabra.categoria)) {
+        cat.get(palabra.categoria)!.insert(palabra);
+      } else {
+        MiSet<Palabra> set = MiSet<Palabra>(10);
+        set.insert(palabra);
+        cat.set(palabra.categoria, set);
+      }
+    }
+
+    setState(() {
+      palabrasCategorizadas = cat;
     });
   }
 
@@ -41,7 +71,6 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Hola"),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -65,10 +94,10 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("sustantivos"),
+                      onPressed: () => cambiarBotonPresionado("Sustantivo"),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(120, 40),
-                        backgroundColor: botonPresionado == "sustantivos"
+                        minimumSize: const Size(100, 40),
+                        backgroundColor: botonPresionado == "Sustantivo"
                             ? azulRey
                             : azulClaro,
                         shape: RoundedRectangleBorder(
@@ -81,19 +110,18 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                           fontFamily: "Arimo",
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "sustantivos"
+                          color: botonPresionado == "Sustantivo"
                               ? Colors.white
                               : azulRey,
                         ),
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("adjetivos"),
+                      onPressed: () => cambiarBotonPresionado("Adjetivo"),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(120, 40),
-                        backgroundColor: botonPresionado == "adjetivos"
-                            ? azulRey
-                            : azulClaro,
+                        minimumSize: const Size(100, 40),
+                        backgroundColor:
+                            botonPresionado == "Adjetivo" ? azulRey : azulClaro,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -104,18 +132,18 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                           fontFamily: "Arimo",
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "adjetivos"
+                          color: botonPresionado == "Adjetivo"
                               ? Colors.white
                               : azulRey,
                         ),
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("verbos"),
+                      onPressed: () => cambiarBotonPresionado("Verbo"),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(120, 40),
+                        minimumSize: const Size(100, 40),
                         backgroundColor:
-                            botonPresionado == "verbos" ? azulRey : azulClaro,
+                            botonPresionado == "Verbo" ? azulRey : azulClaro,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -126,7 +154,7 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                           fontFamily: "Arimo",
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "verbos"
+                          color: botonPresionado == "Verbo"
                               ? Colors.white
                               : azulRey,
                         ),
@@ -141,12 +169,11 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("adverbios"),
+                      onPressed: () => cambiarBotonPresionado("Adverbio"),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(120, 40),
-                        backgroundColor: botonPresionado == "adverbios"
-                            ? azulRey
-                            : azulClaro,
+                        minimumSize: const Size(100, 40),
+                        backgroundColor:
+                            botonPresionado == "Adverbio" ? azulRey : azulClaro,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -157,17 +184,17 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                           fontFamily: "Arimo",
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "adverbios"
+                          color: botonPresionado == "Adverbio"
                               ? Colors.white
                               : azulRey,
                         ),
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("preposiciones"),
+                      onPressed: () => cambiarBotonPresionado("Preposicion"),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(120, 40),
-                        backgroundColor: botonPresionado == "preposiciones"
+                        minimumSize: const Size(100, 40),
+                        backgroundColor: botonPresionado == "Preposicion"
                             ? azulRey
                             : azulClaro,
                         shape: RoundedRectangleBorder(
@@ -180,18 +207,18 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                           fontFamily: "Arimo",
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "preposiciones"
+                          color: botonPresionado == "Preposicion"
                               ? Colors.white
                               : azulRey,
                         ),
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("otros"),
+                      onPressed: () => cambiarBotonPresionado("Otro"),
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(120, 40),
+                        minimumSize: const Size(100, 40),
                         backgroundColor:
-                            botonPresionado == "otros" ? azulRey : azulClaro,
+                            botonPresionado == "Otro" ? azulRey : azulClaro,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -202,7 +229,7 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                           fontFamily: "Arimo",
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "otros"
+                          color: botonPresionado == "Otro"
                               ? Colors.white
                               : azulRey,
                         ),
@@ -212,10 +239,79 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
                 ),
               ),
               Expanded(
-                child: Text(botonPresionado),
+                child: palabrasCategorizadas != null
+                    ? (palabrasCategorizadas!.get(botonPresionado)?.empty ??
+                            true)
+                        ? const Center(
+                            child: Text(
+                              'No hay palabras en esta categoría.',
+                              style: TextStyle(
+                                fontFamily: "Arimo",
+                                fontSize: 16,
+                                color: azulOscuro,
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            itemBuilder: (context, index) {
+                              return PalabraCard(
+                                palabra: palabrasCategorizadas!
+                                    .get(botonPresionado)!
+                                    .toList()[index],
+                              );
+                            },
+                            itemCount: palabrasCategorizadas!
+                                .get(botonPresionado)!
+                                .size,
+                          )
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      ),
               ),
               const BarraInferior(),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PalabraCard extends StatelessWidget {
+  const PalabraCard({Key? key, required this.palabra}) : super(key: key);
+  final Palabra palabra;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 40),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ElevatedButton(
+          onPressed: () => Navigator.pushNamed(
+            context,
+            "/traduccion/palabra",
+            arguments: {"palabra": palabra},
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shadowColor: gris,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.all(20),
+          ),
+          child: Text(
+            palabra.ingles,
+            style: const TextStyle(
+              fontFamily: "Arimo",
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: azulRey,
+            ),
           ),
         ),
       ),

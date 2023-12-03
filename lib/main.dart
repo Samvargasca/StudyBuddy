@@ -8,7 +8,7 @@ import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:study_buddy/src/services/barra_inferior_service.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); 
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
