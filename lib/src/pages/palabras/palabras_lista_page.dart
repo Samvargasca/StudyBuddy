@@ -287,7 +287,7 @@ class PalabraCard extends StatefulWidget {
 }
 
 class _PalabraCardState extends State<PalabraCard> {
-  bool favorito = false;
+  // bool favorito = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -311,10 +311,11 @@ class _PalabraCardState extends State<PalabraCard> {
             ),
             padding: const EdgeInsets.all(20),
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Center(
+          // child: 
+          // // Row(
+          // //   children: [
+          //     Expanded(
+          //       child: Center(
                   child: Text(
                     widget.palabra.ingles,
                     style: const TextStyle(
@@ -324,22 +325,22 @@ class _PalabraCardState extends State<PalabraCard> {
                       color: azulRey,
                     ),
                   ),
-                ),
-              ),
-              InkWell(
-                onTap: () => setState(() {
-                  favorito = !favorito;
-                }),
-                child: SvgPicture.asset(
-                  "assets/images/star-bold.svg",
-                  colorFilter: ColorFilter.mode(
-                    favorito ? amarillo : grisClaro,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            //     ),
+            //   ),
+            //   InkWell(
+            //     onTap: () => setState(() {
+            //       favorito = !favorito;
+            //     }),
+            //     child: SvgPicture.asset(
+            //       "assets/images/star-bold.svg",
+            //       colorFilter: ColorFilter.mode(
+            //         favorito ? amarillo : grisClaro,
+            //         BlendMode.srcIn,
+            //       ),
+            //     ),
+            //   ),
+            // ],
+          // ),
         ),
       ),
     );
