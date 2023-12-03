@@ -106,4 +106,15 @@ class MiMap<K, V> {
     bucket.pushBack([key, value]);
     _size++;
   }
+
+  // Lista de llaves
+  List<K> keys() {
+    List<K> keys = [];
+    for (var bucket in _buckets) {
+      for (var pair in bucket.getAll()) {
+        keys.add(pair[0]);
+      }
+    }
+    return keys;
+  }
 }
