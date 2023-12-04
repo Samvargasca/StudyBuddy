@@ -192,7 +192,15 @@ class _ComunityPageState extends State<ComunityPage> {
                                         ),
                                       ),
                                       trailing: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            "/comunidad/usuario",
+                                            arguments: {
+                                              "usuario": usuarios[index]
+                                            },
+                                          );
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -200,7 +208,7 @@ class _ComunityPageState extends State<ComunityPage> {
                                           ),
                                           backgroundColor: amarillo,
                                         ),
-                                        child: Text(
+                                        child: const Text(
                                           "Ver Perfil",
                                           style: TextStyle(
                                             color: azulOscuro,

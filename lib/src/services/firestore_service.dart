@@ -197,6 +197,34 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  // Seguir a un usuario
+  Future<void> seguirUsuario(String idUsuario, String idSeguido) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'siguiendo': FieldValue.arrayUnion([idSeguido])
+      });
+      await _usersCollectionRef.doc(idSeguido).update({
+        'seguidores': FieldValue.arrayUnion([idUsuario])
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Dejar de seguir usuario
+  Future<void> dejarSeguirUsuario(String idUsuario, String idSeguido) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'siguiendo': FieldValue.arrayRemove([idSeguido])
+      });
+      await _usersCollectionRef.doc(idSeguido).update({
+        'seguidores': FieldValue.arrayRemove([idUsuario])
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Referencia a la coleccion de palabras
   late final CollectionReference _palabrasCollectionRef =
       _db.collection('palabras');
