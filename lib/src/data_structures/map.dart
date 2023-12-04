@@ -107,6 +107,18 @@ class MiMap<K, V> {
     _size++;
   }
 
+  // Eliminar una llave
+  void remove(K key) {
+    LinkedList bucket = _buckets[_hash(key)];
+    for (var pair in bucket.getAll()) {
+      if (pair[0] == key) {
+        bucket.delete(pair);
+        _size--;
+        return;
+      }
+    }
+  }
+
   // Lista de llaves
   List<K> keys() {
     List<K> keys = [];

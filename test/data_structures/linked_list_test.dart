@@ -48,6 +48,152 @@ void main() {
       expect(lista.popFront(), equals(2));
     });
 
+    test("Cuenta correcta con pushback", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushBack(1);
+      lista.pushBack(2);
+      lista.pushBack(3);
+      lista.pushBack(4);
+      lista.pushBack(5);
+      lista.pushBack(6);
+      lista.pushBack(7);
+      lista.pushBack(8);
+      lista.pushBack(9);
+      lista.pushBack(10);
+      expect(lista.size, 10);
+    });
+
+    test("Cuenta correcta con pushfront", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushFront(1);
+      lista.pushFront(2);
+      lista.pushFront(3);
+      lista.pushFront(4);
+      lista.pushFront(5);
+      lista.pushFront(6);
+      lista.pushFront(7);
+      lista.pushFront(8);
+      lista.pushFront(9);
+      lista.pushFront(10);
+      expect(lista.size, 10);
+    });
+
+    test("Cuenta correcta con pushback y pushfront", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushBack(1);
+      lista.pushBack(2);
+      lista.pushBack(3);
+      lista.pushBack(4);
+      lista.pushBack(5);
+      lista.pushFront(6);
+      lista.pushFront(7);
+      lista.pushFront(8);
+      lista.pushFront(9);
+      lista.pushFront(10);
+      expect(lista.size, 10);
+    });
+
+    test("Cuenta correcta con addAfter", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushBack(1);
+      lista.pushBack(2);
+      lista.pushBack(3);
+      lista.pushBack(4);
+      lista.pushBack(5);
+      lista.addAfter(lista.head!, 6);
+      lista.addAfter(lista.head!.next!, 7);
+      lista.addAfter(lista.head!.next!.next!, 8);
+      lista.addAfter(lista.head!.next!.next!.next!, 9);
+      lista.addAfter(lista.head!.next!.next!.next!.next!, 10);
+      expect(lista.size, 10);
+    });
+
+    test("Cuenta correcta con popBack", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushBack(1);
+      lista.pushBack(2);
+      lista.pushBack(3);
+      lista.pushBack(4);
+      lista.pushBack(5);
+      lista.pushBack(6);
+      lista.pushBack(7);
+      lista.pushBack(8);
+      lista.pushBack(9);
+      lista.pushBack(10);
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      expect(lista.size, 4);
+    });
+
+    test("Cuenta correcta con popFront", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushBack(1);
+      lista.pushBack(2);
+      lista.pushBack(3);
+      lista.pushBack(4);
+      lista.pushBack(5);
+      lista.pushBack(6);
+      lista.pushBack(7);
+      lista.pushBack(8);
+      lista.pushBack(9);
+      lista.pushBack(10);
+      lista.popFront();
+      lista.popFront();
+      lista.popFront();
+      lista.popFront();
+      lista.popFront();
+      lista.popFront();
+      expect(lista.size, 4);
+    });
+
+    test("Cuenta correcta con popBack y popFront", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushBack(1);
+      lista.pushBack(2);
+      lista.pushBack(3);
+      lista.pushBack(4);
+      lista.pushBack(5);
+      lista.pushFront(6);
+      lista.pushFront(7);
+      lista.pushFront(8);
+      lista.pushFront(9);
+      lista.pushFront(10);
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      lista.popBack();
+      lista.popFront();
+      lista.popFront();
+      lista.popFront();
+      lista.popFront();
+      expect(lista.size, 0);
+    });
+
+    test("Cuenta correcta con delete", () {
+      LinkedList<int> lista = LinkedList<int>();
+      lista.pushBack(1);
+      lista.pushBack(2);
+      lista.pushBack(3);
+      lista.pushBack(4);
+      lista.pushBack(5);
+      lista.pushFront(6);
+      lista.pushFront(7);
+      lista.pushFront(8);
+      lista.pushFront(9);
+      lista.pushFront(10);
+      lista.delete(7);
+      lista.delete(1);
+      lista.delete(4);
+      lista.delete(3);
+      expect(lista.size, 6);
+    });
+
     test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
         () async => pruebaNDatosLinkedList(10000));
 

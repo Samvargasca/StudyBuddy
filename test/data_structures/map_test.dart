@@ -72,5 +72,19 @@ void main() {
 
       expect(map.size, 4);
     });
+
+    test("Eliminación de una llave", () {
+      MiMap<String, int> map = MiMap(10);
+      map.set("Hola", 1);
+      map.set("Adiós", 2);
+      map.set("Gracias", 3);
+
+      expect(map.size, 3);
+
+      map.remove("Hola");
+
+      expect(map.size, 2);
+      expect(map.hasKey("Hola"), false);
+    });
   });
 }
