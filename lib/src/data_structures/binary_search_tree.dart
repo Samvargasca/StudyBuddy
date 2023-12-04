@@ -62,7 +62,7 @@ class BST {
     }
     return rightAncestor(N.parent!);
   }
-
+/*
   // El método insert inserta un nodo con un valor igual a "key" en el árbol
   void insert(int key) {
     root = _insertRec(root, null, key);
@@ -80,6 +80,35 @@ class BST {
       current.right = _insertRec(current.right, current, key);
     }
     return current;
+  }*/
+
+  void insert(int key) {
+    Node? node = Node(key);
+    Node? parent = null;
+    Node? current = root;
+
+    while (current != null) {
+      parent = current;
+      if (key < current.data) {
+        current = current.left;
+        if (current == null) {
+          parent.left = node;
+          node.parent = parent;
+          break;
+        }
+      } else {
+        current = current.right;
+        if (current == null) {
+          parent.right = node;
+          node.parent = parent;
+          break;
+        }
+      }
+    }
+
+    if (root == null) {
+      root = node;
+    }
   }
 
   // El método delete elimina el nodo con un valor igual a "key" del árbol
