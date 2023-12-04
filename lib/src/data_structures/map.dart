@@ -61,7 +61,7 @@ class MiMap<K, V> {
       // Rehashing
       for (var bucket in _buckets) {
         for (var element in bucket.getAll()) {
-          var index = _hash(element);
+          var index = _hash(element[0]);
           newBuckets[index].pushBack(element);
         }
       }
