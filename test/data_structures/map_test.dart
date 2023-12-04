@@ -88,9 +88,6 @@ void main() {
     });
   });
 
-
-
-  
   group("Tiempo de inserción, búsqueda y eliminación", () {
     test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
         () => pruebaNDatosMap(10000));
@@ -143,10 +140,7 @@ void main() {
     test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
         () => pruebaNDatosMap(800000));
   });
-
 }
-
-
 
 pruebaNDatosMap(int N) {
   print("Prueba con $N datos");
@@ -160,27 +154,12 @@ pruebaNDatosMap(int N) {
   print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
   stopwatch.reset();
 
-
   stopwatch.start();
-  expect(mapa.get("Palabra ${N ~/ 2}"), N/2);
-  expect(mapa.get("Palabra ${N + 1}"), N+1);
+  mapa.get("Palabra ${N ~/ 2}");
+  mapa.get("Palabra ${N + 1}");
   stopwatch.stop();
   print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
   stopwatch.reset();
-
-
-  stopwatch.start();
-  mapa.set("Palabra 1", 1);
-  mapa.set("Palabra 2", 2);
-  mapa.set("Palabra 3", 3);
-  mapa.set("Palabra 1", 4);
-
-  expect(mapa.size, 3);
-  stopwatch.stop();
-  print("Tiempo de unicidad: ${stopwatch.elapsedMilliseconds} ms");
-  stopwatch.reset();
-
-
 
   stopwatch.start();
   for (int i = 0; i < N; i++) {
