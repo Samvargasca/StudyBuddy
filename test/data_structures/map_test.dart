@@ -47,5 +47,30 @@ void main() {
 
       expect(map.get("Hola"), 4);
     });
+
+    test("Existencia de llaves", () {
+      MiMap<String, int> map = MiMap(10);
+      map.set("Hola", 1);
+      map.set("Adiós", 2);
+      map.set("Gracias", 3);
+
+      expect(map.hasKey("Hola"), true);
+      expect(map.hasKey("Adiós"), true);
+      expect(map.hasKey("Gracias"), true);
+      expect(map.hasKey("De hecho"), false);
+    });
+
+    test("Rehash", () {
+      MiMap<String, int> map = MiMap(3);
+      map.set("Hola", 1);
+      map.set("Adiós", 2);
+      map.set("Gracias", 3);
+
+      expect(map.size, 3);
+
+      map.set("De hecho", 4);
+
+      expect(map.size, 4);
+    });
   });
 }

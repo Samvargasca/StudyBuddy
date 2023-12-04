@@ -5,6 +5,7 @@ import 'package:study_buddy/src/services/firestore_service.dart';
 import 'package:provider/provider.dart';
 import 'package:study_buddy/src/data_structures/map.dart';
 import 'package:study_buddy/src/data_structures/set.dart';
+// import 'package:flutter_svg/svg.dart';
 
 class PalabrasListaPage extends StatefulWidget {
   const PalabrasListaPage({super.key});
@@ -277,10 +278,16 @@ class _PalabrasListaPageState extends State<PalabrasListaPage> {
   }
 }
 
-class PalabraCard extends StatelessWidget {
+class PalabraCard extends StatefulWidget {
   const PalabraCard({Key? key, required this.palabra}) : super(key: key);
   final Palabra palabra;
 
+  @override
+  State<PalabraCard> createState() => _PalabraCardState();
+}
+
+class _PalabraCardState extends State<PalabraCard> {
+  // bool favorito = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -294,7 +301,7 @@ class PalabraCard extends StatelessWidget {
           onPressed: () => Navigator.pushNamed(
             context,
             "/traduccion/palabra",
-            arguments: {"palabra": palabra},
+            arguments: {"palabra": widget.palabra},
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
@@ -304,8 +311,13 @@ class PalabraCard extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(20),
           ),
+          // child:
+          // // Row(
+          // //   children: [
+          //     Expanded(
+          //       child: Center(
           child: Text(
-            palabra.ingles,
+            widget.palabra.ingles,
             style: const TextStyle(
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,
@@ -313,6 +325,22 @@ class PalabraCard extends StatelessWidget {
               color: azulRey,
             ),
           ),
+          //     ),
+          //   ),
+          //   InkWell(
+          //     onTap: () => setState(() {
+          //       favorito = !favorito;
+          //     }),
+          //     child: SvgPicture.asset(
+          //       "assets/images/star-bold.svg",
+          //       colorFilter: ColorFilter.mode(
+          //         favorito ? amarillo : grisClaro,
+          //         BlendMode.srcIn,
+          //       ),
+          //     ),
+          //   ),
+          // ],
+          // ),
         ),
       ),
     );
