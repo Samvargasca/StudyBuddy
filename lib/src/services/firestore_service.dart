@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -144,6 +146,85 @@ class FirestoreService extends ChangeNotifier {
     }
   }
 
+  // Obtener un usuario
+  Future<Usuario> obtenerUsuario(String idUsuario) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await _usersCollectionRef.doc(idUsuario).get();
+      return Usuario.fromFirestore2(documentSnapshot, null);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Seguidos de un usuario
+  Future<List<String>> obtenerSeguidos(String idUsuario) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await _usersCollectionRef.doc(idUsuario).get();
+
+      HashMap<String, dynamic> data =
+          documentSnapshot.data() as HashMap<String, dynamic>;
+
+      // Verificar si el campo 'siguiendo' existe en el documento
+      if (data.containsKey('siguiendo')) {
+        List<String> siguiendo = List.from(documentSnapshot.get('siguiendo'));
+        return siguiendo;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Seguidos de seguidos
+  Future<List<Usuario>> obtenerSeguidosDeSeguidos(String idUsuario) async {
+    try {
+      List<Usuario> seguidosDeSeguidos = [];
+      List<String> seguidos = await obtenerSeguidos(idUsuario);
+
+      for (String id in seguidos) {
+        List<String> seguidosDeSeguidosId = await obtenerSeguidos(id);
+        for (String id in seguidosDeSeguidosId) {
+          seguidosDeSeguidos.add(await obtenerUsuario(id));
+        }
+      }
+
+      return seguidosDeSeguidos;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Seguir a un usuario
+  Future<void> seguirUsuario(String idUsuario, String idSeguido) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'siguiendo': FieldValue.arrayUnion([idSeguido])
+      });
+      await _usersCollectionRef.doc(idSeguido).update({
+        'seguidores': FieldValue.arrayUnion([idUsuario])
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Dejar de seguir usuario
+  Future<void> dejarSeguirUsuario(String idUsuario, String idSeguido) async {
+    try {
+      await _usersCollectionRef.doc(idUsuario).update({
+        'siguiendo': FieldValue.arrayRemove([idSeguido])
+      });
+      await _usersCollectionRef.doc(idSeguido).update({
+        'seguidores': FieldValue.arrayRemove([idUsuario])
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Referencia a la coleccion de palabras
   late final CollectionReference _palabrasCollectionRef =
       _db.collection('palabras');
@@ -281,9 +362,12 @@ class Usuario {
   List<String> errores;
   int? tiempoTraduccion;
   int? tiempoParejas;
+  List<String>? seguidores;
+  List<String>? siguiendo;
 
   Usuario(this.id, this.usuario, this.errores, this.tiempoTraduccion,
-      this.tiempoParejas);
+      this.tiempoParejas,
+      {this.seguidores, this.siguiendo});
 
   factory Usuario.fromFirestore(
       QueryDocumentSnapshot<Object?> snapshot, SnapshotOptions? options) {
@@ -296,6 +380,30 @@ class Usuario {
         data['errores'] is Iterable ? List.from(data['errores']) : [],
         data['tiempoTraduccion'],
         data['tiempoParejas'],
+        seguidores:
+            data['seguidores'] is Iterable ? List.from(data['seguidores']) : [],
+        siguiendo:
+            data['siguiendo'] is Iterable ? List.from(data['siguiendo']) : [],
+      );
+    }
+    throw Exception("Se están cargando valores erróneos");
+  }
+
+  factory Usuario.fromFirestore2(
+      DocumentSnapshot snapshot, SnapshotOptions? options) {
+    if (snapshot is DocumentSnapshot<Map<String, dynamic>>) {
+      final data = snapshot.data();
+
+      return Usuario(
+        snapshot.id,
+        data!['usuario'],
+        data['errores'] is Iterable ? List.from(data['errores']) : [],
+        data['tiempoTraduccion'],
+        data['tiempoParejas'],
+        seguidores:
+            data['seguidores'] is Iterable ? List.from(data['seguidores']) : [],
+        siguiendo:
+            data['siguiendo'] is Iterable ? List.from(data['siguiendo']) : [],
       );
     }
     throw Exception("Se están cargando valores erróneos");
