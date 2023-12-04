@@ -12,7 +12,7 @@ class ComunityPage extends StatefulWidget {
 }
 
 class _ComunityPageState extends State<ComunityPage> {
-  String botonPresionado = "traduccion";
+  String botonPresionado = "usuariosBase";
 
   void cambiarBotonPresionado(String boton) {
     setState(() {
@@ -57,7 +57,7 @@ class _ComunityPageState extends State<ComunityPage> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: const Text(
-                  "Ranking",
+                  "Comunidad",
                   style: TextStyle(
                     fontFamily: "Arimo",
                     fontSize: 20,
@@ -67,14 +67,14 @@ class _ComunityPageState extends State<ComunityPage> {
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("traduccion"),
+                      onPressed: () => cambiarBotonPresionado("usuariosBase"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: botonPresionado == "traduccion"
+                        backgroundColor: botonPresionado == "usuariosBase"
                             ? azulRey
                             : azulClaro,
                         shape: RoundedRectangleBorder(
@@ -82,12 +82,12 @@ class _ComunityPageState extends State<ComunityPage> {
                         ),
                       ),
                       child: Text(
-                        "Traducción",
+                        "Usuarios",
                         style: TextStyle(
                           fontFamily: "Arimo",
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "traduccion"
+                          color: botonPresionado == "usuariosBase"
                               ? Colors.white
                               : azulRey,
                         ),
@@ -97,21 +97,23 @@ class _ComunityPageState extends State<ComunityPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () => cambiarBotonPresionado("parejas"),
+                      onPressed: () =>
+                          cambiarBotonPresionado("usuariosConocer"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            botonPresionado == "parejas" ? azulRey : azulClaro,
+                        backgroundColor: botonPresionado == "usuariosConocer"
+                            ? azulRey
+                            : azulClaro,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       child: Text(
-                        "Parejas",
+                        "Usuarios que quizás conozcas",
                         style: TextStyle(
                           fontFamily: "Arimo",
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: botonPresionado == "parejas"
+                          color: botonPresionado == "usuariosConocer"
                               ? Colors.white
                               : azulRey,
                         ),
@@ -141,53 +143,55 @@ class _ComunityPageState extends State<ComunityPage> {
                               )
                             : ListView.builder(
                                 itemBuilder: (context, index) {
-                                  return ListTile(
-                                    leading: Container(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.fromBorderSide(
-                                          BorderSide(
-                                            color: azulRey,
-                                            width: 4,
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: ListTile(
+                                      leading: Container(
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.fromBorderSide(
+                                            BorderSide(
+                                              color: azulRey,
+                                              width: 4,
+                                            ),
+                                          ),
+                                        ),
+                                        width: 50,
+                                        height: 50,
+                                        child: Center(
+                                          child: Text(
+                                            "${index + 1}",
+                                            style: const TextStyle(
+                                              fontFamily: "Arimo",
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              color: azulRey,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      width: 50,
-                                      height: 50,
-                                      child: Center(
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: const TextStyle(
-                                            fontFamily: "Arimo",
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            color: azulRey,
+                                      title: Text(
+                                        usuarios[index].usuario,
+                                        style: const TextStyle(
+                                          fontFamily: "Arimo",
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      trailing: ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
                                           ),
+                                          backgroundColor: amarillo,
                                         ),
-                                      ),
-                                    ),
-                                    title: Text(
-                                      usuarios[index].usuario,
-                                      style: const TextStyle(
-                                        fontFamily: "Arimo",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    trailing: Container(
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(40),
-                                        ),
-                                        color: azulRey,
-                                      ),
-                                      width: 70,
-                                      height: 30,
-                                      child: const Center(
                                         child: Text(
-                                          "hola",
+                                          "Ver Perfil",
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: azulOscuro,
                                             fontSize: 15,
                                             fontFamily: "Arimo",
                                             fontWeight: FontWeight.bold,
