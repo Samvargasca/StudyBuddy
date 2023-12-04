@@ -50,4 +50,16 @@ class Grafo<T> {
   List<T> getNodes() {
     return _adjacencyList.keys();
   }
+
+  // Remover un vértice
+  void removeVertex(T vertex) {
+    if (_adjacencyList.hasKey(vertex)) {
+      _adjacencyList.remove(vertex);
+      for (var key in _adjacencyList.keys()) {
+        _adjacencyList.get(key)!.delete(vertex);
+      }
+      return;
+    }
+    throw Exception('El vértice no existe');
+  }
 }
