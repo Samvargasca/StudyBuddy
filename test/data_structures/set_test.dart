@@ -80,4 +80,82 @@ void main() {
       expect(set.empty, true);
     });
   });
+
+  group("Tiempo de inserción, búsqueda y eliminación para String", () {
+    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
+        () => pruebaNDatosSet(10000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
+        () => pruebaNDatosSet(20000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
+        () => pruebaNDatosSet(30000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
+        () => pruebaNDatosSet(40000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
+        () => pruebaNDatosSet(50000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
+        () => pruebaNDatosSet(60000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
+        () => pruebaNDatosSet(70000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
+        () => pruebaNDatosSet(80000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
+        () => pruebaNDatosSet(90000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
+        () => pruebaNDatosSet(100000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 200000 datos",
+        () => pruebaNDatosSet(200000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
+        () => pruebaNDatosSet(300000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 400000 datos",
+        () => pruebaNDatosSet(400000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 500000 datos",
+        () => pruebaNDatosSet(500000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 600000 datos",
+        () => pruebaNDatosSet(600000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 700000 datos",
+        () => pruebaNDatosSet(700000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
+        () => pruebaNDatosSet(800000));
+  });
+}
+
+pruebaNDatosSet(int N) {
+  print("Prueba con $N datos");
+  MiSet<String> set = MiSet(N);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    set.insert("palabra$i");
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  expect(set.contains("palabra${N ~/ 2}"), true);
+  expect(set.contains("palabra${N + 1}"), false);
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    set.remove("palabra$i");
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
 }
