@@ -107,6 +107,7 @@ class _CreacionFlashcardsPageState extends State<CreacionFlashcardsPage> {
                       )
                     ],
                   ),
+                  const SizedBox(height: 20),
                   Expanded(
                     child: ListView(
                       children: [
@@ -216,6 +217,9 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
         uid,
         flashcard,
       );
+      if (context.mounted) {
+        widget.onSaved();
+      }
     } catch (e) {
       rethrow;
     }
@@ -324,7 +328,7 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                       _selectedCategory = value;
                     });
                   },
-                  width: 200,
+                  width: 160,
                 ),
               ],
             ),
@@ -373,7 +377,7 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                       _selectedPriority = value;
                     });
                   },
-                  width: 133,
+                  width: 160,
                 ),
               ],
             ),
@@ -445,6 +449,7 @@ class _FormularioFlashcardState extends State<FormularioFlashcard> {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

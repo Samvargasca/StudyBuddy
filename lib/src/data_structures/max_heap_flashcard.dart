@@ -74,11 +74,11 @@ class MaxHeap {
 
   bool empty() => size == 0;
 
-  List<Flashcard> heapSort(List<Flashcard> arr) {
+  void heapSort(List<Flashcard> arr) {
     int n = arr.length;
 
     // Construir un heap máximo
-    for (int i = n ~/ 2 - 1; i >= 0; i--) {
+    for (int i = (n ~/ 2) - 1; i >= 0; i--) {
       heapify(arr, n, i);
     }
 
@@ -92,10 +92,9 @@ class MaxHeap {
       // Llamar a heapify en el montículo reducido
       heapify(arr, i, 0);
     }
-
-    return arr;
   }
 
+// Función para hacer heapify un subárbol en la raíz i
   void heapify(List<Flashcard> arr, int n, int i) {
     int largest = i; // Inicializar el valor más grande como la raíz
     int left = 2 * i + 1; // Índice del hijo izquierdo
