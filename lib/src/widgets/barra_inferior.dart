@@ -68,18 +68,15 @@ class _BarraInferiorState extends State<BarraInferior> {
           ),
           SizedBox(
             child: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/comunidad");
-                bottomBarProvider.setActiveIcon("comunidad");
-              },
-              icon: SvgPicture.asset(
-                "assets/images/trophy-fill.svg",
-                colorFilter: ColorFilter.mode(
-                  iconoActivo == "comunidad" ? Colors.white : azulRey,
-                  BlendMode.srcIn,
-                ),
-              ),
-            ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/comunidad");
+                  bottomBarProvider.setActiveIcon("comunidad");
+                },
+                icon: Image.asset(
+                  "assets/images/comunidad.png",
+                  height: 20,
+                  color: iconoActivo == "comunidad" ? Colors.white : azulRey,
+                )),
           ),
           SizedBox(
             child: IconButton(
