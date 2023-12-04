@@ -11,6 +11,7 @@ import "package:study_buddy/src/pages/auth_management/sign_up.dart";
 import "package:study_buddy/src/pages/user/user_page.dart";
 import "package:study_buddy/src/pages/ranking/ranking_page.dart";
 import "package:study_buddy/src/pages/palabras/palabras_lista_page.dart";
+import "package:study_buddy/src/pages/comunity/comunity_page.dart";
 import "package:provider/provider.dart";
 import "package:study_buddy/src/services/firebase_service.dart";
 
@@ -53,6 +54,8 @@ class MyApp extends StatelessWidget {
             const RankingPage(), // Ruta de la pagina de ranking
         "/palabras": (context) =>
             const PalabrasListaPage(), // Ruta de la pagina de palabras
+        "/comunidad": (context) =>
+            const ComunityPage(), // Ruta de la pagina de comunidad
       },
     );
   }
