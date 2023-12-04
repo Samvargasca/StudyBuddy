@@ -27,17 +27,20 @@ class _ComunityPageState extends State<ComunityPage> {
     FirebaseService firebaseService =
         Provider.of<FirebaseService>(context, listen: false);
 
-    if (botonPresionado == "usuariosBase") {
-      List<Usuario> usuarios = await firestoreService.obtenerUsuarios();
-      return usuarios;
-    } else if (botonPresionado == "usuariosConocer") {
-      List<Usuario> usuarios = await firestoreService
-          .obtenerSeguidosDeSeguidos(firebaseService.user!.uid);
-      return usuarios;
-    }
-    List<Usuario> usuarios = await firestoreService.obtenerUsuarios();
+    List<Usuario> usuarios = [];
 
-    return usuarios;
+    if (botonPresionado == "usuariosBase") {
+      usuarios = await firestoreService.obtenerUsuarios();
+    } else if (botonPresionado == "usuariosConocer") {
+      usuarios = await firestoreService
+          .obtenerSeguidosDeSeguidos(firebaseService.user!.uid);
+    } else {
+      usuarios = await firestoreService.obtenerUsuarios();
+    }
+
+    return usuarios
+        .where((element) => element.id != firebaseService.user!.uid)
+        .toList();
   }
 
   @override
