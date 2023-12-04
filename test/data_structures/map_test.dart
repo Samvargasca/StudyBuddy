@@ -87,4 +87,84 @@ void main() {
       expect(map.hasKey("Hola"), false);
     });
   });
+
+  group("Tiempo de inserción, búsqueda y eliminación", () {
+    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
+        () => pruebaNDatosMap(10000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
+        () => pruebaNDatosMap(20000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
+        () => pruebaNDatosMap(30000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
+        () => pruebaNDatosMap(40000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
+        () => pruebaNDatosMap(50000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
+        () => pruebaNDatosMap(60000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
+        () => pruebaNDatosMap(70000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
+        () => pruebaNDatosMap(80000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
+        () => pruebaNDatosMap(90000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
+        () => pruebaNDatosMap(100000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 200000 datos",
+        () => pruebaNDatosMap(200000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
+        () => pruebaNDatosMap(300000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 400000 datos",
+        () => pruebaNDatosMap(400000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 500000 datos",
+        () => pruebaNDatosMap(500000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 600000 datos",
+        () => pruebaNDatosMap(600000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 700000 datos",
+        () => pruebaNDatosMap(700000));
+
+    test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
+        () => pruebaNDatosMap(800000));
+  });
+}
+
+pruebaNDatosMap(int N) {
+  print("Prueba con $N datos");
+  MiMap<String, int> mapa = MiMap(10);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    mapa.set("Palabra $i", i);
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+
+  stopwatch.start();
+  mapa.get("Palabra ${N ~/ 2}");
+  mapa.get("Palabra ${N + 1}");
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    mapa.remove("Palabra $i");
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
 }
