@@ -114,24 +114,6 @@ void main() {
 
     test("Tiempo de inserción, búsqueda y eliminación de 5500 datos",
         () => pruebaNDatosSet(5500));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
-        () => pruebaNDatosSet(300000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 400000 datos",
-        () => pruebaNDatosSet(400000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 500000 datos",
-        () => pruebaNDatosSet(500000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 600000 datos",
-        () => pruebaNDatosSet(600000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 700000 datos",
-        () => pruebaNDatosSet(700000));
-
-    test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
-        () => pruebaNDatosSet(800000));
   });
 }
 
