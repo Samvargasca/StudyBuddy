@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:study_buddy/src/widgets/barra_inferior.dart';
 import 'package:study_buddy/src/constants/colors.dart';
 import 'package:study_buddy/src/services/firestore_service.dart';
+import "package:study_buddy/src/services/firebase_service.dart";
 import 'package:provider/provider.dart';
 
 class ComunityPage extends StatefulWidget {
@@ -23,6 +24,17 @@ class _ComunityPageState extends State<ComunityPage> {
   Future<List<Usuario>> obtenerUsuarios() async {
     FirestoreService firestoreService =
         Provider.of<FirestoreService>(context, listen: false);
+    FirebaseService firebaseService =
+        Provider.of<FirebaseService>(context, listen: false);
+
+    if (botonPresionado == "usuariosBase") {
+      List<Usuario> usuarios = await firestoreService.obtenerUsuarios();
+      return usuarios;
+    } else if (botonPresionado == "usuariosConocer") {
+      List<Usuario> usuarios = await firestoreService
+          .obtenerSeguidosDeSeguidos(firebaseService.user!.uid);
+      return usuarios;
+    }
     List<Usuario> usuarios = await firestoreService.obtenerUsuarios();
 
     return usuarios;
@@ -128,7 +140,7 @@ class _ComunityPageState extends State<ComunityPage> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
-                      return const Text("Error al obtener los usuarios");
+                      return Text(snapshot.error.toString());
                     } else {
                       List<Usuario> usuarios = snapshot.data as List<Usuario>;
                       return Expanded(
