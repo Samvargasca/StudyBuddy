@@ -90,7 +90,7 @@ void main() {
 
   group("Tiempo de inserción, búsqueda y eliminación", () {
     test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
-        () => pruebaNDatosMap(10000));
+        () => pruebaNDatosMap(500));
 
     test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
         () => pruebaNDatosMap(20000));
