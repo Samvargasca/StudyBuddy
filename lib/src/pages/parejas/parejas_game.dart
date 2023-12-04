@@ -38,7 +38,7 @@ class _ParejasGame extends State<ParejasGame> {
     //!Iniciar el temporizador en initState
     timer = Timer.periodic(const Duration(milliseconds: 1), (Timer timer) {
       setState(() {
-        timeRemaining -= 0.0001;
+        timeRemaining -= 0.001;
         if (timeRemaining <= 0) {
           timer.cancel();
           timeRemaining = 1.0;
