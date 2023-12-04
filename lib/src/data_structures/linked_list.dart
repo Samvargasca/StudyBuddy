@@ -10,12 +10,16 @@ class Node<T> {
 
 class LinkedList<T> {
   Node<T>? head, tail;
+  int _size = 0;
 
   //Constructor
   LinkedList() {
     head = null;
     tail = null;
   }
+
+  //Getters
+  int get size => _size;
 
   //Métodos
 
@@ -26,6 +30,7 @@ class LinkedList<T> {
     head = nuevo;
     tail ??=
         head; //Si la cola estaba null, se coloca apuntando a la misma cabeza
+    _size++;
   }
 
   void pushBack(T item) {
@@ -37,6 +42,7 @@ class LinkedList<T> {
       tail!.next = nuevo;
       tail = nuevo;
     }
+    _size++;
   }
 
   // Eliminación de un dato al inicio o final
@@ -45,16 +51,19 @@ class LinkedList<T> {
     if (head == null) {
       throw Exception("La lista enlazada está vacía");
     }
+
     Node<T> dev = head!;
     head = head!.next;
     if (head == null) {
       tail == null;
     }
+    _size--;
     return dev.key;
   }
 
   T popBack() {
     late Node<T> dev;
+
     if (head == null) {
       throw Exception("La lista enlazada está vacía");
     }
@@ -71,6 +80,7 @@ class LinkedList<T> {
       p.next = null;
       tail = p;
     }
+    _size--;
     return dev.key;
   }
 
@@ -81,6 +91,7 @@ class LinkedList<T> {
     if (tail == node) {
       tail == node2;
     }
+    _size++;
   }
 
   // Actualización de un dato
@@ -108,6 +119,7 @@ class LinkedList<T> {
 
     if (head!.key == data) {
       head = head!.next;
+      _size--;
       return;
     }
 
@@ -119,6 +131,7 @@ class LinkedList<T> {
       if (current.key == data) {
         prev!.next = current.next;
         encontrado = true;
+        _size--;
         return;
       }
       prev = current;
