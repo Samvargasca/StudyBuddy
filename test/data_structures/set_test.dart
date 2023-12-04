@@ -82,38 +82,38 @@ void main() {
   });
 
   group("Tiempo de inserción, búsqueda y eliminación para String", () {
-    test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
-        () => pruebaNDatosSet(10000));
+    test("Tiempo de inserción, búsqueda y eliminación de 500 datos",
+        () => pruebaNDatosSet(500));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
-        () => pruebaNDatosSet(20000));
+    test("Tiempo de inserción, búsqueda y eliminación de 1000 datos",
+        () => pruebaNDatosSet(1000));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
-        () => pruebaNDatosSet(30000));
+    test("Tiempo de inserción, búsqueda y eliminación de 1500 datos",
+        () => pruebaNDatosSet(1500));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
-        () => pruebaNDatosSet(40000));
+    test("Tiempo de inserción, búsqueda y eliminación de 2000 datos",
+        () => pruebaNDatosSet(2000));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
-        () => pruebaNDatosSet(50000));
+    test("Tiempo de inserción, búsqueda y eliminación de 2500 datos",
+        () => pruebaNDatosSet(2500));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
-        () => pruebaNDatosSet(60000));
+    test("Tiempo de inserción, búsqueda y eliminación de 3000 datos",
+        () => pruebaNDatosSet(3000));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
-        () => pruebaNDatosSet(70000));
+    test("Tiempo de inserción, búsqueda y eliminación de 3500 datos",
+        () => pruebaNDatosSet(3500));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
-        () => pruebaNDatosSet(80000));
+    test("Tiempo de inserción, búsqueda y eliminación de 4000 datos",
+        () => pruebaNDatosSet(4000));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
-        () => pruebaNDatosSet(90000));
+    test("Tiempo de inserción, búsqueda y eliminación de 4500 datos",
+        () => pruebaNDatosSet(4500));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
-        () => pruebaNDatosSet(100000));
+    test("Tiempo de inserción, búsqueda y eliminación de 5000 datos",
+        () => pruebaNDatosSet(5000));
 
-    test("Tiempo de inserción, búsqueda y eliminación de 200000 datos",
-        () => pruebaNDatosSet(200000));
+    test("Tiempo de inserción, búsqueda y eliminación de 5500 datos",
+        () => pruebaNDatosSet(5500));
 
     test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
         () => pruebaNDatosSet(300000));

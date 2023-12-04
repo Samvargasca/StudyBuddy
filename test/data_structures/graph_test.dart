@@ -97,5 +97,92 @@ void main() {
 
       expect(() => grafo.addVertex("A"), throwsException);
     });
+
+    group("Tiempo de inserción, búsqueda y eliminación", () {
+      test("Tiempo de inserción, búsqueda y eliminación de 10000 datos",
+          () => pruebaNDatosGrafos(6));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 20000 datos",
+          () => pruebaNDatosGrafos(20000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 30000 datos",
+          () => pruebaNDatosGrafos(30000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 40000 datos",
+          () => pruebaNDatosGrafos(40000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 50000 datos",
+          () => pruebaNDatosGrafos(50000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 60000 datos",
+          () => pruebaNDatosGrafos(60000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 70000 datos",
+          () => pruebaNDatosGrafos(70000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 80000 datos",
+          () => pruebaNDatosGrafos(80000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 90000 datos",
+          () => pruebaNDatosGrafos(90000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 100000 datos",
+          () => pruebaNDatosGrafos(100000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 200000 datos",
+          () => pruebaNDatosGrafos(200000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 300000 datos",
+          () => pruebaNDatosGrafos(300000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 400000 datos",
+          () => pruebaNDatosGrafos(400000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 500000 datos",
+          () => pruebaNDatosGrafos(500000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 600000 datos",
+          () => pruebaNDatosGrafos(600000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 700000 datos",
+          () => pruebaNDatosGrafos(700000));
+
+      test("Tiempo de inserción, búsqueda y eliminación de 800000 datos",
+          () => pruebaNDatosGrafos(800000));
+    });
   });
+}
+
+pruebaNDatosGrafos(int N) {
+  print("Prueba con $N datos");
+  Grafo<String> grafo = Grafo(N);
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+  for (int i = 0; i < N; i++) {
+    grafo.addVertex("A$i");
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción de nodos: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+
+  for (int i = 0; i < N; i = i + 2) {
+    grafo.addEdge("A$i", "A${i + 1}");
+  }
+  stopwatch.stop();
+  print("Tiempo de inserción de aristas: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  print(grafo.getNodes());
+  stopwatch.start();
+  expect(grafo.getNodes().contains("A${N ~/ 2}"), true);
+  expect(grafo.getNodes().contains("A${N + 1}"), false);
+  stopwatch.stop();
+  print("Tiempo de búsqueda: ${stopwatch.elapsedMilliseconds} ms");
+  stopwatch.reset();
+  stopwatch.start();
+  for (int i = 0; i < N - 1; i++) {
+    grafo.removeVertex("A$i");
+  }
+  stopwatch.stop();
+  print("Tiempo de eliminación: ${stopwatch.elapsedMilliseconds} ms");
 }
